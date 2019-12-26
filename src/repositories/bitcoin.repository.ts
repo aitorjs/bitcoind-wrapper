@@ -18,7 +18,7 @@ export class BitcoinRepository {
     }
   }
 
-  async getblockcount() {
+  getblockcount() {
     /* let body = JSON.parse(this.options.body)
     body.method = 'getblockcount'
     this.options.body = JSON.stringify(body) */
