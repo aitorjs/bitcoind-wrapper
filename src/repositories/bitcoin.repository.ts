@@ -1,14 +1,29 @@
 import request from 'request'
 
 export class BitcoinRepository {
-  constructor() {
+  options: any;
 
+  constructor() {
+     this.options = {
+      // uri: "http://192.168.1.69:18332",
+      uri: "http://10.107.1.3:18332",
+      //  headers: {
+      //  "content-type": "text/plain"
+      // },
+      auth: {
+        user: "paco",
+        pass: "paco"
+      },
+      body: JSON.stringify({"method": "getblockcount", "params": [] })
+    }
   }
 
   async getblockcount() {
-   const options = this._getConfig('getblockcount')
+    /* let body = JSON.parse(this.options.body)
+    body.method = 'getblockcount'
+    this.options.body = JSON.stringify(body) */
 
-   return request.post(options, (err: any, response: any, body: any) => {
+    return request.post(this.options, (err: any, response: any, body: any) => {
       if (err) {
         console.error('An error has occurred: ', err)
       }
@@ -16,21 +31,4 @@ export class BitcoinRepository {
       return JSON.parse(body)
     })
   }
-
-  private _getConfig(method: any) {
-    return {
-      // url: "http://192.168.1.69:18332",
-      url: "http://10.107.1.3:18332",
-     /*  headers: {
-        "content-type": "text/plain"
-      }, */
-      auth: {
-        user: "paco",
-        pass: "paco"
-      },
-      body: JSON.stringify({"method": method, "params": [] })
-    }
-  }
-
-
 }
