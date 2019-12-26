@@ -1,6 +1,7 @@
 import {BitcoinRepository} from '../repositories';
-import {get, param} from '@loopback/rest'
+import {get, getModelSchemaRef} from '@loopback/rest'
 import {repository} from '@loopback/repository';
+import {Blockcount} from '../models'
 
 export class BitcoinController {
   constructor(
@@ -8,7 +9,14 @@ export class BitcoinController {
     public bitcoinRepository: BitcoinRepository,
   ) {}
 
-  @get('/bitcoin/getblockcount')
+  @get('/bitcoin/getblockcount', {
+    responses: {
+      '200': {
+        description: 'Get chain length',
+        content: {'application/json': {schema: getModelSchemaRef(Blockcount)}},
+      },
+    },
+  })
   getblockcount() {
     return this.bitcoinRepository.getblockcount()
   }
