@@ -21,4 +21,3 @@ export class BitcoinController {
     return this.bitcoinRepository.getblockcount()
   }
 }
-

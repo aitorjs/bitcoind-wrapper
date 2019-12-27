@@ -1,34 +1,44 @@
-import request from 'request'
+import { RpcClient } from 'jsonrpc-ts';
 
 export class BitcoinRepository {
-  options: any;
+  rpcClient: any
 
   constructor() {
-     this.options = {
-      // uri: "http://192.168.1.69:18332",
-      uri: "http://10.107.1.3:18332",
+    const clientOptions = {
+      // url: "http://192.168.1.69:18332",
+      url: "http://10.107.1.3:18332",
       //  headers: {
       //  "content-type": "text/plain"
       // },
       auth: {
-        user: "paco",
-        pass: "paco"
-      },
-      body: JSON.stringify({"method": "getblockcount", "params": [] })
+        username: "paco",
+        password: "paco"
+      }
+    }
+    try {
+      this.rpcClient = new RpcClient<any>(clientOptions)
+    } catch(err) {
+      console.log('ERROR RpcClient', err)
     }
   }
 
-  getblockcount() {
+  async getblockcount() {
     /* let body = JSON.parse(this.options.body)
     body.method = 'getblockcount'
     this.options.body = JSON.stringify(body) */
 
-    return request.post(this.options, (err: any, response: any, body: any) => {
-      if (err) {
-        console.error('An error has occurred: ', err)
-      }
+    try {
+      const resp = await this.rpcClient.makeRequest({
+        method: 'getblockcount',
+        params: [],
+        // id: 2,
+        jsonrpc: '2.0',
+      })
+      console.log('res', resp.data)
 
-      return JSON.parse(body)
-    })
+      return resp.data
+    } catch(err) {
+      console.log('ERROR getblockcount', err)
+    }
   }
 }
