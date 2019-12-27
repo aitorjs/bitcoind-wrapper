@@ -1,13 +1,31 @@
-# call-rest-loopback4
+# bitcoincli-wrapper
 
-- A datasource: ```datasources/restsample.datasource.ts``` + ```rest.config.json```
-- A service ```services/restsample.service.ts```
-- A controller ```controllers/restsample.controller.ts```
+## Install
+- ```git clone https://github.com/aitoribanez/bitcoincli-wrapper```
+- ```cd bitcoincli-wrapper```
+- ```npm install```
+- ```npm run start```
 
-## Links
-- https://medium.com/@rahulrkr/calling-rest-service-proxy-loopback-next-e8d23aa37cad
-- https://loopback.io/doc/en/lb4/Calling-other-APIs-and-web-services.html
-- https://loopback.io/doc/en/lb4/todo-tutorial-geocoding-service.html
+## Make new user and get their JWT token
+https://loopback.io/doc/en/lb4/Authentication-Tutorial.html#try-it-out
 
+- POST /users
+```
+{
+  "email": "user1@example.com",
+  "password": "thel0ngp@55w0rd",
+  "firstName": "User",
+  "lastName": "One"
+}
+```
+- POST /users/login
+```
+{
+  "email": "user1@example.com",
+  "password": "thel0ngp@55w0rd"
+}
+```
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiIsIm5hbWUiOiJVc2VyIE9uZSIsImlhdCI6MTU3NzQ2MDE3MCwiZXhwIjoxNjM3NDYwMTcwfQ.hJko5UGN-TaS58JokZpWkyeeljt9LcuNG1BwRyaaMrU
 
 [![LoopBack](https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)

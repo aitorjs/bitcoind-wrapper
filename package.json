@@ -46,6 +46,8 @@
     "!*/__tests__"
   ],
   "dependencies": {
+    "@loopback/authentication": "^3.2.4",
+    "@loopback/authorization": "^0.4.6",
     "@loopback/boot": "^1.6.0",
     "@loopback/context": "^1.25.0",
     "@loopback/core": "^1.12.0",
@@ -53,13 +55,19 @@
     "@loopback/repository": "^1.16.0",
     "@loopback/rest": "^1.25.0",
     "@loopback/rest-explorer": "^1.4.6",
-    "jsonrpc-ts": "^0.2.0"
+    "bcryptjs": "^2.4.3",
+    "casbin": "^3.0.8",
+    "isemail": "^3.2.0",
+    "jsonrpc-ts": "^0.2.0",
+    "loopback-connector-mongodb": "^5.2.1"
   },
   "devDependencies": {
     "@loopback/build": "^3.0.0",
     "source-map-support": "^0.5.16",
     "@loopback/testlab": "^1.10.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/node": "^10.17.6",
+    "@types/lodash": "^4.14.149",
     "@typescript-eslint/parser": "^2.10.0",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@loopback/eslint-config": "^5.0.0",
