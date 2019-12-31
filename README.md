@@ -39,24 +39,31 @@ Config options rpcuser and rpcpassword will soon be deprecated. Locally-run inst
 - https://ma.ttias.be/enable-the-rpc-json-api-with-password-authentication-in-bitcoin-core/
 
 
-- Run container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/maria/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/maria/cyphernode/bitcoin/``` needs to be $(id -g)
-- Make curl from host: ```curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockcount", "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:18332/```
+- Run container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/aibanez/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/aibanez/cyphernode/bitcoin/``` needs to be $(id -g)
+- Make curl using rpcuser/rpcpassword: ```curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockcount", "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:18332/```
+- Make curl using authcookie from .cookie: ```curl --data '{"jsonrpc":"1.0","id":"curltext","method":"getblockcount"}'  http://$(cat $HOME/cyphernode/bitcoin/.cookie)@127.0.0.1:18332```
 
 - Build image: ```sudo docker build --build-arg ARCH=amd64 -t lukechilds/bitcoind:amd64 .```
 
-### bitcoin.conf example for testnet
+#### bitcoin.conf example for testnet
+(use .cookie for authentication)
 ```
 # testnet
 testnet=1
 server=1
 txindex=1
-rpcuser=paco
-rpcpassword=paco
+#rpcuser=paco
+#rpcpassword=paco
 
 # ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 [test]
 rpcbind=0.0.0.0:18332
 rpcallowip=0.0.0.0/0
+```
+
+#### .cookie
+```
+paco:paco
 ```
 
 ### mongo
