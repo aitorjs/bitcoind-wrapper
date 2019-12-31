@@ -30,18 +30,38 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiI
 
 
 ## Docker
-- https://medium.com/mwpartners/containerizing-bitcoin-and-ethereum-with-docker-7c447b484f3a?
+### TODO bitcoind
+- ```WARNING: the RPC server is not safe to expose to untrusted networks such as the public internet
+Config options rpcuser and rpcpassword will soon be deprecated. Locally-run instances may remove rpcuser to use cookie-based auth, or may be replaced with rpcauth. Please see share/rpcauth for rpcauth auth generation.```
 
-- Build image: ```sudo docker build -t test-btc-img .```
-- Run container: ```docker run --name testing-btc-live -v /home/aibanez/cyphernode/bitcoin/:/app/data -p 18332:8332 -td test-btc-img```
+### bitcoind  (https://github.com/lukechilds/docker-bitcoind)
+- https://medium.com/mwpartners/containerizing-bitcoin-and-ethereum-with-docker-7c447b484f3a?
+- https://ma.ttias.be/enable-the-rpc-json-api-with-password-authentication-in-bitcoin-core/
+
+
+- Run container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/maria/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/maria/cyphernode/bitcoin/``` needs to be $(id -g)
 - Make curl from host: ```curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockcount", "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:18332/```
 
+- Build image: ```sudo docker build --build-arg ARCH=amd64 -t lukechilds/bitcoind:amd64 .```
 
-- ```docker run -v $HOME/cyphernode/bitcoin:/data/.bitcoin --name bitcoind -p 18332:18332 lukechilds/bitcoind```
-- ```curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockcount", "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:18332/```
-### bitcoind
+### bitcoin.conf example for testnet
+```
+# testnet
+testnet=1
+server=1
+txindex=1
+rpcuser=paco
+rpcpassword=paco
+
+# ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
+[test]
+rpcbind=0.0.0.0:18332
+rpcallowip=0.0.0.0/0
+```
 
 ### mongo
 
 ### loopback4
+- Esbozo en DockerfileLB4
+
 [![LoopBack](https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)
