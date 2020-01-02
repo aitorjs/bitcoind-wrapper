@@ -9,9 +9,9 @@ services:
   bitcoind:
     image: lukechilds/bitcoind
     ports:
-        - 18332:18332
+      - 18332:18332
     volumes:
-      - /home/aibanez/cyphernode/bitcoin/:/data/.bitcoin
+      - $HOME/cyphernode/bitcoin/:/data/.bitcoin
 
   bitcoincliwrapper:
     build: .
