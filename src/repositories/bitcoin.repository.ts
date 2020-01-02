@@ -5,8 +5,7 @@ export class BitcoinRepository {
 
   constructor() {
     const clientOptions = {
-      // url: "http://192.168.1.69:18332",
-      url: "http://10.107.1.3:18332",
+      url: "http://localhost:18332",
       //  headers: {
       //  "content-type": "text/plain"
       // },

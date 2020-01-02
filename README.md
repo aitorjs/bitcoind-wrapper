@@ -1,6 +1,7 @@
 # bitcoincli-wrapper
 
 ## Install
+- Run container bitcoind container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/aibanez/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/aibanez/cyphernode/bitcoin/``` needs to be $(id -g)
 - ```git clone https://github.com/aitoribanez/bitcoincli-wrapper```
 - ```cd bitcoincli-wrapper```
 - ```npm install```
@@ -67,6 +68,9 @@ paco:paco
 ```
 
 ### mongo
+https://hub.docker.com/_/mongo
+https://gist.github.com/davideicardi/f2094c4c3f3e00fbd490
+https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781787126480/1/ch01lvl1sec18/running-mongodb-as-a-docker-container
 
 ### loopback4
 - Esbozo en DockerfileLB4
