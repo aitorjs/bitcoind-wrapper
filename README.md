@@ -1,15 +1,15 @@
-# bitcoincli-wrapper
+# bitcoind-wrapper
 
 ## Install
+- ```docker-compose up -d```
+
+## Install manually
 - Run bitcoind container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/aibanez/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/aibanez/cyphernode/bitcoin/``` needs to be $(id -g)
 - Run mongod container: ```docker run --name mongod -d -v /var/lib/mongodb:/data/db -p 27017:27017 mongo:3.6.3```
 - Run bitcoincli-wrapper (loopkack4 JWT API) container:
     - ```docker build -t bitcoincliwrapper .```
     - ```docker run --name bitcoincliwrapper -p 3000:3000 -d bitcoincliwrapper```
-- ```git clone https://github.com/aitoribanez/bitcoincli-wrapper```
-- ```cd bitcoincli-wrapper```
-- ```npm install```
-- ```npm run start```
+
 
 ## Make new user and get their JWT token
 https://loopback.io/doc/en/lb4/Authentication-Tutorial.html#try-it-out
@@ -37,7 +37,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiI
 ### TODO bitcoind
 - Meter auth en getblockcount
 - .env para src/keys.ts
-- tests para getblockcount
+- Cambiar bitcoincli por bitcoind
+- Tests para getblockcount
 
 ### bitcoind  (https://github.com/lukechilds/docker-bitcoind)
 - https://medium.com/mwpartners/containerizing-bitcoin-and-ethereum-with-docker-7c447b484f3a?

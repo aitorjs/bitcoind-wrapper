@@ -1,10 +1,14 @@
 {
-  "name": "bitcoincli-wrapper",
+  "name": "bitcoind-wrapper",
   "version": "0.0.1",
-  "description": "Wrapper for bitcoin-cli with JWT, openapi, loopback4 and docker",
+  "description": "Wrapper for bitcoind with JWT, openapi, loopback4, docker and docker-compose",
   "keywords": [
-    "loopback-application",
-    "loopback"
+    "loopback4",
+    "bitcoin",
+    "bitcoin-cli",
+    "bitcoind",
+    "docker",
+    "docker-compose"
   ],
   "main": "index.js",
   "engines": {
