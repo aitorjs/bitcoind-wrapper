@@ -33,8 +33,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiI
 
 ## Docker
 ### TODO bitcoind
-- ```WARNING: the RPC server is not safe to expose to untrusted networks such as the public internet
-Config options rpcuser and rpcpassword will soon be deprecated. Locally-run instances may remove rpcuser to use cookie-based auth, or may be replaced with rpcauth. Please see share/rpcauth for rpcauth auth generation.```
 
 ### bitcoind  (https://github.com/lukechilds/docker-bitcoind)
 - https://medium.com/mwpartners/containerizing-bitcoin-and-ethereum-with-docker-7c447b484f3a?
