@@ -59,6 +59,7 @@
     "casbin": "^3.0.8",
     "isemail": "^3.2.0",
     "jsonrpc-ts": "^0.2.0",
+    "jsonwebtoken": "^8.5.1",
     "loopback-connector-mongodb": "^5.2.1"
   },
   "devDependencies": {

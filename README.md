@@ -3,6 +3,9 @@
 ## Install
 - Run bitcoind container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/aibanez/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/aibanez/cyphernode/bitcoin/``` needs to be $(id -g)
 - Run mongod container: ```docker run --name mongod -d -v /var/lib/mongodb:/data/db -p 27017:27017 mongo:3.6.3```
+- Run bitcoincli-wrapper (loopkack4 JWT API) container:
+    - ```docker build -t bitcoincliwrapper .```
+    - ```docker run --name bitcoincliwrapper -p 3000:3000 -d bitcoincliwrapper```
 - ```git clone https://github.com/aitoribanez/bitcoincli-wrapper```
 - ```cd bitcoincli-wrapper```
 - ```npm install```
@@ -46,14 +49,14 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiI
 - Build image: ```sudo docker build --build-arg ARCH=amd64 -t lukechilds/bitcoind:amd64 .```
 
 #### bitcoin.conf example for testnet
-(use .cookie for authentication)
+(use rpcuser/rpcpass inside docker for authentication)
 ```
 # testnet
 testnet=1
 server=1
 txindex=1
-#rpcuser=paco
-#rpcpassword=paco
+rpcuser=paco
+rpcpassword=paco
 
 # ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 [test]
@@ -66,12 +69,26 @@ rpcallowip=0.0.0.0/0
 paco:paco
 ```
 
-### mongo
-https://hub.docker.com/_/mongo
-https://gist.github.com/davideicardi/f2094c4c3f3e00fbd490
+### mongo (https://hub.docker.com/_/mongo)
+
+```docker run --name mongod -d -v /var/lib/mongodb:/data/db -p 27017:27017 mongo:3.6.3```
+
 https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781787126480/1/ch01lvl1sec18/running-mongodb-as-a-docker-container
 
 ### loopback4
-- Esbozo en DockerfileLB4
+- ```docker build -t bitcoincliwrapper .```
+- ```docker run --name bitcoincliwrapper -p 3000:3000 -d bitcoincliwrapper```
+
+
+### config changes outside vs inside docker
+
+- On ```src/datasources/mongo.datasource.config.json``` change ```"host": "127.0.0.1",``` for ```"host": "mongo",```
+- On ```src/repositories/bitcoin.repository.ts``` change  ```url: "http://localhost:18332",``` for ```url: "http://bitcoind:18332",```
+
+## Docker-compose
+
+- ```docker-compose up```
 
 [![LoopBack](https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)
+
+bitcoincli-wrapper_default

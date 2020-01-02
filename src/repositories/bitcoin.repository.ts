@@ -5,7 +5,8 @@ export class BitcoinRepository {
 
   constructor() {
     const clientOptions = {
-      url: "http://localhost:18332",
+      // url: "http://localhost:18332", outside docker
+      url: "http://bitcoind:18332",
       //  headers: {
       //  "content-type": "text/plain"
       // },

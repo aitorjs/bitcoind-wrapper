@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+
+  bitcoind:
+    image: lukechilds/bitcoind
+    ports:
+        - 18332:18332
+    volumes:
+      - /home/aibanez/cyphernode/bitcoin/:/data/.bitcoin
+
+  bitcoincliwrapper:
+    build: .
+    depends_on:
+      - mongo
+    image: bitcoincliwrapper
+    ports:
+      - 3000:3000
