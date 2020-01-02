@@ -33,9 +33,11 @@ https://loopback.io/doc/en/lb4/Authentication-Tutorial.html#try-it-out
 
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiIsIm5hbWUiOiJVc2VyIE9uZSIsImlhdCI6MTU3NzQ2MDE3MCwiZXhwIjoxNjM3NDYwMTcwfQ.hJko5UGN-TaS58JokZpWkyeeljt9LcuNG1BwRyaaMrU
 
-
 ## Docker
 ### TODO bitcoind
+- Meter auth en getblockcount
+- .env para src/keys.ts
+- tests para getblockcount
 
 ### bitcoind  (https://github.com/lukechilds/docker-bitcoind)
 - https://medium.com/mwpartners/containerizing-bitcoin-and-ethereum-with-docker-7c447b484f3a?
@@ -87,7 +89,7 @@ https://subscription.packtpub.com/book/big_data_and_business_intelligence/978178
 
 ## Docker-compose
 
-- ```docker-compose up```
+- ```docker-compose up -d```
 
 [![LoopBack](https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)
 
