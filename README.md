@@ -1,7 +1,8 @@
 # bitcoincli-wrapper
 
 ## Install
-- Run container bitcoind container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/aibanez/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/aibanez/cyphernode/bitcoin/``` needs to be $(id -g)
+- Run bitcoind container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/aibanez/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/aibanez/cyphernode/bitcoin/``` needs to be $(id -g)
+- Run mongod container: ```docker run --name mongod -d -v /var/lib/mongodb:/data/db -p 27017:27017 mongo:3.6.3```
 - ```git clone https://github.com/aitoribanez/bitcoincli-wrapper```
 - ```cd bitcoincli-wrapper```
 - ```npm install```
