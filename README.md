@@ -1,12 +1,19 @@
 # bitcoind-wrapper
 
 ## Install
-- ```docker-compose up -d```
+- ```git clone https://github.com/aitoribanez/bitcoind-wrapper```
+- ```cd bitcoind-wrapper```
+- Add .env :
+```
+MONGO_SECRET=myjwts3cr3t
+MONGO_EXPIRES=60000000
+```
+- ```docker-compose up --build -d```
 
 ## Install manually
 - Run bitcoind container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/aibanez/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/aibanez/cyphernode/bitcoin/``` needs to be $(id -g)
 - Run mongod container: ```docker run --name mongod -d -v /var/lib/mongodb:/data/db -p 27017:27017 mongo:3.6.3```
-- Run bitcoincli-wrapper (loopkack4 JWT API) container:
+- Run bitcoind-wrapper (loopkack4 JWT API) container:
     - ```git clone https://github.com/aitoribanez/bitcoind-wrapper```
     - ```cd bitcoind-wrapper```
     - Add .env :
@@ -14,8 +21,8 @@
     MONGO_SECRET=myjwts3cr3t
     MONGO_EXPIRES=60000000
     ```
-    - ```docker build -t bitcoincliwrapper .```
-    - ```docker run --name bitcoincliwrapper -p 3000:3000 -d bitcoincliwrapper```
+    - ```docker build -t bitcoindwrapper .```
+    - ```docker run --name bitcoindwrapper -p 3000:3000 -d bitcoindwrapper```
 
 
 ## Make new user and get their JWT token
@@ -40,10 +47,10 @@ https://loopback.io/doc/en/lb4/Authentication-Tutorial.html#try-it-out
 
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiIsIm5hbWUiOiJVc2VyIE9uZSIsImlhdCI6MTU3NzQ2MDE3MCwiZXhwIjoxNjM3NDYwMTcwfQ.hJko5UGN-TaS58JokZpWkyeeljt9LcuNG1BwRyaaMrU
 
-## Docker
-### TODO bitcoind
-- Cambiar bitcoincli por bitcoind
+## TODO v0.1: getblockcount running with JWT, openapi explorer, docker and tests.
 - Tests para getblockcount
+
+## Docker
 
 ### bitcoind  (https://github.com/lukechilds/docker-bitcoind)
 - https://medium.com/mwpartners/containerizing-bitcoin-and-ethereum-with-docker-7c447b484f3a?
@@ -84,8 +91,8 @@ paco:paco
 https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781787126480/1/ch01lvl1sec18/running-mongodb-as-a-docker-container
 
 ### loopback4
-- ```docker build -t bitcoincliwrapper .```
-- ```docker run --name bitcoincliwrapper -p 3000:3000 -d bitcoincliwrapper```
+- ```docker build -t bitcoindwrapper .```
+- ```docker run --name bitcoindwrapper -p 3000:3000 -d bitcoindwrapper```
 
 
 ### config changes outside vs inside docker

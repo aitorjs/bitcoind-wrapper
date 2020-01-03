@@ -13,7 +13,7 @@ services:
     volumes:
       - $HOME/cyphernode/bitcoin/:/data/.bitcoin
 
-  bitcoincliwrapper:
+  bitcoindwrapper:
     build: .
     depends_on:
       - mongo
