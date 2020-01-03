@@ -25,6 +25,7 @@ import {BcryptHasher} from './services/hash.password.bcryptjs';
 import {JWTAuthenticationStrategy} from './authentication-strategies/jwt-strategy';
 import {SECURITY_SCHEME_SPEC} from './utils/security-spec';
 import {AuthorizationComponent} from '@loopback/authorization';
+require('dotenv').config()
 
 /**
  * Information from package.json
@@ -102,11 +103,11 @@ export class BlockchainApplication extends BootMixin(
     this.bind(PackageKey).to(pkg);
 
     this.bind(TokenServiceBindings.TOKEN_SECRET).to(
-      TokenServiceConstants.TOKEN_SECRET_VALUE,
+      process.env.MONGO_SECRET || '' //process.env.MONGO_SECRET!
     );
 
     this.bind(TokenServiceBindings.TOKEN_EXPIRES_IN).to(
-      TokenServiceConstants.TOKEN_EXPIRES_IN_VALUE,
+      process.env.MONGO_EXPIRES || '',
     );
 
     this.bind(TokenServiceBindings.TOKEN_SERVICE).toClass(JWTService);

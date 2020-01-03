@@ -5,8 +5,8 @@ import {User} from './models';
 import {Credentials} from './repositories';
 
 export namespace TokenServiceConstants {
-  export const TOKEN_SECRET_VALUE = 'myjwts3cr3t';
-  export const TOKEN_EXPIRES_IN_VALUE = '60000000';
+  export const TOKEN_SECRET_VALUE = process.env.MONGO_SECRET;
+  export const TOKEN_EXPIRES_IN_VALUE = process.env.MONGO_EXPIRES;
 }
 
 export namespace TokenServiceBindings {

@@ -7,6 +7,13 @@
 - Run bitcoind container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/aibanez/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/aibanez/cyphernode/bitcoin/``` needs to be $(id -g)
 - Run mongod container: ```docker run --name mongod -d -v /var/lib/mongodb:/data/db -p 27017:27017 mongo:3.6.3```
 - Run bitcoincli-wrapper (loopkack4 JWT API) container:
+    - ```git clone https://github.com/aitoribanez/bitcoind-wrapper```
+    - ```cd bitcoind-wrapper```
+    - Add .env :
+    ```
+    MONGO_SECRET=myjwts3cr3t
+    MONGO_EXPIRES=60000000
+    ```
     - ```docker build -t bitcoincliwrapper .```
     - ```docker run --name bitcoincliwrapper -p 3000:3000 -d bitcoincliwrapper```
 
@@ -35,7 +42,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiI
 
 ## Docker
 ### TODO bitcoind
-- .env para src/keys.ts
 - Cambiar bitcoincli por bitcoind
 - Tests para getblockcount
 
@@ -90,6 +96,7 @@ https://subscription.packtpub.com/book/big_data_and_business_intelligence/978178
 ## Docker-compose
 
 - ```docker-compose up -d```
+- For rebuild containers: ```docker-compose up --build```
 
 [![LoopBack](https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)
 
