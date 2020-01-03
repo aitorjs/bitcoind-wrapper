@@ -35,7 +35,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiI
 
 ## Docker
 ### TODO bitcoind
-- Meter auth en getblockcount
 - .env para src/keys.ts
 - Cambiar bitcoincli por bitcoind
 - Tests para getblockcount
