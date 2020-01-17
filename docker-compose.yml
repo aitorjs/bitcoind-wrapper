@@ -3,15 +3,21 @@ version: "3"
 services:
   mongo:
     image: mongo
-    ports:
-      - 27017:27017
+    #ports:
+    #  - 27017:27017
+    networks:
+      - back
+    restart: always
 
   bitcoind:
     image: lukechilds/bitcoind
-    ports:
-      - 18332:18332
+    #ports:
+    #  - 18332:18332
     volumes:
       - $HOME/cyphernode/bitcoin/:/data/.bitcoin
+    networks:
+      - back
+    restart: always
 
   bitcoindwrapper:
     build: .
@@ -20,3 +26,13 @@ services:
     image: bitcoincliwrapper
     ports:
       - 3000:3000
+    networks:
+      - back
+      - front
+    restart: always
+
+networks:
+  back:
+    external: true
+  front:
+    external: true

@@ -45,7 +45,8 @@ https://loopback.io/doc/en/lb4/Authentication-Tutorial.html#try-it-out
 }
 ```
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiIsIm5hbWUiOiJVc2VyIE9uZSIsImlhdCI6MTU3NzQ2MDE3MCwiZXhwIjoxNjM3NDYwMTcwfQ.hJko5UGN-TaS58JokZpWkyeeljt9LcuNG1BwRyaaMrU
+curl -X GET "http://localhost:3000/bitcoin/getblockcount" -H "accept: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiIsIm5hbWUiOiJVc2VyIE9uZSIsImlhdCI6MTU3NzQ2MDE3MCwiZXhwIjoxNjM3NDYwMTcwfQ.hJko5UGN-TaS58JokZpWkyeeljt9LcuNG1BwRyaaMrU"
+
 
 ## TODO v0.1: getblockcount running with JWT, openapi explorer, docker and tests.
 - Tests para getblockcount
@@ -108,3 +109,9 @@ https://subscription.packtpub.com/book/big_data_and_business_intelligence/978178
 [![LoopBack](https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)
 
 bitcoincli-wrapper_default
+
+
+## Networks
+
+docker network create back
+docker network create front
