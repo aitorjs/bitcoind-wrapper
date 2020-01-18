@@ -8,6 +8,8 @@
 MONGO_SECRET=myjwts3cr3t
 MONGO_EXPIRES=60000000
 ```
+- ```docker network create back```
+- ```docker network create front```
 - ```docker-compose up --build -d```
 
 ## Install manually
@@ -106,12 +108,10 @@ https://subscription.packtpub.com/book/big_data_and_business_intelligence/978178
 - ```docker-compose up -d```
 - For rebuild containers: ```docker-compose up --build```
 
+## Loopback4 alone as docker container. First appoach
+
+- ```curl -o openapi.json http://localhost:3000/explorer/openapi.json```
+- ```docker pull swaggerapi/swagger-ui```
+- ```docker run -p 80:8080 -e SWAGGER_JSON=/data/openapi.json -v /home/aibanez/blockchain/bitcoincli-wrapper/explorer/:/data swaggerapi/swagger-ui```
+
 [![LoopBack](https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)
-
-bitcoincli-wrapper_default
-
-
-## Networks
-
-docker network create back
-docker network create front
