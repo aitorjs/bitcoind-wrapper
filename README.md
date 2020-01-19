@@ -52,6 +52,7 @@ curl -X GET "http://localhost:3000/bitcoin/getblockcount" -H "accept: applicatio
 
 ## TODO v0.1: getblockcount running with JWT, openapi explorer, docker and tests.
 - Tests para getblockcount
+- Añadir openapi explorer a docker-compose + desactivar el openapi explorer de lb4
 
 ## Docker
 
@@ -108,10 +109,11 @@ https://subscription.packtpub.com/book/big_data_and_business_intelligence/978178
 - ```docker-compose up -d```
 - For rebuild containers: ```docker-compose up --build```
 
-## Loopback4 alone as docker container. First appoach
+## Loopback4 alone as docker container. First approach
 
-- ```curl -o openapi.json http://localhost:3000/explorer/openapi.json```
-- ```docker pull swaggerapi/swagger-ui```
-- ```docker run -p 80:8080 -e SWAGGER_JSON=/data/openapi.json -v /home/aibanez/blockchain/bitcoincli-wrapper/explorer/:/data swaggerapi/swagger-ui```
+- Get our openapi.json definition: ```curl -o openapi.json http://localhost:3000/explorer/openapi.json```
+- Get swagger-ui image: ```docker pull swaggerapi/swagger-ui```
+- Run swagger-ui container: ```docker run --name=bitcoind-wrapper-explorer -p 3001:3001 -e PORT=3001 -e SWAGGER_JSON=/data/openapi.json -e BASE_URL=/explorer -v /home/aibanez/blockchain/bitcoincli-wrapper/explorer/:/data swaggerapi/swagger-ui```  (-e API_URL=http://192.168.43.103:9090/swagger.json)
+- Open ```http://localhost:3001/explorer``` on a browser
 
 [![LoopBack](https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)
