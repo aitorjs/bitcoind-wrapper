@@ -31,6 +31,21 @@ services:
       - front
     restart: always
 
+  bitcoindwrapperexplorer:
+    image: swaggerapi/swagger-ui
+    environment:
+      - PORT=3001
+      - SWAGGER_JSON=/data/openapi.json
+      - BASE_URL=/explorer
+      # - API_URL=http://localhost:3000/openapi.json No sense!
+    ports:
+      - 3001:3001
+    volumes:
+      - $HOME/blockchain/bitcoincli-wrapper/explorer/:/data
+    networks:
+      - front
+    restart: always
+
 networks:
   back:
     external: true
