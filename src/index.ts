@@ -11,6 +11,7 @@ export async function main(options: ApplicationConfig = {}) {
   const url = app.restServer.url;
   console.log(`Server is running at ${url}`);
   console.log(`Try ${url}/ping`);
+  console.log(`Get API Specs on load ${JSON.stringify(app.restServer.getApiSpec())}`)
 
   return app;
 }

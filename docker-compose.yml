@@ -23,7 +23,7 @@ services:
     build: .
     depends_on:
       - mongo
-    image: bitcoincliwrapper
+    image: bitcoindwrapper
     ports:
       - 3000:3000
     networks:
