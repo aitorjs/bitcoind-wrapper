@@ -52,8 +52,6 @@ curl -X GET "http://localhost:3000/bitcoin/getblockcount" -H "accept: applicatio
 
 ## TODO v0.1: getblockcount running with JWT, openapi explorer, docker and tests.
 - Tests para getblockcount
-- Desactivar la ruta /explorer y dejar el openapi.json de lb4 https://stackoverflow.com/questions/58394492/loopback-4-generate-openapi-json-on-build
-y usar http://localhost:3000/openapi.json en la conf de docker-compose para el explorador
 
 ## Docker
 
