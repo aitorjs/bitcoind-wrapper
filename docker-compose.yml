@@ -23,6 +23,7 @@ services:
     build: .
     depends_on:
       - mongo
+      #- bitcoind
     image: bitcoindwrapper
     ports:
       - 3000:3000
@@ -33,11 +34,13 @@ services:
 
   bitcoindwrapperexplorer:
     image: swaggerapi/swagger-ui
+    depends_on:
+      - bitcoindwrapper
     environment:
       - PORT=3001
       - SWAGGER_JSON=/data/openapi.json
       - BASE_URL=/explorer
-      # - API_URL=http://localhost:3000/openapi.json No sense!
+      # - API_URL=http://localhost:3000/openapi.json
     ports:
       - 3001:3001
     volumes:

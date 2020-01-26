@@ -5,10 +5,6 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import {MyAuthenticationSequence} from './sequence';
 import {
-  RestExplorerBindings,
-  RestExplorerComponent,
-} from '@loopback/rest-explorer';
-import {
   TokenServiceBindings,
   UserServiceBindings,
   TokenServiceConstants,
@@ -45,11 +41,6 @@ export class BlockchainApplication extends BootMixin(
   constructor(options?: ApplicationConfig) {
     super(options);
 
-    /*
-       This is a workaround until an extension point is introduced
-       allowing extensions to contribute to the OpenAPI specification
-       dynamically.
-    */
     this.api({
       openapi: '3.0.0',
       info: {title: pkg.name, version: pkg.version},
@@ -71,20 +62,20 @@ export class BlockchainApplication extends BootMixin(
       .tag(AuthorizationTags.AUTHORIZER); */
 
     // authentication
-    registerAuthenticationStrategy(this, JWTAuthenticationStrategy);
-    // this.registerAuthenticationStrategy(this, JWTAuthenticationStrategy);
+    registerAuthenticationStrategy(this, JWTAuthenticationStrategy);;
 
     // Set up the custom sequence
     this.sequence(MyAuthenticationSequence);
 
-    // Set up default home page
-    this.static('/', path.join(__dirname, '../public'));
+    // Rest explorer (/ + /explorer)
+    /* this.static('/', path.join(__dirname, '../public'));
 
     // Customize @loopback/rest-explorer configuration here
     this.bind(RestExplorerBindings.CONFIG).to({
       path: '/explorer',
+      useSelfHostedSpec: false
     });
-    this.component(RestExplorerComponent);
+    this.component(RestExplorerComponent); */
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
