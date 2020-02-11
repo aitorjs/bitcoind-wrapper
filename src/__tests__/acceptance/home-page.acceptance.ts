@@ -1,4 +1,4 @@
-import {Client} from '@loopback/testlab';
+import {Client, createRestAppClient, expect} from '@loopback/testlab';
 import {BlockchainApplication} from '../..';
 import {setupApplication} from './test-helper';
 
@@ -14,18 +14,19 @@ describe('HomePage', () => {
     await app.stop();
   });
 
-  it('exposes a default home page', async () => {
+/* NOT USED. AS EXAMPLE
+it('exposes a default home page', async () => {
     await client
       .get('/')
       .expect(200)
       .expect('Content-Type', /text\/html/);
-  });
+  }); */
 
-  it('exposes self-hosted explorer', async () => {
+  /* it('exposes self-hosted explorer', async () => {
     await client
-      .get('/explorer/')
-      .expect(200)
+      .get('http://localhost:3001/explorer/')
+      .expect(302)
       .expect('Content-Type', /text\/html/)
       .expect(/<title>LoopBack API Explorer/);
-  });
+  }); */
 });
