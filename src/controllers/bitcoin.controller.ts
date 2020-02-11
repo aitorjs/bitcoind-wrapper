@@ -20,7 +20,7 @@ export class BitcoinController {
       },
     },
   })
-  @authenticate('jwt')
+  // @authenticate('jwt')
   getblockcount() {
     return this.bitcoinRepository.getblockcount()
   }
