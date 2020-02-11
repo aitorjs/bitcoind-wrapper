@@ -11,6 +11,8 @@ MONGO_EXPIRES=60000000
 - ```docker network create back```
 - ```docker network create front```
 - ```docker-compose up --build -d```
+- Open on browser for explorer: ```http://localhost:3001/explorer/```
+- API call with JWT: ```curl -X GET "http://localhost:3000/bitcoin/getblockcount" -H "accept: application/json" -H "Authorization: Bearer TOKEN"```
 
 ## Install manually
 - Run bitcoind container: ```docker run --user $(id -u):$(id -g) --name testing-btc-live -v /home/aibanez/cyphernode/bitcoin/:/app/data -p 18332:18332 -td test-btc-img```. User and group for ```/home/aibanez/cyphernode/bitcoin/``` needs to be $(id -g)
