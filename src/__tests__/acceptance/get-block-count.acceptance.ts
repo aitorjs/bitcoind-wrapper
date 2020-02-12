@@ -22,7 +22,7 @@ describe('HomePage', () => {
 
     const response = await client
       .get('/bitcoin/getblockcount')
-     // .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${token}`)
       .then((res) => {
         console.log('res', res.text)
        });

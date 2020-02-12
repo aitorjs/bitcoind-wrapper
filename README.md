@@ -28,11 +28,11 @@ MONGO_EXPIRES=60000000
     - ```docker build -t bitcoindwrapper .```
     - ```docker run --name bitcoindwrapper -p 3000:3000 -d bitcoindwrapper```
 
+## Run acceptance testing
+- ```docker exec -it bitcoincli-wrapper_bitcoindwrapper_1 npm run test2```
 
 ## Make new user and get their JWT token
 https://loopback.io/doc/en/lb4/Authentication-Tutorial.html#try-it-out
-
-docker exec -it bitcoincli-wrapper_bitcoindwrapper_1 npm run test
 
 - POST /users
 ```
