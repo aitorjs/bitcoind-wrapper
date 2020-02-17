@@ -29,6 +29,7 @@ MONGO_EXPIRES=60000000
     - ```docker run --name bitcoindwrapper -p 3000:3000 -d bitcoindwrapper```
 
 ## Run acceptance testing
+- ```npm run test:rebuild``` or ```./restart.sh```
 - ```docker exec -it bitcoincli-wrapper_bitcoindwrapper_1 npm run test2```
 
 ## Make new user and get their JWT token
@@ -55,7 +56,8 @@ curl -X GET "http://localhost:3000/bitcoin/getblockcount" -H "accept: applicatio
 
 
 ## TODO v0.1: getblockcount running with JWT, openapi explorer, docker and tests.
-- Tests para getblockcount
+- Tests para getblockcount con token y sin el
+- Meter token de test desde configuration file
 
 ## Docker
 

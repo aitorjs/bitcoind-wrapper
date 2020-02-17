@@ -1,8 +1,8 @@
-import {Client, createRestAppClient, expect} from '@loopback/testlab';
+import {Client, expect} from '@loopback/testlab';
 import {BlockchainApplication} from '../..';
 import {setupApplication} from './test-helper';
 
-describe('HomePage', () => {
+describe('getBlockCount', () => {
   let app: BlockchainApplication;
   let client: Client;
 
@@ -14,30 +14,42 @@ describe('HomePage', () => {
     await app.stop();
   });
 
-  it('getBlockCount', async () => {
-    console.log('getBlockCount')
-   /* const expected = Object.assign({id: product.id}, product); */
-
+  it('getBlockCount - Valid token', async () => {
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiIsIm5hbWUiOiJVc2VyIE9uZSIsImlhdCI6MTU3NzQ2MDE3MCwiZXhwIjoxNjM3NDYwMTcwfQ.hJko5UGN-TaS58JokZpWkyeeljt9LcuNG1BwRyaaMrU"
 
-    const response = await client
+    // curl -X GET "http://localhost:3000/bitcoin/getblockcount" -H "accept: application/json" -H "Authorization: $token"
+    await client
       .get('/bitcoin/getblockcount')
       .set('Authorization', `Bearer ${token}`)
+      .expect(200)
       .then((res) => {
-        console.log('res', res.text)
+        const _res = JSON.parse(res.text)
+        expect(_res.result).type('number')
        });
+  });
 
-    // expect(response.body).to.containEql(expected); */
+  it('getBlockCount - Invalid token', async () => {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiIsIm5hbWUiOiJVc2VyIE9uZSIsImlhdCI6MTU3NzQ2MDE3MCwiZXhwIjoxNjM3NDYwMTcwfQ.not-valid"
 
-    // http://localhost:3000/bitcoin/getblockcount" -H "accept: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjdhMmZhNjIyODM3MjEzODI2YWE2YiIsIm5hbWUiOiJVc2VyIE9uZSIsImlhdCI6MTU3NzQ2MDE3MCwiZXhwIjoxNjM3NDYwMTcwfQ.hJko5UGN-TaS58JokZpWkyeeljt9LcuNG1BwRyaaMrU
+    await client
+      .get('/bitcoin/getblockcount')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(401)
+      .then((res) => {
+        const _res = JSON.parse(res.text)
+        expect(_res.error.name).to.be.equal("UnauthorizedError");
+        expect(_res.error.message).to.be.equal("Error verifying token : invalid signature");
+      });
+  });
 
-    /*  return request(app)
-    .post('/v1/customers')
-    .set('Authorization', `Bearer ${adminAccessToken}`)
-    .send(customer)
-    .expect(httpStatus.CREATED)
-    .then((res) => {
-     expect(res.body.role).to.be.equal('customer');
-    }); */
+  it('getBlockCount - No token', async () => {
+    await client
+      .get('/bitcoin/getblockcount')
+      .expect(401)
+      .then((res) => {
+        const _res = JSON.parse(res.text)
+        expect(_res.error.name).to.be.equal("UnauthorizedError");
+        expect(_res.error.message).to.be.equal("Authorization header not found.");
+      });
   });
 });
