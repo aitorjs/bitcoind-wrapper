@@ -10,7 +10,8 @@ services:
     restart: always
 
   bitcoind:
-    image: lukechilds/bitcoind
+    # image: lukechilds/bitcoind
+    build: ./docker/bitcoin
     #ports:
     #  - 18332:18332
     volumes:
