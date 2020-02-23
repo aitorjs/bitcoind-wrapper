@@ -89,6 +89,8 @@ txindex=1
 rpcuser=paco
 rpcpassword=paco
 
+blocknotify=/usr/bin/curl bitcoindwrapper:3000/bitcoin/newblock/%s
+
 # ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 [test]
 rpcbind=0.0.0.0:18332
