@@ -1,5 +1,5 @@
 import {BitcoinRepository} from '../repositories';
-import {get, getModelSchemaRef} from '@loopback/rest'
+import {get, getModelSchemaRef, param} from '@loopback/rest'
 import {repository} from '@loopback/repository';
 import {Blockcount} from '../models'
 import {authenticate} from '@loopback/authentication'
@@ -23,5 +23,25 @@ export class BitcoinController {
   @authenticate('jwt')
   getblockcount() {
     return this.bitcoinRepository.getblockcount()
+  }
+
+  @get('/bitcoin/newblock/{blockhash}', {
+    security: OPERATION_SECURITY_SPEC,
+    responses: {
+      '200': {
+        description: 'Get new block',
+        content: {'application/json': {schema: getModelSchemaRef(Blockcount)}},
+      },
+    },
+  })
+  // @authenticate('jwt')
+  getnewblock(@param.path.string('blockhash') blockhash: any) {
+    console.log('getblock', blockhash)
+    // TODO: Hacer insert en la bbdd en psql
+    // tabla block y guardar un JSON_stringify del resultado
+    // al RPC de bitcoin para conseguir todo los datos
+    // del nuevo bloque.
+    // Despues en hasura crear subscription.
+    // En frontend llamar a ese subscription y pintar los datos
   }
 }
