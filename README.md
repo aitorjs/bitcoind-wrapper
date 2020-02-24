@@ -89,7 +89,7 @@ txindex=1
 rpcuser=paco
 rpcpassword=paco
 
-blocknotify=/usr/bin/curl bitcoindwrapper:3000/bitcoin/newblock/%s
+blocknotify=/usr/bin/curl -X GET bitcoindwrapper:3000/bitcoin/newblock/%s -H "accept: application/json" -H "Authorization: Bearer YOUR-TOKEN"
 
 # ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 [test]

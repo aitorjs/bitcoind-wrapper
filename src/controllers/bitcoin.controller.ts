@@ -34,7 +34,7 @@ export class BitcoinController {
       },
     },
   })
-  // @authenticate('jwt')
+  @authenticate('jwt')
   getnewblock(@param.path.string('blockhash') blockhash: any) {
     console.log('getblock', blockhash)
     // TODO: Hacer insert en la bbdd en psql
