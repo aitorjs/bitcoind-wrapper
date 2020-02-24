@@ -43,8 +43,8 @@ services:
       - API_URL=http://localhost:3000/openapi.json
     ports:
       - 3001:3001
-    volumes:
-      - $HOME/blockchain/bitcoincli-wrapper/explorer/:/data
+    # volumes:
+      # - $HOME/blockchain/bitcoincli-wrapper/explorer/:/data
     networks:
       - front
     restart: always
