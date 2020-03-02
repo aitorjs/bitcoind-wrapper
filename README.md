@@ -133,3 +133,9 @@ https://subscription.packtpub.com/book/big_data_and_business_intelligence/978178
 -----
 
 http://explorer.loopback.io/?url=http://localhost:3000/openapi.json
+
+
+### V0.2
+
+## Up hasura with postgresql 12
+ docker-compose -f docker/hasura-docker-compose.yml up -d
