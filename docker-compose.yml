@@ -1,14 +1,6 @@
 version: "3"
 
 services:
-  mongo:
-    image: mongo
-    #ports:
-    #  - 27017:27017
-    networks:
-      - back
-    restart: always
-
   bitcoind:
     # image: lukechilds/bitcoind
     build: ./docker/bitcoin
@@ -20,38 +12,86 @@ services:
       - back
     restart: always
 
-  bitcoindwrapper:
-    build: .
-    depends_on:
-      - mongo
-      - bitcoind
-    image: bitcoindwrapper
+  postgres:
+    image: postgres:12
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+    networks:
+      - back
+    restart: always
+
+  graphql-engine:
+    image: hasura/graphql-engine:v1.1.0
     ports:
-      - 3000:3000
+      - "8080:8080"
+    depends_on:
+      - "postgres"
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      ## uncomment next line to set an admin secret
+      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
     networks:
       - back
       - front
     restart: always
 
-  bitcoindwrapperexplorer:
-    image: swaggerapi/swagger-ui
+  bitcoin-zmq:
+    image: bitcoin-zmq:latest
     depends_on:
-      - bitcoindwrapper
-    environment:
-      - PORT=3001
-      # - SWAGGER_JSON=/data/openapi.json
-      - BASE_URL=/explorer
-      - API_URL=http://localhost:3000/openapi.json
-    ports:
-      - 3001:3001
-    # volumes:
-      # - $HOME/blockchain/bitcoincli-wrapper/explorer/:/data
+      - "bitcoind"
+      - "postgres"
+      - "graphql-engine"
     networks:
-      - front
+      - back
     restart: always
+
+volumes:
+  db_data:
 
 networks:
   back:
     external: true
   front:
     external: true
+
+  # bitcoindwrapper:
+    # build: ./docker/loopback4-bitcoinwrapper
+    # depends_on:
+    #  - mongo
+    #  - bitcoind
+    # image: bitcoindwrapper
+    # ports:
+    #   - 3000:3000
+    # networks:
+    #  - back
+    #  - front
+    # restart: always
+
+  # bitcoindwrapperexplorer:
+    # image: swaggerapi/swagger-ui
+    # depends_on:
+    #  - bitcoindwrapper
+    # environment:
+    #  - PORT=3001
+      # - SWAGGER_JSON=/data/openapi.json
+    #  - BASE_URL=/explorer
+    #  - API_URL=http://localhost:3000/openapi.json
+    # ports:
+    #  - 3001:3001
+     # volumes:
+       # - $HOME/blockchain/bitcoincli-wrapper/explorer/:/data
+    # networks:
+    #  - front
+    # restart: always
+
+  # mongo:
+    # image: mongo
+    #ports:
+    #  - 27017:27017
+    # networks:
+    #  - back
+    # restart: always
