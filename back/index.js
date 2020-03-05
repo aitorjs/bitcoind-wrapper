@@ -30,12 +30,12 @@ const fetch = require('node-fetch');
 
 const BitcoindZmq = require('bitcoind-zmq')
 const btcd = new BitcoindZmq({
-  hashtx: 'tcp://bitcoind:3003',
-  rawblock: 'tcp://bitcoind:3001',
   hashblock: 'tcp://bitcoind:3000',
-  rawtx: 'tcp://bitcoind:3002'
+  rawblock: 'tcp://bitcoind:3001',
+  // rawtx: 'tcp://bitcoind:3002'
+  // hashtx: 'tcp://bitcoind:3003'
  })
- 
+
 // Create an http link:
 /* const link = new HttpLink({
   uri: 'http://graphql-engine:8080/v1/graphql',
@@ -91,7 +91,7 @@ btcd.on('hashblock', (hash) => {
 
 btcd.on('connect:*', (uri, type) => {
   console.log(`socket ${type} connected to ${uri}`)
- }) 
+ })
 
 btcd.on('error:*', (err, type) => {
   console.error(`${type} had error:`, err)
