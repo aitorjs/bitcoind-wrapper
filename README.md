@@ -139,3 +139,7 @@ http://explorer.loopback.io/?url=http://localhost:3000/openapi.json
 
 ## Up hasura with postgresql 12
  docker-compose -f docker/hasura-docker-compose.yml up -d
+
+ ## TODO zmq
+ - Al levantar hasura o postgresql que meta la tabla de block (id: UUID, autogenerado, unico y hash: text)
+ - Hacer Dockerfile para el zmq y meter en el docker-compose general
