@@ -39,8 +39,8 @@ services:
       - front
     restart: always
 
-  bitcoin-zmq:
-    image: bitcoin-zmq:latest
+  bitcoind-zmq:
+    image: bitcoind-zmq:latest
     depends_on:
       - "bitcoind"
       - "postgres"
