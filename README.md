@@ -142,4 +142,6 @@ http://explorer.loopback.io/?url=http://localhost:3000/openapi.json
 
  ## TODO zmq
  - Al levantar hasura o postgresql que meta la tabla de block (id: UUID, autogenerado, unico y hash: text)
- - Hacer Dockerfile para el zmq y meter en el docker-compose general
+
+
+curl 'http://localhost:9000/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://localhost:9000' --data-binary '{"query":"query {\n  getblockcount {\n    height\n  }\n}"}' --compressed
