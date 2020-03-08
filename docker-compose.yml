@@ -8,8 +8,8 @@ services:
     #  - 18332:18332
     volumes:
       - $HOME/cyphernode/bitcoin/:/data/.bitcoin
-    #networks:
-    #  - back
+    networks:
+      - back
     restart: always
 
   postgres:
@@ -18,8 +18,8 @@ services:
       - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
-    #networks:
-    #  - back
+    networks:
+      - back
     restart: always
 
   bitcoind-zmq:
@@ -28,8 +28,8 @@ services:
       - "bitcoind"
       - "postgres"
       - "graphql-engine"
-    #networks:
-    #  - back
+    networks:
+      - back
     restart: always
 
   bitcoind-rpc:
@@ -39,9 +39,9 @@ services:
       - "postgres"
     ports:
       - 9000:9000
-    #networks:
-      #- back
-      #- front
+    networks:
+      - back
+      - front
     restart: always
 
   graphql-engine:
@@ -56,9 +56,9 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       ## uncomment next line to set an admin secret
       # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
-    #networks:
-    #  - back
-    #  - front
+    networks:
+      - back
+      - front
     restart: always
 
 volumes:

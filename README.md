@@ -84,17 +84,51 @@ Done! :-)
 ```
 # testnet
 testnet=1
+
+# RPC is required for bitcoin-cli.
 server=1
-txindex=1
 rpcuser=paco
 rpcpassword=paco
 
-blocknotify=/usr/bin/curl -X GET bitcoindwrapper:3000/bitcoin/newblock/%s -H "accept: application/json" -H "Authorization: Bearer YOUR-TOKEN"
+txindex=1
+
+# blocknotify=/usr/bin/curl -X GET bitcoindwrapper:3000/bitcoin/newblock/%s -H "accept: application/json" -H "Authorization: Bearer YOUR-TOKEN"
+
+# In this example we are only interested in receiving raw transactions.
+# The address here is the URL where bitcoind will listen for new ZeroMQ connection requests.
+zmqpubhashblock=tcp://0.0.0.0:3000
+zmqpubrawblock=tcp://0.0.0.0:3001
+# zmqpubrawtx=tcp://0.0.0.0:3002
+# zmqpubhashtx=tcp://0.0.0.0:3003
 
 # ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 [test]
 rpcbind=0.0.0.0:18332
 rpcallowip=0.0.0.0/0
+```
+
+#### bitcoin.conf example for regtest
+```
+# Use the regtest network, because we can generate blocks as needed.
+regtest=1
+
+# RPC is required for bitcoin-cli.
+server=1
+rpcuser=paco
+rpcpassword=paco
+
+# In this example we are only interested in receiving raw transactions.
+# The address here is the URL where bitcoind will listen for new ZeroMQ connection requests.
+zmqpubhashblock=tcp://0.0.0.0:3000
+zmqpubrawblock=tcp://0.0.0.0:3001
+# zmqpubrawtx=tcp://0.0.0.0:3002
+# zmqpubhashtx=tcp://0.0.0.0:3003
+
+# ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
+[regtest]
+rpcbind=0.0.0.0:18443
+rpcallowip=0.0.0.0/0
+
 ```
 
 #### .cookie
@@ -144,4 +178,8 @@ http://explorer.loopback.io/?url=http://localhost:3000/openapi.json
  - Al levantar hasura o postgresql que meta la tabla de block (id: UUID, autogenerado, unico y hash: text)
 
 
+## hasura call to getblockcount
 curl 'http://localhost:9000/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://localhost:9000' --data-binary '{"query":"query {\n  getblockcount {\n    height\n  }\n}"}' --compressed
+
+# bitcoin-rpc call to getblockcount
+curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockcount", "params": [] }' -H 'content-type: text/plain;' http://bitcoind:18443

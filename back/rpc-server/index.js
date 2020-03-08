@@ -1,5 +1,6 @@
 const { ApolloServer } = require('apollo-server');
 const gql = require('graphql-tag');
+const Rpc = require('./lib/bitcoind-rpc')
 
 const typeDefs = gql`
   type Blockcount {
@@ -12,14 +13,15 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    getblockcount: (parent, args, context) => {
+    getblockcount: async (parent, args, context) => {
       // const authHeaders = context.headers.authorization || '';
       console.log('parent', parent)
       console.log('args', args)
       console.log('context', context)
 
+      const blockcount = await new Rpc().getblockcount()
       try {
-        return {height: 1};
+        return { height: blockcount.result };
       } catch(e) {
         console.log(e);
         return null;
