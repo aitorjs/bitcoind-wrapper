@@ -181,5 +181,11 @@ http://explorer.loopback.io/?url=http://localhost:3000/openapi.json
 ## hasura call to getblockcount
 curl 'http://localhost:9000/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://localhost:9000' --data-binary '{"query":"query {\n  getblockcount {\n    height\n  }\n}"}' --compressed
 
-# bitcoin-rpc call to getblockcount
+## bitcoin-rpc call to getblockcount
 curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockcount", "params": [] }' -H 'content-type: text/plain;' http://bitcoind:18443
+
+## Add "Remote Schema" in hasura
+
+- Go to hasura explorer: http://localhost:8080/
+- Click "Remote Schemas" -> "Add"
+- As "GraphQL server URL" add "http://bitcoind-rpc:9000/"
