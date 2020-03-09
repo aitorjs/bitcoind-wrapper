@@ -1,3 +1,4 @@
+# bitcoind-zmq
 FROM node:13-slim
 
 RUN apt-get update
@@ -9,9 +10,9 @@ RUN mkdir -p /home/node/app
 
 WORKDIR /home/node/app
 
-COPY --chown=node back/* ./
+COPY --chown=node back/index.js .
+COPY --chown=node back/package.json .
 
-# RUN git clone https://gitlab.com/aitoribanez/bitcoin-zmq
 RUN npm install
 
 CMD [ "node", "./index.js" ]

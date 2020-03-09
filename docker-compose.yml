@@ -50,6 +50,7 @@ services:
       - "8080:8080"
     depends_on:
       - "postgres"
+      - "bitcoind-rpc"
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
