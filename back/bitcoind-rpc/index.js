@@ -31,10 +31,10 @@ const resolvers = {
 };
 
 const context = ({req}) => {
-  return {headers: req.headers};
+  return {headers: req.headers };
 };
 
-const schema = new ApolloServer({ typeDefs, resolvers, context});
+const schema = new ApolloServer({ typeDefs, resolvers, context, playground: true });
 // process.env.PORT
 schema.listen({ port: 9000}).then(({ url }) => {
     console.log(`schema ready at ${url}`);
