@@ -10,8 +10,8 @@ RUN mkdir -p /home/node/app
 
 WORKDIR /home/node/app
 
-COPY --chown=node back/index.js .
-COPY --chown=node back/package.json .
+COPY --chown=node index.js .
+COPY --chown=node package.json .
 
 RUN npm install
 

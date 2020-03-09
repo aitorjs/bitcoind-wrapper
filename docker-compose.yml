@@ -23,7 +23,8 @@ services:
     restart: always
 
   bitcoind-zmq:
-    image: bitcoind-zmq:latest
+    # image: bitcoind-zmq:latest
+    build: ./back/bitcoind-zmq
     depends_on:
       - "bitcoind"
       - "postgres"
@@ -33,7 +34,8 @@ services:
     restart: always
 
   bitcoind-rpc:
-    image: bitcoind-rpc:latest
+    # image: bitcoind-rpc:latest
+    build: ./back/bitcoind-rpc
     depends_on:
       - "bitcoind"
       - "postgres"
