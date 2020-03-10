@@ -1,0 +1,26 @@
+{
+  "name": "bitcoind-wrapper",
+  "version": "0.1.2",
+  "description": "Wrapper for bitcoind with JWT, openapi, loopback4, docker and docker-compose",
+  "keywords": [
+    "loopback4",
+    "bitcoin",
+    "bitcoin-cli",
+    "bitcoind",
+    "docker",
+    "docker-compose"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=8.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker:image:rpc": "docker build -t bitcoind-rpc back/bitcoind-rpc/",
+    "docker:image:zmq": "docker build -t bitcoind-rpc back/bitcoind-zmq/",
+    "docker:up": "docker-compose up -d",
+    "docker:build:up": "docker-compose up --build -d"
+  },
+  "author": "aitorjs <kaixo@biteskola.com>",
+  "license": "GPL-3.0"
+}
