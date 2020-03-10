@@ -16,7 +16,7 @@ const btcd = new BitcoindZmq({
 const link = new HttpLink({
   uri: 'http://graphql-engine:8080/v1/graphql',
   fetch,
- // headers: getHeaders()
+  headers: { 'x-hasura-admin-secret': 'secretkey' }
 })
 
 const client = new ApolloClient({
