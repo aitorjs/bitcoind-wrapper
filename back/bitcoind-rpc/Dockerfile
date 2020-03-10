@@ -1,6 +1,6 @@
 FROM node:13-slim
 
-# USER node
+USER node
 
 RUN mkdir -p /home/node/app
 
