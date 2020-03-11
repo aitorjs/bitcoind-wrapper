@@ -19,7 +19,8 @@
     "docker:image:rpc": "docker build -t bitcoind-rpc back/bitcoind-rpc/",
     "docker:image:zmq": "docker build -t bitcoind-rpc back/bitcoind-zmq/",
     "docker:up": "docker-compose up -d",
-    "docker:build:up": "docker-compose up --build -d"
+    "docker:build:up": "docker-compose up --build -d",
+    "front:up:zmq": "node front/bitcoind-zmq/serve.js"
   },
   "author": "aitorjs <kaixo@biteskola.com>",
   "license": "GPL-3.0"

@@ -62,6 +62,11 @@ rpcallowip=0.0.0.0/0
 paco:paco
 ```
 
+## Ports
+
+8080: API + hasura console
+3000: frontend
+
 ## Miscelania
 
 ### TODO zmq

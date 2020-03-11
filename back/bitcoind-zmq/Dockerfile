@@ -1,4 +1,3 @@
-# bitcoind-zmq
 FROM node:13-slim
 
 RUN apt-get update
