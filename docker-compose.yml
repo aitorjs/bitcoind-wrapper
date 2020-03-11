@@ -2,7 +2,6 @@ version: "3"
 
 services:
   bitcoind:
-    # image: lukechilds/bitcoind
     build: ./docker/bitcoin
     #ports:
     #  - 18332:18332
@@ -23,7 +22,6 @@ services:
     restart: always
 
   bitcoind-zmq:
-    # image: bitcoind-zmq:latest
     build: ./back/bitcoind-zmq
     depends_on:
       - "bitcoind"
@@ -34,16 +32,12 @@ services:
     restart: always
 
   bitcoind-rpc:
-    # image: bitcoind-rpc:latest
     build: ./back/bitcoind-rpc
     depends_on:
       - "bitcoind"
       - "postgres"
-    ports:
-      - 9000:9000
     networks:
       - back
-      - front
     restart: always
 
   graphql-engine:
@@ -61,7 +55,6 @@ services:
       HASURA_GRAPHQL_ADMIN_SECRET: secretkey
     networks:
       - back
-      - front
     restart: always
 
   bitcoind-zmq-front:
