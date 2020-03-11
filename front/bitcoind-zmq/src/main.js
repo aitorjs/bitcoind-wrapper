@@ -26,7 +26,7 @@ const link = new WebSocketLink({
     reconnect: true,
     timeout: 30000,
     connectionParams: {
-      headers: { 'x-hasura-admin-secret': 'secretkey' }
+      headers: { 'x-hasura-admin-secret': process.env.VUE_APP_HASURA_PASS }
     }
   }
 })

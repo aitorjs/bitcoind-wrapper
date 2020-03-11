@@ -3,6 +3,10 @@
 ## Install v0.2: hasura + cron +subscriptions for websockets and auto-api generator as lb4
 - ```git clone https://github.com/aitoribanez/bitcoind-wrapper```
 - ```cd bitcoind-wrapper```
+- make .env for front/bitcoind-zmq in front/bitcoind-zmq/.env with
+```
+VUE_APP_HASURA_PASS=secretkey
+```
 - ```docker network create back```
 - ```docker network create front```
 - ```docker-compose up --build -d```
@@ -65,7 +69,7 @@ paco:paco
 ## Ports
 
 8080: API + hasura console
-3000: frontend
+3000: frontend (8081 with ```npm run serve```)
 
 ## Miscelania
 
