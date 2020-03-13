@@ -21,7 +21,7 @@ const resolvers = {
 
       const blockcount = await new Rpc().getblockcount()
       try {
-        return { height: blockcount.result };
+        return { height: blockcount };
       } catch(e) {
         console.log(e);
         return null;

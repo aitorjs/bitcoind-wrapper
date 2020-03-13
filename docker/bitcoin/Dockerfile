@@ -1,3 +1,4 @@
+# https://github.com/ruimarinho/bitcoin-core/blob/master/docker-compose.yml
 ARG ARCH=amd64
 ARG VERSION=0.19.1
 

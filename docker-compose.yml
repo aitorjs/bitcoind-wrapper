@@ -40,6 +40,11 @@ services:
 
   bitcoind-rpc:
     build: ./back/bitcoind-rpc
+    environment:
+      BITCOIND_RPC_PORT: 18443
+      BITCOIND_RPC_HOST: 'bitcoind'
+      BITCOIND_RPC_USERNAME: 'paco'
+      BITCOIND_RPC_PASSWORD: 'paco'
     depends_on:
       - "bitcoind"
       - "postgres"
@@ -59,6 +64,7 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: secretkey
+      BITCOIND_RPC_ENDPOINT: http://bitcoind-rpc:9000/
     networks:
       - back
     restart: always

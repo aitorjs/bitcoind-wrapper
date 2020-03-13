@@ -1,6 +1,6 @@
 {
-  "name": "irc-server",
-  "version": "0.0.1",
+  "name": "bitcoind-rpc",
+  "version": "0.1.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.11.0",
-    "graphql": "^14.6.0",
-    "jsonrpc-ts": "^0.2.0"
+    "bitcoin-core": "^3.0.0",
+    "graphql": "^14.6.0"
   }
 }
