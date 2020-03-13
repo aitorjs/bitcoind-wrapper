@@ -6,17 +6,17 @@ const fetch = require('node-fetch');
 
 const BitcoindZmq = require('bitcoind-zmq')
 const btcd = new BitcoindZmq({
-  hashblock: 'tcp://bitcoind:3000',
-  rawblock: 'tcp://bitcoind:3001',
-  // rawtx: 'tcp://bitcoind:3002'
-  // hashtx: 'tcp://bitcoind:3003'
+  hashblock: process.env.ZMQ_HASHBLOCK,
+  rawblock: process.env.ZMQ_RAWBLOCK,
+  // rawtx: process.env.ZMQ_RAWTX,
+  // hashtx: process.env.ZMQ_HASHTX
  })
 
 // Create an http link:
 const link = new HttpLink({
-  uri: 'http://graphql-engine:8080/v1/graphql',
+  uri: process.env.HASURA_SCHEMA_URL,
   fetch,
-  headers: { 'x-hasura-admin-secret': 'secretkey' }
+  headers: { 'x-hasura-admin-secret': process.env.HASURA_PASS }
 })
 
 const client = new ApolloClient({

@@ -6,6 +6,7 @@
 - make .env for front/bitcoind-zmq in front/bitcoind-zmq/.env with
 ```
 VUE_APP_HASURA_PASS=secretkey
+VUE_APP_HASURA_SCHEMA=ws://localhost:8080/v1/graphql
 ```
 - ```docker network create back```
 - ```docker network create front```

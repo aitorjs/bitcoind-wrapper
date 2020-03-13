@@ -21,7 +21,7 @@ Vue.config.productionTip = false
 }) */
 // Create a WebSocket link:
 const link = new WebSocketLink({
-  uri: 'ws://localhost:8080/v1/graphql',
+  uri: process.env.VUE_APP_HASURA_SCHEMA,
   options: {
     reconnect: true,
     timeout: 30000,
