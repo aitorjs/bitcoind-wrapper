@@ -37,14 +37,24 @@ const MUTATION = gql`
     }
   }`
 
+const QUERY = gql`
+  query GetBlock {
+    getblock(hash: "hhh") {
+      confirmations
+      hash
+    }
+  }`;
+
 btcd.connect()
 
-btcd.on('hashblock', (hash) => {
+btcd.on('hashblock', hash => {
   console.log('got block hash:', hash) // hash <Buffer ... />
 
   hash = Buffer.from(hash).toString('hex');
 
   console.log('hash', hash);
+
+  // call to bitcoind-rpc (graphql)
   client.mutate({
     mutation: MUTATION,
     variables: {
@@ -55,8 +65,10 @@ btcd.on('hashblock', (hash) => {
   .catch(err => console.error('err', err));
  })
 
-  btcd.on('rawblock', (block) => {
-     console.log('got raw block:', block) // block <Buffer ... />
+  btcd.on('rawblock', block => {
+     console.log('got raw block:', block)
+     block = Buffer.from(block).toString('hex')
+     console.log('got raw block:22222', block)
   })
 
   btcd.on('connect:*', (uri, type) => {
@@ -67,11 +79,11 @@ btcd.on('hashblock', (hash) => {
     console.error(`${type} had error:`, err)
   })
 
- /* btcd.on('hashtx', (hash) => {
+ /* btcd.on('hashtx', hash => {
     console.log('got tx hash:', hash) // hash <Buffer ... />
   })
 
-  btcd.on('rawtx', (tx) => {
+  btcd.on('rawtx', tx => {
     console.log('got raw tx:', tx) // tx <Buffer ... />
   })
 
