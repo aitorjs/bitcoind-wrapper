@@ -1,6 +1,6 @@
 const { ApolloServer } = require('apollo-server');
 const gql = require('graphql-tag');
-const Rpc = require('./__lib/bitcoind-rpc')
+const Rpc = require('./lib/bitcoind-rpc')
 
 const typeDefs = gql`
   type Blockcount {
@@ -9,6 +9,17 @@ const typeDefs = gql`
   type Block {
     hash: String!
     confirmations: Int!
+    size: Int!
+    height: Int!
+    version: Int!
+    merkle_root: String!
+    tx: String!
+    time: String!
+    mediantime: String!
+    nonce: Int!
+    bits: String!
+    difficulty: String!
+    previous_hash: String!
   }
   type Query {
     getblockcount: Blockcount!
@@ -35,6 +46,7 @@ const resolvers = {
       }
     },
     getblock: async (parent, args, context) => {
+      // 0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
       console.log('parent GET BLOCK', parent)
       console.log('args', args)
       console.log('context', context)
@@ -42,7 +54,21 @@ const resolvers = {
       try {
         const block = await new Rpc().getblock(args.hash);
         console.log('block', block);
-        return { hash: block.hash, confirmations: block.confirmations };
+        return {
+          hash: block.hash,
+          confirmations: block.confirmations,
+          size: block.size,
+          height: block.height,
+          version: block.version,
+          merkle_root: block.merkleroot,
+          tx: JSON.stringify(block.tx),
+          time: block.time,
+          mediantime: block.mediantime,
+          nonce: block.nonce,
+          bits: block.bits,
+          difficulty: block.difficulty,
+          previous_hash: block.nextblockhash
+         };
       } catch(e) {
         console.log(e);
         return null;
