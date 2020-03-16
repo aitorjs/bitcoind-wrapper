@@ -47,11 +47,11 @@ const QUERY = gql`
     bits
     difficulty
     mediantime
-    merkle_root
     nonce
-    previous_hash
     time
     tx
+    merkleroot
+    nextblockhash
   }`;
 
 btcd.connect()

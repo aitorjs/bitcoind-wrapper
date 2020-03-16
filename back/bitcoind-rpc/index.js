@@ -12,14 +12,14 @@ const typeDefs = gql`
     size: Int!
     height: Int!
     version: Int!
-    merkle_root: String!
+    merkleroot: String!
     tx: String!
     time: String!
     mediantime: String!
     nonce: Int!
     bits: String!
     difficulty: String!
-    previous_hash: String!
+    nextblockhash: String!
   }
   type Query {
     getblockcount: Blockcount!
@@ -53,22 +53,29 @@ const resolvers = {
 
       try {
         const block = await new Rpc().getblock(args.hash);
-        console.log('block', block);
+        block.tx = JSON.stringify(block.tx)
+
         return {
+          hash, confirmations, size, height, version,
+          tx, time, mediantime, nonce, bits, difficulty
+        } = block
+  // console.log('resp', { hash, confirmations, size, height, version, tx = JSON.stringify(tx), time, mediantime, nonce, bits, difficulty } )
+  // console.log('block', hash, confirmations)
+       /*  return {
           hash: block.hash,
           confirmations: block.confirmations,
           size: block.size,
           height: block.height,
           version: block.version,
-          merkle_root: block.merkleroot,
+          merkleroot: block.merkleroot,
           tx: JSON.stringify(block.tx),
           time: block.time,
           mediantime: block.mediantime,
           nonce: block.nonce,
           bits: block.bits,
           difficulty: block.difficulty,
-          previous_hash: block.nextblockhash
-         };
+          nextblockhash: block.nextblockhash
+         }; */
       } catch(e) {
         console.log(e);
         return null;
