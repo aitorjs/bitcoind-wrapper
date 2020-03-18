@@ -38,20 +38,22 @@ const MUTATION = gql`
   }`
 
 const QUERY = gql`
-  getblock(hash: "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206") {
-    confirmations
-    hash
-    height
-    size
-    version
-    bits
-    difficulty
-    mediantime
-    nonce
-    time
-    tx
-    merkleroot
-    nextblockhash
+  query getblock($hash: String!) {
+    getblock(hash: $hash) {
+      confirmations
+      hash
+      height
+      size
+      version
+      bits
+      difficulty
+      mediantime
+      nonce
+      time
+      tx
+      merkleroot
+      previousblockhash
+    }
   }`;
 
 btcd.connect()
@@ -62,6 +64,14 @@ btcd.on('hashblock', hash => {
   hash = Buffer.from(hash).toString('hex');
 
   console.log('hash', hash);
+  client.query({
+    query: QUERY,
+    variables: {
+      hash
+    }
+  })
+  .then(res => console.log('resp query', res))
+  .catch(err => console.error('err query', err));
 
   // call to bitcoind-rpc (graphql)
   client.mutate({
@@ -71,7 +81,7 @@ btcd.on('hashblock', hash => {
     }
   })
   .then(res => console.log('res', res))
-  .catch(err => console.error('err', err));
+  .catch(err => console.error('err mutation', err));
  })
 
   btcd.on('rawblock', block => {

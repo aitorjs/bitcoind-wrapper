@@ -19,7 +19,7 @@ const typeDefs = gql`
     nonce: Int!
     bits: String!
     difficulty: String!
-    nextblockhash: String!
+    previousblockhash: String!
   }
   type Query {
     getblockcount: Blockcount!
@@ -59,23 +59,6 @@ const resolvers = {
           hash, confirmations, size, height, version,
           tx, time, mediantime, nonce, bits, difficulty
         } = block
-  // console.log('resp', { hash, confirmations, size, height, version, tx = JSON.stringify(tx), time, mediantime, nonce, bits, difficulty } )
-  // console.log('block', hash, confirmations)
-       /*  return {
-          hash: block.hash,
-          confirmations: block.confirmations,
-          size: block.size,
-          height: block.height,
-          version: block.version,
-          merkleroot: block.merkleroot,
-          tx: JSON.stringify(block.tx),
-          time: block.time,
-          mediantime: block.mediantime,
-          nonce: block.nonce,
-          bits: block.bits,
-          difficulty: block.difficulty,
-          nextblockhash: block.nextblockhash
-         }; */
       } catch(e) {
         console.log(e);
         return null;
@@ -85,7 +68,7 @@ const resolvers = {
 };
 
 const context = ({req}) => {
-  return {headers: req.headers };
+  return { headers: req.headers };
 };
 
 const schema = new ApolloServer({ typeDefs, resolvers, context, playground: true });
