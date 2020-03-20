@@ -26,20 +26,8 @@ const client = new ApolloClient({
   })
 })
 
-/* const MUTATION = gql`
-  mutation AddBlock($hash: String!) {
-    insert_block(objects: {hash: $hash}) {
-      affected_rows
-      returning {
-        id
-        hash
-      }
-    }
-  }` */
-
-  // , $tx: String!
 const MUTATION = gql`
-  mutation AddBlock($hash: String!, $confirmations: Int!, $size: Int!, $height: Int!, $version: Int!, $merkleroot: String!, $tx: json, $time: timestamptz!, $mediantime: timestamptz!, $nonce: Int!, $bits: String!, $difficulty: String!, $previousblockhash: String!) {
+  mutation AddBlock($hash: String!, $confirmations: Int!, $size: Int!, $height: Int!, $version: Int!, $merkleroot: String!, $tx: json!, $time: timestamptz!, $mediantime: timestamptz!, $nonce: Int!, $bits: String!, $difficulty: String!, $previousblockhash: String!) {
     insert_block(objects: {hash: $hash, confirmations: $confirmations, size: $size, height: $height, version: $version, merkleroot: $merkleroot, tx: $tx, time: $time, mediantime: $mediantime, nonce: $nonce, bits: $bits, difficulty: $difficulty, previousblockhash: $previousblockhash}) {
       affected_rows
       returning {
@@ -102,26 +90,19 @@ btcd.on('hashblock', async hash => {
   }
 
   try {
-    console.log('mutation start query', queryResp.data.getblock)
-    const prueba = queryResp.data.getblock
+    const block = queryResp.data.getblock
+    block.tx = JSON.stringify(block.tx)
+    block.time = new Date(block.time * 1000).toISOString()
+    block.mediantime =  new Date(block.mediantime * 1000).toISOString()
+    delete block.__typename
+
+    console.log('mutation start query', block)
+
     const mutation = await client.mutate({
       mutation: MUTATION,
-      variables: {
-        'hash': '6ca0f4d75ef85279e1f4778a3685ad460987f60b4a3724b4266863c4ec1b7c98',
-        'confirmations': 1119990,
-        'size': 100,
-        'height': 100,
-        'version': 536870912,
-        'merkleroot': 'merkleroot',
-        'tx': "['0a318cf4a72b4b8d82f4e29cff4ba68a8dddb1c902fcada870a37d1fea000319','0a318cf4a72b4b8d82f4e29cff4ba68a8dddb1c902fcada870a37d1fea000320']",
-        'time': new Date(1584727269).toISOString(), // "1970-01-19T08:12:07.269Z"
-        'mediantime': new Date(1584727269).toISOString(), // "1970-01-19T08:12:07.269Z"
-        'nonce': 0,
-        'bits': '207fffff',
-        'difficulty': '4.656542373906925e-10',
-        'previousblockhash': '7421292c21483765035721778923a1c41839be7ce7457b51b3112db95762ca0d'
-      }
+      variables: block
     })
+
     console.log('resp mutation', mutation)
   } catch(err) {
     console.error('err on mutation', err)
