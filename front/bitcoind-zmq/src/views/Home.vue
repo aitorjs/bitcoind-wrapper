@@ -5,13 +5,12 @@
     <div class="home">
       <!-- LISTADO DE BLOQUES {{ block }} -->
       <span>BLOQUES EN TIEMPO REAL</span>
-      <ul v-for="(block, index) in rtblocks" :key="block.id">
-        <li>{{ index }}</li>
-        <li>{{ block.hash }}</li>
-        <li>+{{ block.confirmations }}</li>
-        <li>{{ block.height }}</li>
-        <li>{{ typeof block.tx }}</li>
-        <li>{{ JSON.parse(block.tx) }}</li>
+      <ul v-for="(block) in rtblocks" :key="block.id">
+        <li>
+          <a href="#/block.hash">#{{ block.height }}</a>
+        </li>
+        <li>+{{ block.confirmations }} confirmations</li>
+        <li>{{ JSON.parse(block.tx).length }} transactions</li>
         <li>{{ block.size }} bits</li>
         <li>{{ block.time }}</li>
       </ul>
