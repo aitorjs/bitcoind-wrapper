@@ -27,7 +27,7 @@ const client = new ApolloClient({
 })
 
 const MUTATION = gql`
-  mutation AddBlock($hash: String!, $confirmations: Int!, $size: Int!, $height: Int!, $version: Int!, $merkleroot: String!, $tx: json!, $time: timestamptz!, $mediantime: timestamptz!, $nonce: Int!, $bits: String!, $difficulty: String!, $previousblockhash: String!) {
+  mutation AddBlock($hash: String!, $confirmations: Int!, $size: Int!, $height: Int!, $version: Int!, $merkleroot: String!, $tx: String!, $time: timestamptz!, $mediantime: timestamptz!, $nonce: Int!, $bits: String!, $difficulty: String!, $previousblockhash: String!) {
     insert_block(objects: {hash: $hash, confirmations: $confirmations, size: $size, height: $height, version: $version, merkleroot: $merkleroot, tx: $tx, time: $time, mediantime: $mediantime, nonce: $nonce, bits: $bits, difficulty: $difficulty, previousblockhash: $previousblockhash}) {
       affected_rows
       returning {

@@ -69,17 +69,17 @@ services:
       - back
     restart: always
 
-  bitcoind-zmq-front:
-    build: ./front/bitcoind-zmq
-    ports:
-      - "3000:3000"
-    depends_on:
-      - "bitcoind"
-      - "postgres"
-      - "graphql-engine"
-    networks:
-      - front
-    restart: always
+  # bitcoind-zmq-front:
+    # build: ./front/bitcoind-zmq
+    # ports:
+    #  - "3000:3000"
+    # depends_on:
+    #  - "bitcoind"
+    #  - "postgres"
+    #  - "graphql-engine"
+    # networks:
+    #  - front
+    # restart: always
 
 volumes:
   db_data:

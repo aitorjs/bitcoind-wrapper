@@ -13,7 +13,7 @@ const typeDefs = gql`
     height: Int!
     version: Int!
     merkleroot: String!
-    tx: String!
+    tx: [String!]!
     time: String!
     mediantime: String!
     nonce: Int!
@@ -53,12 +53,14 @@ const resolvers = {
 
       try {
         const block = await new Rpc().getblock(args.hash);
-        block.tx = JSON.stringify(block.tx)
-
-        return {
+        // block.tx = JSON.stringify(block.tx)
+        console.log('block for rpc', block)
+        const a = {
           hash, confirmations, size, height, version,
           tx, time, mediantime, nonce, bits, difficulty
         } = block
+        console.log('a', a.tx)
+        return a
       } catch(e) {
         console.log(e);
         return null;

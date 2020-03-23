@@ -2,26 +2,45 @@
   <div>
     <!-- <div v-if="$apollo.queries.todos.loading">Loading...</div> -->
     <div v-if="error">{{ error }}</div>
-    <div class='home'>
+    <div class="home">
       <!-- LISTADO DE BLOQUES {{ block }} -->
       <span>BLOQUES EN TIEMPO REAL</span>
-      <ul>
-        <li v-for='(block, index) in rtblocks' :key='block.id'>{{ index }} {{ block.hash }}</li>
+      <ul v-for="(block, index) in rtblocks" :key="block.id">
+        <li>{{ index }}</li>
+        <li>{{ block.hash }}</li>
+        <li>+{{ block.confirmations }}</li>
+        <li>{{ block.height }}</li>
+        <li>{{ typeof block.tx }}</li>
+        <li>{{ JSON.parse(block.tx) }}</li>
+        <li>{{ block.size }} bits</li>
+        <li>{{ block.time }}</li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 const MY_SUBSCRIPTION = gql`
   subscription getNewBlocks {
     block {
-      id
       hash
+      bits
+      confirmations
+      difficulty
+      height
+      mediantime
+      merkleroot
+      nonce
+      previousblockhash
+      size
+      time
+      tx
+      version
     }
-  }`
+  }
+`;
 
 /* const MY_QUERY = gql`
   query MyQuery {
@@ -32,13 +51,13 @@ const MY_SUBSCRIPTION = gql`
   }` */
 
 export default {
-  name: 'Home',
-  data () {
+  name: "Home",
+  data() {
     return {
       blocks: [],
       rtblocks: [],
       error: null
-    }
+    };
   },
   apollo: {
     /* block: {
@@ -50,12 +69,12 @@ export default {
     $subscribe: {
       newBlocks: {
         query: MY_SUBSCRIPTION,
-        result (data) {
+        result(data) {
           // console.log('data', data)
-          this.rtblocks = data.data.block
+          this.rtblocks = data.data.block;
         }
       }
     }
   }
-}
+};
 </script>
