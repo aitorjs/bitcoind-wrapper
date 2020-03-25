@@ -47,9 +47,9 @@
     <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="green">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
-        <span class="hidden-sm-and-down">Google Contacts</span>
+        <span class="hidden-sm-and-down">bitcoind-graphql</span>
       </v-toolbar-title>
-      <v-text-field
+      <!-- <v-text-field
         flat
         solo-inverted
         hide-details
@@ -68,15 +68,17 @@
         <v-avatar size="32px" item>
           <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify" />
         </v-avatar>
-      </v-btn>
+      </v-btn>-->
     </v-app-bar>
+
     <v-content>
       <router-view />
     </v-content>
-    <v-btn bottom color="pink" fab fixed right @click="dialog = !dialog">
+
+    <!--  <v-btn bottom color="pink" fab fixed right @click="dialog = !dialog">
       <v-icon>mdi-plus</v-icon>
-    </v-btn>
-    <v-dialog v-model="dialog" width="800px">
+    </v-btn>-->
+    <!--  <v-dialog v-model="dialog" width="800px">
       <v-card>
         <v-card-title class="grey">Create contact</v-card-title>
         <v-container>
@@ -113,7 +115,7 @@
           <v-btn text @click="dialog = false">Save</v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog>-->
   </v-app>
 </template>
 
@@ -126,9 +128,9 @@ export default {
     dialog: false,
     drawer: null,
     items: [
-      { icon: "mdi-contacts", text: "Contacts" },
-      { icon: "mdi-history", text: "Frequently contacted" },
-      { icon: "mdi-content-copy", text: "Duplicates" },
+      { icon: "mdi-contacts", text: "Blocks" },
+      { icon: "mdi-history", text: "Transactions" }
+      /* { icon: "mdi-content-copy", text: "Duplicates" },
       {
         icon: "mdi-chevron-up",
         "icon-alt": "mdi-chevron-down",
@@ -153,7 +155,7 @@ export default {
       { icon: "mdi-message", text: "Send feedback" },
       { icon: "mdi-help-circle", text: "Help" },
       { icon: "mdi-cellphone-link", text: "App downloads" },
-      { icon: "mdi-keyboard", text: "Go to the old version" }
+      { icon: "mdi-keyboard", text: "Go to the old version" } */
     ]
   })
 };
