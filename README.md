@@ -72,6 +72,12 @@ paco:paco
 8080: API + hasura console
 3000: frontend (8081 with ```npm run serve```)
 
+
+## Generate new block on regtest
+
+- ```bitcoin-cli generatetoaddress number_blocks address```
+- Listar las direcciones del nodo: ```bitcoin-cli getaddressesbylabel ""```
+
 ## Miscelania
 
 ### TODO zmq

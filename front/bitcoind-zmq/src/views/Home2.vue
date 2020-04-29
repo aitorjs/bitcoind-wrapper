@@ -10,7 +10,7 @@
           <span>BLOQUES EN TIEMPO REAL</span>
           <ul v-for="(block) in rtblocks" :key="block.id">
             <li>
-              <a href="#/block.hash">#{{ block.height }}</a>
+              <a :href="'#/' + block.hash">#{{ block.height }}</a>
             </li>
             <li>+{{ block.confirmations }} confirmations</li>
             <li>{{ JSON.parse(block.tx).length }} transactions</li>
@@ -74,7 +74,7 @@ export default {
       newBlocks: {
         query: MY_SUBSCRIPTION,
         result(data) {
-          // console.log('data', data)
+          console.log("data", data);
           this.rtblocks = data.data.block;
         }
       }
