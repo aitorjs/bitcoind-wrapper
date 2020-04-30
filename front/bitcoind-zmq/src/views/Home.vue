@@ -12,9 +12,13 @@
           hide-details
         ></v-text-field>-->
       </v-card-title>
+
       <v-data-table :headers="headers" :items="rtblocks" sortBy="height" :sortDesc="true">
         <template v-slot:item.height="{ item }">
           <a :href="'#/hash/' + item.hash">{{item.height}}</a>
+        </template>
+        <template v-slot:item.tx="{ item }">
+          <p>{{ JSON.parse(item.tx).length }}</p>
         </template>
       </v-data-table>
     </v-card>
@@ -60,20 +64,13 @@ export default {
       rtblocks: [],
       error: null,
       headers: [
-        /* {
-          text: "Dessert (100g serving)",
-          align: "start",
-          // sortable: false,
-          value: "hash"
-        }, */
         {
           text: "Height",
-          align: "start",
           // sortable: false,
           value: "height"
         },
-        { text: "Confirmations", value: "confirmations" },
-        { text: "Transactions", value: 1 },
+        { text: "Confirms", value: "confirmations" },
+        { text: "TXs", value: "tx" },
         { text: "Bits", value: "size" },
         { text: "Time", value: "time" }
       ]
