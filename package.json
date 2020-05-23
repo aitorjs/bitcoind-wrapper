@@ -1,6 +1,6 @@
 {
   "name": "bitcoind-wrapper",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Wrapper for bitcoind with JWT, openapi, loopback4, docker and docker-compose",
   "keywords": [
     "loopback4",

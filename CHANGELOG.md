@@ -7,3 +7,6 @@
 
 ## v0.1.2 (24/02/2020):
 - minor fixes
+
+## v0.2 (23/05/2020):
+- blocknotification + graphql (hasura) with getblockcount + frontend
