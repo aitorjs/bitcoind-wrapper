@@ -108,4 +108,4 @@ curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "g
 - ```cd front/bitcoind-zmq```
 - ```npm run build```
 - ```docker build -t bitcoind-wrapper_bitcoind-zmq-front .```
-- ```docker-compose up```
+- ```docker-compose up --build -d```
