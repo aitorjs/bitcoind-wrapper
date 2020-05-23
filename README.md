@@ -8,10 +8,21 @@
 VUE_APP_HASURA_PASS=secretkey
 VUE_APP_HASURA_SCHEMA=ws://localhost:8080/v1/graphql
 ```
+- To change the configuration or want you need inside .bitcoin, use
+```$HOME/cyphernode/bitcoin/``` folder.
 - ```docker network create back```
 - ```docker network create front```
 - ```docker-compose up --build -d```
 - Open on browser for hasura console: ```http://localhost:8080/```
+- Click "Remote Schemas" -> "Add"
+- As "GraphQL server URL" add "http://bitcoind-rpc:9000/"
+- Open on a browser frontend: ```http://localhost:3031```
+
+## Generate new block xxx container on regtest
+- Enter to container with ```docker exec -it sh bash```
+- Generate new block: ```bitcoin-cli generatetoaddress number_blocks address```
+- List of all addresses of the node: ```bitcoin-cli getaddressesbylabel ""```
+
 
 ## bitcoin.conf example for regtest
 ```
@@ -30,8 +41,8 @@ zmqpubrawblock=tcp://0.0.0.0:3001
 # zmqpubrawtx=tcp://0.0.0.0:3002
 # zmqpubhashtx=tcp://0.0.0.0:3003
 
-# ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 [regtest]
+# ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 rpcbind=0.0.0.0:18443
 rpcallowip=0.0.0.0/0
 ```
@@ -56,8 +67,8 @@ zmqpubrawblock=tcp://0.0.0.0:3001
 # zmqpubrawtx=tcp://0.0.0.0:3002
 # zmqpubhashtx=tcp://0.0.0.0:3003
 
-# ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 [test]
+# ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 rpcbind=0.0.0.0:18332
 rpcallowip=0.0.0.0/0
 ```
@@ -70,18 +81,12 @@ paco:paco
 ## Ports
 
 8080: Hasura console
-3001: frontend (8081 with ```npm run serve```)
+3001: frontend (8081 with ```npm run serve```
 
-
-## Generate new block on regtest
-
-- ```bitcoin-cli generatetoaddress number_blocks address```
-- Listar las direcciones del nodo: ```bitcoin-cli getaddressesbylabel ""```
 
 ## Miscelania
 
 ### TODO zmq
- - Al levantar hasura o postgresql que meta la tabla de block (id: UUID, autogenerado, unico y hash: text)
 
 ### hasura call to getblockcount
 curl 'http://localhost:9000/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://localhost:9000' --data-binary '{"query":"query {\n  getblockcount {\n    height\n  }\n}"}' --compressed
