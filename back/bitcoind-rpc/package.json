@@ -1,0 +1,17 @@
+{
+  "name": "bitcoind-rpc",
+  "version": "0.1.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.11.0",
+    "bitcoin-core": "^3.0.0",
+    "graphql": "^14.6.0"
+  }
+}

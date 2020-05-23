@@ -1,16 +1,8 @@
 version: "3"
 
 services:
-  mongo:
-    image: mongo
-    #ports:
-    #  - 27017:27017
-    networks:
-      - back
-    restart: always
-
   bitcoind:
-    image: lukechilds/bitcoind
+    build: ./docker/bitcoin
     #ports:
     #  - 18332:18332
     volumes:
@@ -19,35 +11,78 @@ services:
       - back
     restart: always
 
-  bitcoindwrapper:
-    build: .
-    depends_on:
-      - mongo
-      - bitcoind
-    image: bitcoindwrapper
-    ports:
-      - 3000:3000
+  postgres:
+    image: postgres:12
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
     networks:
       - back
+    restart: always
+
+  bitcoind-zmq:
+    build: ./back/bitcoind-zmq
+    environment:
+      HASURA_SCHEMA_URL: http://graphql-engine:8080/v1/graphql
+      HASURA_PASS: secretkey
+      ZMQ_HASHBLOCK: tcp://bitcoind:3000
+      ZMQ_RAWBLOCK: tcp://bitcoind:3001
+      # ZMQ_RAWTX: tcp://bitcoind:3002
+      # ZMQ_HASHTX: tcp://bitcoind:3003
+    depends_on:
+      - "bitcoind"
+      - "postgres"
+      - "graphql-engine"
+    networks:
+      - back
+    restart: always
+
+  bitcoind-rpc:
+    build: ./back/bitcoind-rpc
+    environment:
+      BITCOIND_RPC_PORT: 18443
+      BITCOIND_RPC_HOST: 'bitcoind'
+      BITCOIND_RPC_USERNAME: 'paco'
+      BITCOIND_RPC_PASSWORD: 'paco'
+    depends_on:
+      - "bitcoind"
+      - "postgres"
+    networks:
+      - back
+    restart: always
+
+  graphql-engine:
+    image: hasura/graphql-engine:v1.1.0
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "postgres"
+      - "bitcoind-rpc"
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: secretkey
+      BITCOIND_RPC_ENDPOINT: http://bitcoind-rpc:9000/
+    networks:
+      - back
+    restart: always
+
+  bitcoind-zmq-front:
+    build: ./front/bitcoind-zmq
+    ports:
+      - "3001:3001"
+    depends_on:
+      - "bitcoind"
+      - "postgres"
+      - "graphql-engine"
+    networks:
       - front
     restart: always
 
-  bitcoindwrapperexplorer:
-    image: swaggerapi/swagger-ui
-    depends_on:
-      - bitcoindwrapper
-    environment:
-      - PORT=3001
-      # - SWAGGER_JSON=/data/openapi.json
-      - BASE_URL=/explorer
-      - API_URL=http://localhost:3000/openapi.json
-    ports:
-      - 3001:3001
-    # volumes:
-      # - $HOME/blockchain/bitcoincli-wrapper/explorer/:/data
-    networks:
-      - front
-    restart: always
+volumes:
+  db_data:
 
 networks:
   back:
