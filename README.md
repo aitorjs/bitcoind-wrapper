@@ -69,8 +69,8 @@ paco:paco
 
 ## Ports
 
-8080: API + hasura console
-3000: frontend (8081 with ```npm run serve```)
+8080: Hasura console
+3001: frontend (8081 with ```npm run serve```)
 
 
 ## Generate new block on regtest
@@ -95,3 +95,6 @@ curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "g
 - Go to hasura explorer: http://localhost:8080/
 - Click "Remote Schemas" -> "Add"
 - As "GraphQL server URL" add "http://bitcoind-rpc:9000/"
+
+### Screenshot front/bitcoind-zmq
+![Image of Yaktocat](screenshot.png)

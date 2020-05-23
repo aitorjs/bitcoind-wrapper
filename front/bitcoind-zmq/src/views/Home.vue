@@ -69,9 +69,9 @@ export default {
           // sortable: false,
           value: "height"
         },
-        { text: "Confirms", value: "confirmations" },
+        // { text: "Confirms", value: "confirmations" },
         { text: "TXs", value: "tx" },
-        { text: "Bits", value: "size" },
+        { text: "Size", value: "size" },
         { text: "Time", value: "time" }
       ]
     };

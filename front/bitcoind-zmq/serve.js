@@ -2,7 +2,7 @@ const express = require('express')
 const history = require('connect-history-api-fallback');
 
 const app = express()
-const port = 3000
+const port = 3001
 
 // Middleware for serving '/dist' directory
 const staticFileMiddleware = express.static('dist');
