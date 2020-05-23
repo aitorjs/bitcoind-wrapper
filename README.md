@@ -80,8 +80,8 @@ paco:paco
 
 ## Ports
 
-8080: Hasura console
-3001: frontend (8081 with ```npm run serve```
+- 8080: Hasura console
+- 3001: frontend (8081 with ```npm run serve```
 
 
 ## Miscelania
