@@ -20,6 +20,17 @@
         <template v-slot:item.tx="{ item }">
           <p>{{ JSON.parse(item.tx).length }}</p>
         </template>
+        <template v-slot:item.time="{ item }">
+          <!-- <p>{{ timeformat(item) }}</p> -->
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <!-- <v-btn color="primary" dark v-on="on">{{ timeformat(item) }}</v-btn> -->
+              <p v-on="on">{{ timeformat(item) }}</p>
+            </template>
+            <span>{{ item.time }}</span>
+          </v-tooltip>
+        </template>
       </v-data-table>
     </v-card>
   </div>
@@ -27,6 +38,7 @@
 
 <script>
 import gql from "graphql-tag";
+import { format } from "timeago.js";
 
 const MY_SUBSCRIPTION = gql`
   subscription getNewBlocks {
@@ -91,6 +103,11 @@ export default {
           this.rtblocks = data.data.block;
         }
       }
+    }
+  },
+  methods: {
+    timeformat: function(block) {
+      return format(block.time);
     }
   }
 };

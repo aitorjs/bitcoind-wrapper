@@ -18,7 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:image:rpc": "docker build -t bitcoind-rpc back/bitcoind-rpc/",
     "docker:image:zmq": "docker build -t bitcoind-zmq back/bitcoind-zmq/",
-    "docker:zmq-front": "docker build -t bitcoind-wrapper_bitcoind-zmq-front front/bitcoind-zmq/",
+    "docker:image:zmq-front": "docker build -t bitcoind-wrapper_bitcoind-zmq-front front/bitcoind-zmq/",
     "docker:up": "docker-compose up -d",
     "docker:build:up": "docker-compose up --build -d",
     "front:up:zmq": "node front/bitcoind-zmq/serve.js"

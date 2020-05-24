@@ -18,11 +18,10 @@ VUE_APP_HASURA_SCHEMA=ws://localhost:8080/v1/graphql
 - As "GraphQL server URL" add "http://bitcoind-rpc:9000/"
 - Open on a browser frontend: ```http://localhost:3031```
 
-## Generate new block xxx container on regtest
-- Enter to container with ```docker exec -it sh bash```
-- Generate new block: ```bitcoin-cli generatetoaddress number_blocks address```
+## Generate new block inside bitcoin container on regtest
+- Enter to container with ```docker exec -it bitcoind-wrapper_bitcoind_1 bash```
+- Generate new block: ```bitcoin-cli generatetoaddress [number-blocks] [address]```
 - List of all addresses of the node: ```bitcoin-cli getaddressesbylabel ""```
-
 
 ## bitcoin.conf example for regtest
 ```
