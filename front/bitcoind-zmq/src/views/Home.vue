@@ -21,14 +21,11 @@
           <p>{{ JSON.parse(item.tx).length }}</p>
         </template>
         <template v-slot:item.time="{ item }">
-          <!-- <p>{{ timeformat(item) }}</p> -->
-
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <!-- <v-btn color="primary" dark v-on="on">{{ timeformat(item) }}</v-btn> -->
-              <p v-on="on">{{ timeformat(item) }}</p>
+              <p v-on="on">{{ timeago(item.time) }}</p>
             </template>
-            <span>{{ item.time }}</span>
+            <span>{{ localtime(item.time) }}</span>
           </v-tooltip>
         </template>
       </v-data-table>
@@ -106,8 +103,23 @@ export default {
     }
   },
   methods: {
-    timeformat: function(block) {
-      return format(block.time);
+    timeago: time => {
+      return format(time);
+    },
+    localtime: time => {
+      const date = new Date(time);
+      const options = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric"
+        // hour12: false,
+        // timeZone: "Europe/Madrid"
+      };
+
+      return new Intl.DateTimeFormat(undefined, options).format(date);
     }
   }
 };
