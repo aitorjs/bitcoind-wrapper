@@ -18,7 +18,8 @@ VUE_APP_HASURA_SCHEMA=ws://localhost:8080/v1/graphql
 - Create block table inside postgreql:
 ```sh
 - docker exec -it bitcoindwrapper_postgres_1 bash
-- psql -U postgres postgres < /var/lib/postgresql/data/dbexport.pgsql
+- wget https://raw.githubusercontent.com/aitorjs/bitcoind-wrapper/master/docker/dbexport.pgsql
+- psql -U postgres postgres < dbexport.pgsql
 ```
 - Open on browser for hasura console: ```http://localhost:8080/```. ```secretkey``` is the password.
 - Inside "Data" => "Untracked tables or views", click on the "Track" button for block.
