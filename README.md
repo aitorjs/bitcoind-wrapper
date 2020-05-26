@@ -1,29 +1,39 @@
 # bitcoind-wrapper
 
+
 ## Install v0.2: hasura + cron +subscriptions for websockets and auto-api generator as lb4
-- ```git clone https://github.com/aitoribanez/bitcoind-wrapper```
+- ```git clone https://github.com/aitorjs/bitcoind-wrapper```
 - ```cd bitcoind-wrapper```
 - make .env for front/bitcoind-zmq in front/bitcoind-zmq/.env with
 ```
 VUE_APP_HASURA_PASS=secretkey
 VUE_APP_HASURA_SCHEMA=ws://localhost:8080/v1/graphql
 ```
+
 - To change the configuration or want you need inside .bitcoin, use
-```$HOME/cyphernode/bitcoin/``` folder.
+```$HOME/cyphernode/bitcoin/``` folder. Make bitcoin.conf here: <a href="#regtest">regtest</a> and <a href="#testnet">testnet</a>
 - ```docker network create back```
 - ```docker network create front```
 - ```docker-compose up --build -d```
-- Open on browser for hasura console: ```http://localhost:8080/```
+- Create block table inside postgreql:
+```sh
+- docker exec -it bitcoindwrapper_postgres_1 bash
+- psql -U postgres postgres < /var/lib/postgresql/data/dbexport.pgsql
+```
+
+- Open on browser for hasura console: ```http://localhost:8080/```. ```secretkey``` is the password.
+- Inside "Data" => "Untracked tables or views", click on the "Track" button for block.
 - Click "Remote Schemas" -> "Add"
 - As "GraphQL server URL" add "http://bitcoind-rpc:9000/"
-- Open on a browser frontend: ```http://localhost:3031```
+- Open on a browser frontend: ```http://localhost:3001```
 
 ## Generate new block inside bitcoin container on regtest
 - Enter to container with ```docker exec -it bitcoind-wrapper_bitcoind_1 bash```
 - Generate new block: ```bitcoin-cli generatetoaddress [number-blocks] [address]```
 - List of all addresses of the node: ```bitcoin-cli getaddressesbylabel ""```
+- New bech32/segwit address: ```bitcoin-cli getnewaddress "main" "bech32"```
 
-## bitcoin.conf example for regtest
+## <span id="regtest">bitcoin.conf example for regtest</span>
 ```
 # Use the regtest network, because we can generate blocks as needed.
 regtest=1
@@ -45,7 +55,7 @@ zmqpubrawblock=tcp://0.0.0.0:3001
 rpcbind=0.0.0.0:18443
 rpcallowip=0.0.0.0/0
 ```
-## bitcoin.conf example for testnet
+## <span id="testnet">bitcoin.conf example for testnet</span>
 ```
 # testnet
 testnet=1
@@ -70,6 +80,13 @@ zmqpubrawblock=tcp://0.0.0.0:3001
 # ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 rpcbind=0.0.0.0:18332
 rpcallowip=0.0.0.0/0
+```
+
+## Pre-requisites
+```
+- sudo apt-get install git docker.io docker-compose
+- sudo usermod -aG docker $USER
+- reload pc
 ```
 
 ## .cookie
