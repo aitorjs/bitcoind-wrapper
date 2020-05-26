@@ -1,7 +1,7 @@
 # bitcoind-wrapper
 
 
-## Install v0.2: hasura + cron +subscriptions for websockets and auto-api generator as lb4
+## Install v0.2: hasura + cron + subscriptions for websockets + front
 - ```git clone https://github.com/aitorjs/bitcoind-wrapper```
 - ```cd bitcoind-wrapper```
 - make .env for front/bitcoind-zmq in front/bitcoind-zmq/.env with
@@ -20,14 +20,14 @@ VUE_APP_HASURA_SCHEMA=ws://localhost:8080/v1/graphql
 - docker exec -it bitcoindwrapper_postgres_1 bash
 - psql -U postgres postgres < /var/lib/postgresql/data/dbexport.pgsql
 ```
-
 - Open on browser for hasura console: ```http://localhost:8080/```. ```secretkey``` is the password.
 - Inside "Data" => "Untracked tables or views", click on the "Track" button for block.
 - Click "Remote Schemas" -> "Add"
 - As "GraphQL server URL" add "http://bitcoind-rpc:9000/"
 - Open on a browser frontend: ```http://localhost:3001```
+- <a href="#newblock">Generate new block</a>
 
-## Generate new block inside bitcoin container on regtest
+## <span id="newblock">Generate new block inside bitcoin container on regtest</span>
 - Enter to container with ```docker exec -it bitcoind-wrapper_bitcoind_1 bash```
 - Generate new block: ```bitcoin-cli generatetoaddress [number-blocks] [address]```
 - List of all addresses of the node: ```bitcoin-cli getaddressesbylabel ""```
