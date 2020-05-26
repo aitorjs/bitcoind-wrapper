@@ -10,3 +10,8 @@
 
 ## v0.2 (23/05/2020):
 - blocknotification + graphql (hasura) with getblockcount + frontend
+
+## v0.2.1 (26/05/2020):
+- Time ago and local time added
+- Project installed successfully in a clean pc
+
