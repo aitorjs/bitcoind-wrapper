@@ -6,6 +6,35 @@ const typeDefs = gql`
   type Blockcount {
     height: Int!
   }
+  type Input {
+    coinbase: String!,
+    sequence: String!
+  }
+  type ScriptPubKey {
+    asm: String!
+    hex: String!
+    reqSigs: Int
+    type: String!
+    addresses: [String]
+  }
+  type Output {
+    value: Int!
+    n: Int!
+    scriptPubKey: ScriptPubKey!
+  }
+  type Transaction {
+    txid: String!
+    hash: String!
+    version: Int!
+    size: Int!
+    vsize: Int!
+    weight: Int!
+    locktime: Int!
+    vin: [Input!]
+    vout: [Output!]
+    hex: String!
+  }
+
   type Block {
     hash: String!
     confirmations: Int!
@@ -13,7 +42,7 @@ const typeDefs = gql`
     height: Int!
     version: Int!
     merkleroot: String!
-    tx: [String!]!
+    tx: [Transaction!]!
     time: String!
     mediantime: String!
     nonce: Int!
