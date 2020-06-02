@@ -124,5 +124,43 @@ curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "g
 ### Rebuild bitcoind-zmq-front
 - ```cd front/bitcoind-zmq```
 - ```npm run build```
-- ```docker build -t bitcoind-wrapper_bitcoind-zmq-front .```
+- ```docker build -t bitcoind-wrapper_bitcoind-zmq-front .``` ¿can delete this tep?
+- ```cd .. && cd .. && docker-compose up --build -d```
+
+### For other containers
+- ```docker stop```
 - ```docker-compose up --build -d```
+
+### getblock in graphql
+
+query MyQuery {
+  getblock(hash: "5dee5822368296e72c64bd1ba57bc6d038aecff38b0905416dfb544c3c2d2105") {
+    bits
+    tx {
+      hash
+      hex
+      locktime
+      size
+      txid
+      version
+      vsize
+      weight
+      vin {
+        coinbase
+        sequence
+      }
+      vout {
+        n
+        scriptPubKey {
+          addresses
+          asm
+          hex
+          type
+          reqSigs
+        }
+        value
+      }
+    }
+    height
+  }
+}

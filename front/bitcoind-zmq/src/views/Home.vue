@@ -13,7 +13,7 @@
         ></v-text-field>-->
       </v-card-title>
 
-      <v-data-table :headers="headers" :items="rtblocks" sortBy="height" :sortDesc="true">
+      <v-data-table :headers="headers" :items="rtblocks" sortBy="time" :sortDesc="true">
         <template v-slot:item.height="{ item }">
           <a :href="'#/hash/' + item.hash">{{item.height}}</a>
         </template>
