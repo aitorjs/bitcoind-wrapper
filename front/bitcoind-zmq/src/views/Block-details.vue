@@ -1,12 +1,15 @@
 <template>
-  <div>
-    <p class="ma-5 mb-1" style="line-height:1">Block #{{ block.height }}</p>
-    <hr />
-    <v-container class="grey lighten-5">
-      <v-row class="xs-12" justify="center" no-gutters>
+  <div class="mt-5">
+    <v-icon
+      style="font-size:44px;color:red;margin-top:-17px !important;margin-right:10px"
+    >mdi-bitcoin</v-icon>
+    <span class="mb-1 display-2" style="line-height:1">Block #{{ block.height }}</span>
+    <hr class="mb-5" />
+    <v-container>
+      <v-row class="xl-9" justify="center" no-gutters>
         <v-layout row>
-          <v-flex xs12>
-            <table>
+          <v-flex xs12 md8>
+            <table style="display:table;table-layout:fixed;width:100%;">
               <tr>
                 <td style="padding-right:40px">Hash</td>
                 <td>{{block.hash}}</td>
@@ -27,21 +30,36 @@
                 <td style="padding-right:40px">Time</td>
                 <td>{{ localtime(block.time) }}</td>
               </tr>
+              <tr>
+                <td style="padding-top: 5%">
+                  <span class="mb-3" style="line-height:1;">Transactions</span>
+                  <hr />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <v-row class="xs-12" justify="center" no-gutters>
+                    <v-layout row>
+                      <v-flex xs12 class="mt-2" style="margin-left:20px">DATA</v-flex>
+                    </v-layout>
+                  </v-row>
+                </td>
+              </tr>
             </table>
           </v-flex>
         </v-layout>
       </v-row>
     </v-container>
-
+    <!--
     <v-container class="grey lighten-5">
-      <p class="mb-1" style="line-height:1">Transactions for block #{{ block.height }}</p>
+      <p class="mb-1" style="line-height:1">Transactions</p>
       <hr />
       <v-row class="xs-12" justify="center" no-gutters>
         <v-layout row>
           <v-flex xs12 class="mt-5">DATA</v-flex>
         </v-layout>
       </v-row>
-    </v-container>
+    </v-container>-->
 
     <!--     <p class="ma-5">Block #{{ block.height }} transactions</p>
     <v-container class="grey lighten-5">

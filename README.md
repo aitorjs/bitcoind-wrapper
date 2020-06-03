@@ -119,7 +119,8 @@ curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "g
 - As "GraphQL server URL" add "http://bitcoind-rpc:9000/"
 
 ### Screenshot front/bitcoind-zmq
-![Image of Yaktocat](screenshot.png)
+![Homepage](screenshot.png)
+![Blockdetails](screenshot-block-details.png)
 
 ### Rebuild bitcoind-zmq-front
 - ```cd front/bitcoind-zmq```
