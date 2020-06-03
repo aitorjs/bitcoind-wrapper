@@ -1,17 +1,45 @@
 <template>
   <div>
-    <p class="ma-5">Block #{{ block.height }}</p>
+    <p class="ma-5 mb-1" style="line-height:1">Block #{{ block.height }}</p>
+    <hr />
     <v-container class="grey lighten-5">
       <v-row class="xs-12" justify="center" no-gutters>
-        <v-col>
-          <v-card class="pa-2" outlined tile>
-            <p>Hash: {{ block.hash }}</p>
-            <p>Confirmations: {{ block.confirmations }}</p>
-            <p>Height: #{{ block.height }}</p>
-            <p>Size: {{ block.size }} bytes</p>
-            <p>Time: {{ block.time }}</p>
-          </v-card>
-        </v-col>
+        <v-layout row>
+          <v-flex xs12>
+            <table>
+              <tr>
+                <td style="padding-right:40px">Hash</td>
+                <td>{{block.hash}}</td>
+              </tr>
+              <tr>
+                <td style="padding-right:40px">Confirmations</td>
+                <td>{{block.confirmations}}</td>
+              </tr>
+              <tr>
+                <td style="padding-right:40px">Height</td>
+                <td>#{{block.height}}</td>
+              </tr>
+              <tr>
+                <td style="padding-right:40px">Size</td>
+                <td>{{block.size}} bytes</td>
+              </tr>
+              <tr>
+                <td style="padding-right:40px">Time</td>
+                <td>{{ localtime(block.time) }}</td>
+              </tr>
+            </table>
+          </v-flex>
+        </v-layout>
+      </v-row>
+    </v-container>
+
+    <v-container class="grey lighten-5">
+      <p class="mb-1" style="line-height:1">Transactions for block #{{ block.height }}</p>
+      <hr />
+      <v-row class="xs-12" justify="center" no-gutters>
+        <v-layout row>
+          <v-flex xs12 class="mt-5">DATA</v-flex>
+        </v-layout>
       </v-row>
     </v-container>
 
@@ -61,6 +89,26 @@ export default {
       error(error) {
         this.error = JSON.stringify(error.message);
       }
+    }
+  },
+  methods: {
+    localtime: time => {
+      if (!time) return null;
+
+      console.log("date", time);
+      const date = new Date(time * 1000);
+      const options = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: false,
+        timeZone: "Europe/Madrid"
+      };
+
+      return new Intl.DateTimeFormat(undefined, options).format(date);
     }
   }
 };
