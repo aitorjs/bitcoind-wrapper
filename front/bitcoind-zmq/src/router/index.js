@@ -11,6 +11,11 @@ const routes = [
     component: () => import(/*webpackChunkName: "home" */ '../views/Home.vue')
   },
   {
+    path: '/block/:hash',
+    name: 'Block-details',
+    component: () => import(/*webpackChunkName: "block-details" */ '../views/Block-details.vue')
+  },
+  {
     path: '/home2',
     name: 'Home2',
     component: () => import(/*webpackChunkName: "home2" */ '../views/HomeVuetify.vue')
@@ -30,7 +35,6 @@ const routes = [
     name: 'Tareas-crud',
     component: () => import(/*webpackChunkName: "grid" */ '../views/Tareas-crud.vue')
   }
-
 ]
 
 const router = new VueRouter({

@@ -15,7 +15,7 @@
 
       <v-data-table :headers="headers" :items="rtblocks" sortBy="time" :sortDesc="true">
         <template v-slot:item.height="{ item }">
-          <a :href="'#/hash/' + item.hash">{{item.height}}</a>
+          <router-link :to="`/block/${item.hash}`">{{item.height}}</router-link>
         </template>
         <template v-slot:item.tx="{ item }">
           <p>{{ JSON.parse(item.tx).length }}</p>
