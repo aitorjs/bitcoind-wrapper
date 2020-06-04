@@ -13,46 +13,46 @@
       <v-row class="xl-9" justify="center" no-gutters>
         <v-layout row>
           <v-flex xs12>
-            <table style="display:table;table-layout:fixed;width:100%">
-              <tr>
-                <td style="padding-right:40px">HEIGHT</td>
-                <td style="float:right">{{block.height}}</td>
+            <table style="display:table;table-layout:fixed;width:100%;border-collapse:collapse">
+              <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
+                <td style="padding:10px;padding-right:40px">HEIGHT</td>
+                <td style="padding:10px;float:right">{{block.height}}</td>
               </tr>
-              <tr>
-                <td style="padding-right:40px">SIZE</td>
-                <td style="float:right">{{block.size}} bytes</td>
+              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                <td style="padding:10px;padding-right:40px">SIZE</td>
+                <td style="padding:10px;float:right">{{block.size}} bytes</td>
               </tr>
-              <tr>
-                <td style="padding-right:40px">TIME</td>
-                <td style="float:right">{{ localtime(block.time) }}</td>
+              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                <td style="padding:10px;padding-right:40px">TIME</td>
+                <td style="padding:10px;float:right">{{ localtime(block.time) }}</td>
               </tr>
-              <tr>
-                <td style="padding-right:40px">MEDIAN TIME</td>
-                <td style="float:right">{{ localtime(block.mediantime) }}</td>
+              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                <td style="padding:10px;padding-right:40px">MEDIAN TIME</td>
+                <td style="padding:10px;float:right">{{ localtime(block.mediantime) }}</td>
               </tr>
-              <tr>
-                <td style="padding-right:40px">MERKLE ROOT</td>
-                <td style="float:right">{{ block.merkleroot }}</td>
+              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                <td style="padding:10px;padding-right:40px">MERKLE ROOT</td>
+                <td style="padding:10px;float:right">{{ block.merkleroot }}</td>
               </tr>
-              <tr>
-                <td style="padding-right:40px">PREVIOUS BLOCK HASH</td>
-                <td style="float:right">{{ block.previousblockhash }}</td>
+              <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
+                <td style="padding:10px;padding-right:40px">PREVIOUS BLOCK HASH</td>
+                <td style="padding:10px;float:right">{{ block.previousblockhash }}</td>
               </tr>
-              <tr>
-                <td style="padding-right:40px">DIFFICULTY</td>
-                <td style="float:right">{{ block.difficulty }}</td>
+              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                <td style="padding:10px;padding-right:40px">DIFFICULTY</td>
+                <td style="padding:10px;float:right">{{ block.difficulty }}</td>
               </tr>
-              <tr>
-                <td style="padding-right:40px">BITS</td>
-                <td style="float:right">{{ block.bits }}</td>
+              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                <td style="padding:10px;padding-right:40px">BITS</td>
+                <td style="padding:10px;float:right">{{ block.bits }}</td>
               </tr>
-              <tr>
-                <td style="padding-right:40px">NONCE</td>
-                <td style="float:right">{{ block.nonce }}</td>
+              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                <td style="padding:10px;padding-right:40px">NONCE</td>
+                <td style="padding:10px;float:right">{{ block.nonce }}</td>
               </tr>
-              <tr>
-                <td style="padding-right:40px">CONFIRMATIONS</td>
-                <td style="float:right">{{block.confirmations}}</td>
+              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                <td style="padding:10px;padding-right:40px">CONFIRMATIONS</td>
+                <td style="padding:10px;float:right">{{block.confirmations}}</td>
               </tr>
             </table>
 
@@ -62,8 +62,8 @@
                   <span class="mb-5 title">{{block.tx.length}} OF {{block.tx.length}} TRANSACTIONS</span>
                 </v-col>
               </v-row>
-              <v-row no-gutters>
-                <v-col v-for="tx in block.tx" :key="tx.txid" style="background-color:lightgrey">
+              <v-row no-gutters v-for="tx in block.tx" :key="tx.txid">
+                <v-col style="background-color:lightgrey">
                   <div class="pa-3" style="background-color:darkgrey">{{tx.txid}}</div>
                   <v-container style="width:100%" class="pa-3">
                     <v-row no-gutters>
