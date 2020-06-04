@@ -30,7 +30,7 @@
       </v-layout>
     </v-navigation-drawer>
 
-    <v-content style="margin-left:15%;margin-right:10%">
+    <v-content style="margin: 0 50px 0 50px;">
       <router-view />
     </v-content>
   </v-app>
