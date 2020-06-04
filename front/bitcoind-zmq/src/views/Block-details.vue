@@ -3,14 +3,14 @@
     <v-icon style="font-size:44px;color:red;margin-top:-23px;margin-right:10px">mdi-bitcoin</v-icon>
     <span class="mb-1 display-2" style="line-height:1">Block {{ block.height }}</span>
     <p style="border-bottom: 1px solid black;">
-      <span class="body-2">{{block.hash}}</span>
+      <span class="body-2" style="word-break: break-word">{{block.hash}}</span>
       <span>
         <v-icon style="font-size:14px;color:red;margin-left:10px;margin-top:-2px">mdi-content-copy</v-icon>
       </span>
     </p>
 
     <v-container>
-      <v-row class="xl-9" justify="center" no-gutters>
+      <v-row justify="center" no-gutters>
         <v-layout row>
           <v-flex xs12>
             <table style="display:table;table-layout:fixed;width:100%;border-collapse:collapse">
@@ -32,15 +32,17 @@
               </tr>
               <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                 <td style="padding:10px;padding-right:40px">MERKLE ROOT</td>
-                <td style="padding:10px;float:right">{{ block.merkleroot }}</td>
+                <td style="padding:10px;float:right;word-break: break-word;">{{ block.merkleroot }}</td>
               </tr>
               <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
                 <td style="padding:10px;padding-right:40px">PREVIOUS BLOCK HASH</td>
-                <td style="padding:10px;float:right">{{ block.previousblockhash }}</td>
+                <td
+                  style="padding:10px;float:right;word-break: break-word;"
+                >{{ block.previousblockhash }}</td>
               </tr>
               <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                 <td style="padding:10px;padding-right:40px">DIFFICULTY</td>
-                <td style="padding:10px;float:right">{{ block.difficulty }}</td>
+                <td style="padding:10px;float:right;word-break: break-word;">{{ block.difficulty }}</td>
               </tr>
               <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                 <td style="padding:10px;padding-right:40px">BITS</td>
@@ -64,7 +66,10 @@
               </v-row>
               <v-row no-gutters v-for="tx in block.tx" :key="tx.txid">
                 <v-col style="background-color:lightgrey">
-                  <div class="pa-3" style="background-color:darkgrey">{{tx.txid}}</div>
+                  <div
+                    class="pa-3"
+                    style="background-color:darkgrey;word-break: break-word"
+                  >{{tx.txid}}</div>
                   <v-container style="width:100%" class="pa-3">
                     <v-row no-gutters>
                       <!-- vin -->
@@ -79,13 +84,16 @@
                       <!-- vout -->
                       <v-col style="float:right;width:50%">
                         <div v-for="output in tx.vout" :key="output.n">
-                          <p style="background-color:aliceblue;padding:5px 5px 5px 20px;">
+                          <p
+                            style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:10px"
+                          >
                             <span>#{{output.n}} -</span>
                             <span v-if="output.scriptPubKey.addresses === null">OP_RETURN -</span>
                             <span v-else>
                               <span
                                 v-for="address in output.scriptPubKey.addresses"
                                 :key="address"
+                                style="word-break: break-word"
                               >{{address}} -</span>
                             </span>
                             <span>{{output.value}} BTC</span>
