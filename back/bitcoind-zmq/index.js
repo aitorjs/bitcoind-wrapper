@@ -62,7 +62,9 @@ const QUERY = gql`
       mediantime
       nonce
       time
-      tx
+      tx {
+        hash
+      }
       merkleroot
       previousblockhash
     }
