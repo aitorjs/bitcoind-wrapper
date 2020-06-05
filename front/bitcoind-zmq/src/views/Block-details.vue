@@ -14,32 +14,32 @@
           <v-flex xs12>
             <v-expansion-panels>
               <v-expansion-panel>
-                <v-expansion-panel-header>
+                <v-expansion-panel-header id="header">
                   <table style="display:table;width:100%;border-collapse:collapse">
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
-                      <td style="padding: 15px 40px 15px 10px;">HEIGHT</td>
+                      <td style="padding: 15px 5px 15px 15px">HEIGHT</td>
                       <td style="padding:15px;float:right">{{block.height}}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 15px 40px 15px 10px;">SIZE</td>
+                      <td style="padding: 15px 5px 15px 15px;">SIZE</td>
                       <td style="padding:15px;float:right">{{block.size}} bytes</td>
                     </tr>
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 15px 40px 15px 10px;">TIME</td>
+                      <td style="padding: 15px 5px 15px 15px;">TIME</td>
                       <td style="padding:15px;float:right">{{ localtime(block.time) }}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 15px 40px 15px 10px;">MEDIAN TIME</td>
+                      <td style="padding: 15px 5px 15px 15px;">MEDIAN TIME</td>
                       <td style="padding:15px;float:right">{{ localtime(block.mediantime) }}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 15px 40px 15px 10px;">MERKLE ROOT</td>
+                      <td style="padding: 15px 5px 15px 15px;">MERKLE ROOT</td>
                       <td
                         style="padding:15px;float:right;word-break: break-word;"
                       >{{ block.merkleroot }}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
-                      <td style="padding: 15px 40px 15px 10px;">PREVIOUS BLOCK HASH</td>
+                      <td style="padding: 15px 5px 15px 15px;">PREVIOUS BLOCK HASH</td>
                       <td
                         style="padding:15px;float:right;word-break: break-word;"
                       >{{ block.previousblockhash }}</td>
@@ -47,7 +47,7 @@
                   </table>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <table style="display:table;width:101%;border-collapse:collapse">
+                  <table style="display:table;width:100%;border-collapse:collapse">
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                       <td style="padding: 10px 40px 10px 10px;">DIFFICULTY</td>
                       <td
@@ -243,10 +243,12 @@ export default {
 };
 </script>
 <style>
-/* .v-application--is-ltr .v-expansion-panel-header__icon {
-  margin-top: -369px !important;
-  width: 1% !important;
-} */
+#header
+  div.v-expansion-panel-header__icon
+  i.v-icon.notranslate.mdi.mdi-chevron-down.theme--light {
+  top: -187px;
+  position: relative;
+}
 .v-expansion-panel::before {
   border-radius: none;
   box-shadow: none !important;
