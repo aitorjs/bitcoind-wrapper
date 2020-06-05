@@ -8,57 +8,85 @@
         <v-icon style="font-size:14px;color:red;margin-left:10px;margin-top:-2px">mdi-content-copy</v-icon>
       </span>
     </p>
-
     <v-container>
-      <v-row justify="center" no-gutters>
+      <v-row no-gutters>
         <v-layout row>
           <v-flex xs12>
-            <table style="display:table;table-layout:fixed;width:100%;border-collapse:collapse">
-              <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
-                <td style="padding:10px;padding-right:40px">HEIGHT</td>
-                <td style="padding:10px;float:right">{{block.height}}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                <td style="padding:10px;padding-right:40px">SIZE</td>
-                <td style="padding:10px;float:right">{{block.size}} bytes</td>
-              </tr>
-              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                <td style="padding:10px;padding-right:40px">TIME</td>
-                <td style="padding:10px;float:right">{{ localtime(block.time) }}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                <td style="padding:10px;padding-right:40px">MEDIAN TIME</td>
-                <td style="padding:10px;float:right">{{ localtime(block.mediantime) }}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                <td style="padding:10px;padding-right:40px">MERKLE ROOT</td>
-                <td style="padding:10px;float:right;word-break: break-word;">{{ block.merkleroot }}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
-                <td style="padding:10px;padding-right:40px">PREVIOUS BLOCK HASH</td>
-                <td
-                  style="padding:10px;float:right;word-break: break-word;"
-                >{{ block.previousblockhash }}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                <td style="padding:10px;padding-right:40px">DIFFICULTY</td>
-                <td style="padding:10px;float:right;word-break: break-word;">{{ block.difficulty }}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                <td style="padding:10px;padding-right:40px">BITS</td>
-                <td style="padding:10px;float:right">{{ block.bits }}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                <td style="padding:10px;padding-right:40px">NONCE</td>
-                <td style="padding:10px;float:right">{{ block.nonce }}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                <td style="padding:10px;padding-right:40px">CONFIRMATIONS</td>
-                <td style="padding:10px;float:right">{{block.confirmations}}</td>
-              </tr>
-            </table>
-
-            <v-container class="grey lighten-5" style="margin-top:20px">
+            <v-expansion-panels>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  <table style="display:table;width:100%;border-collapse:collapse">
+                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
+                      <td style="padding: 15px 40px 15px 10px;">HEIGHT</td>
+                      <td style="padding:15px;float:right">{{block.height}}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                      <td style="padding: 15px 40px 15px 10px;">SIZE</td>
+                      <td style="padding:15px;float:right">{{block.size}} bytes</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                      <td style="padding: 15px 40px 15px 10px;">TIME</td>
+                      <td style="padding:15px;float:right">{{ localtime(block.time) }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                      <td style="padding: 15px 40px 15px 10px;">MEDIAN TIME</td>
+                      <td style="padding:15px;float:right">{{ localtime(block.mediantime) }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                      <td style="padding: 15px 40px 15px 10px;">MERKLE ROOT</td>
+                      <td
+                        style="padding:15px;float:right;word-break: break-word;"
+                      >{{ block.merkleroot }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
+                      <td style="padding: 15px 40px 15px 10px;">PREVIOUS BLOCK HASH</td>
+                      <td
+                        style="padding:15px;float:right;word-break: break-word;"
+                      >{{ block.previousblockhash }}</td>
+                    </tr>
+                  </table>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <table style="display:table;width:101%;border-collapse:collapse">
+                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                      <td style="padding: 10px 40px 10px 10px;">DIFFICULTY</td>
+                      <td
+                        style="padding:10px;float:right;word-break: break-word;"
+                      >{{ block.difficulty }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                      <td style="padding: 10px 40px 10px 10px;">BITS</td>
+                      <td style="padding:10px;float:right">{{ block.bits }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                      <td style="padding: 10px 40px 10px 10px;">NONCE</td>
+                      <td style="padding:10px;float:right">{{ block.nonce }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                      <td style="padding: 10px 40px 10px 10px;">CONFIRMATIONS</td>
+                      <td style="padding:10px;float:right">{{block.confirmations}}</td>
+                    </tr>
+                  </table>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <!--   <v-expansion-panel>
+        <v-expansion-panel-header>Item</v-expansion-panel-header>
+        <v-expansion-panel-content>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header>Item</v-expansion-panel-header>
+        <v-expansion-panel-content>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-expansion-panel-content>
+              </v-expansion-panel>-->
+            </v-expansion-panels>
+          </v-flex>
+        </v-layout>
+      </v-row>
+    </v-container>
+    <v-container>
+      <v-row no-gutters>
+        <v-layout row>
+          <v-flex xs12>
+            <v-container class="grey lighten-5" style="margin-top:-15px">
               <v-row no-gutters>
                 <v-col class="mb-5">
                   <span class="mb-5 title">{{block.tx.length}} OF {{block.tx.length}} TRANSACTIONS</span>
@@ -198,3 +226,21 @@ export default {
   }
 };
 </script>
+<style>
+.v-application--is-ltr .v-expansion-panel-header__icon {
+  margin-top: -369px !important;
+  width: 1% !important;
+}
+.v-expansion-panel::before {
+  border-radius: none;
+  box-shadow: none !important;
+  -webkit-box-shadow: none;
+}
+.v-expansion-panel-header {
+  padding: 0 !important;
+  font-size: 1em !important;
+}
+.v-expansion-panel-content__wrap {
+  padding: 0 25px 16px 0 !important;
+}
+</style>
