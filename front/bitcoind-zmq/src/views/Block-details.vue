@@ -69,74 +69,79 @@
                   </table>
                 </v-expansion-panel-content>
               </v-expansion-panel>
-              <!--   <v-expansion-panel>
-        <v-expansion-panel-header>Item</v-expansion-panel-header>
-        <v-expansion-panel-content>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-expansion-panel-content>
-      </v-expansion-panel>
-      <v-expansion-panel>
-        <v-expansion-panel-header>Item</v-expansion-panel-header>
-        <v-expansion-panel-content>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-expansion-panel-content>
-              </v-expansion-panel>-->
             </v-expansion-panels>
           </v-flex>
         </v-layout>
       </v-row>
     </v-container>
-    <v-container>
-      <v-row no-gutters>
-        <v-layout row>
-          <v-flex xs12>
-            <v-container class="grey lighten-5" style="margin-top:-15px">
-              <v-row no-gutters>
-                <v-col class="mb-5">
-                  <span class="mb-5 title">{{block.tx.length}} OF {{block.tx.length}} TRANSACTIONS</span>
-                </v-col>
-              </v-row>
-              <v-row no-gutters v-for="tx in block.tx" :key="tx.txid">
-                <v-col style="background-color:lightgrey">
-                  <div
-                    class="pa-3"
-                    style="background-color:darkgrey;word-break: break-word"
-                  >{{tx.txid}}</div>
-                  <v-container style="width:100%" class="pa-3">
-                    <v-row no-gutters>
-                      <!-- vin -->
-                      <v-col style="float:left;width:50%">
-                        <div
-                          v-for="input in tx.vin"
-                          :key="input.sequence"
-                          style="background-color:lightgoldenrodyellow;padding:5px 5px 5px 20px;margin-right:40px;"
-                        >COINBASE</div>
-                      </v-col>
 
-                      <!-- vout -->
-                      <v-col style="float:right;width:50%">
-                        <div v-for="output in tx.vout" :key="output.n">
-                          <p
-                            style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:10px"
+    <v-expansion-panels v-model="panel" multiple>
+      <v-container>
+        <v-row no-gutters>
+          <v-layout row>
+            <v-flex xs12>
+              <v-container class="grey lighten-5" style="margin-top:-15px">
+                <v-row no-gutters>
+                  <v-col class="mb-5">
+                    <span class="mb-5 title">{{block.tx.length}} OF {{block.tx.length}} TRANSACTIONS</span>
+                  </v-col>
+                </v-row>
+                <v-row no-gutters v-for="tx in block.tx" :key="tx.txid">
+                  <v-col style="background-color:lightgrey">
+                    <div class="pa-3" style="background-color:darkgrey;word-break: break-word">
+                      {{tx.txid}} -
+                      <div class="text-center d-flex pb-4">
+                        <v-btn @click="all">all</v-btn>
+                        <v-btn @click="none">none</v-btn>
+                        <div>{{ panel }}</div>
+                      </div>
+                    </div>
+                    <v-container style="width:100%" class="pa-3">
+                      <v-row no-gutters>
+                        <!-- vin -->
+                        <v-col style="float:left;width:50%">
+                          <v-expansion-panel
+                            v-for="input in tx.vin"
+                            :key="input.sequence"
+                            style="background-color:lightgoldenrodyellow;padding:5px 5px 5px 20px;margin-right:40px;"
                           >
-                            <span>#{{output.n}} -</span>
-                            <span v-if="output.scriptPubKey.addresses === null">OP_RETURN -</span>
-                            <span v-else>
-                              <span
-                                v-for="address in output.scriptPubKey.addresses"
-                                :key="address"
-                                style="word-break: break-word"
-                              >{{address}} -</span>
-                            </span>
-                            <span>{{output.value}} BTC</span>
-                          </p>
-                        </div>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-flex>
-        </v-layout>
-      </v-row>
-    </v-container>
+                            <v-expansion-panel-header>COINBASE</v-expansion-panel-header>
+                            <v-expansion-panel-content>{{input}}</v-expansion-panel-content>
+                          </v-expansion-panel>
+                        </v-col>
+
+                        <!-- vout -->
+                        <v-col style="float:right;width:50%">
+                          <v-expansion-panel v-for="output in tx.vout" :key="output.n">
+                            <v-expansion-panel-header>
+                              <p
+                                style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:10px"
+                              >
+                                <span>#{{output.n}} -</span>
+                                <span v-if="output.scriptPubKey.addresses === null">OP_RETURN -</span>
+                                <span v-else>
+                                  <span
+                                    v-for="address in output.scriptPubKey.addresses"
+                                    :key="address"
+                                    style="word-break: break-word"
+                                  >{{address}} -</span>
+                                </span>
+                                <span>{{output.value}} BTC</span>
+                              </p>
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>{{output}}</v-expansion-panel-content>
+                          </v-expansion-panel>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-flex>
+          </v-layout>
+        </v-row>
+      </v-container>
+    </v-expansion-panels>
   </div>
 </template>
 
@@ -187,7 +192,9 @@ const MY_QUERY = gql`
 export default {
   data() {
     return {
-      block: {}
+      block: {},
+      panel: [],
+      items: 5
     };
   },
   apollo: {
@@ -222,15 +229,24 @@ export default {
       };
 
       return new Intl.DateTimeFormat(undefined, options).format(date);
+    },
+    // Create an array the length of our items
+    // with all values as true
+    all() {
+      this.panel = [...Array(this.items).keys()].map((k, i) => i);
+    },
+    // Reset the panel
+    none() {
+      this.panel = [];
     }
   }
 };
 </script>
 <style>
-.v-application--is-ltr .v-expansion-panel-header__icon {
+/* .v-application--is-ltr .v-expansion-panel-header__icon {
   margin-top: -369px !important;
   width: 1% !important;
-}
+} */
 .v-expansion-panel::before {
   border-radius: none;
   box-shadow: none !important;
