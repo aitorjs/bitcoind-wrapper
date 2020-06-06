@@ -103,7 +103,7 @@
                           <v-expansion-panel
                             v-for="input in tx.vin"
                             :key="input.sequence"
-                            style="background-color:lightgoldenrodyellow;padding:5px 5px 5px 20px;margin-right:40px;"
+                            style="background-color:lightgoldenrodyellow;padding:0 0 0 0;margin-right:40px;"
                           >
                             <v-expansion-panel-header>COINBASE</v-expansion-panel-header>
                             <v-expansion-panel-content>
@@ -112,18 +112,18 @@
                                   style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
                                 >
                                   <td
-                                    style="width:50%;float:left;word-break:break-word;margin-bottom: 15px;"
+                                    style="width:48%;float:left;word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;"
                                   >COINBASE</td>
                                   <td
-                                    style="width:50%;float:right;word-break:break-word;margin-bottom:15px;"
+                                    style="float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
                                   >{{input.coinbase}}</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                                   <td
-                                    style="width:50%;float:left;word-break:break-word;margin-bottom:15px;"
+                                    style="width:48%;float:left;word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;"
                                   >SEQUENCE</td>
                                   <td
-                                    style="width:50%;float:right;word-break:break-word;margin-bottom:15px;"
+                                    style="float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
                                   >{{input.sequence}}</td>
                                 </tr>
                               </table>
@@ -140,7 +140,7 @@
                           >
                             <v-expansion-panel-header>
                               <p
-                                style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:-2px"
+                                style="background-color:lightslategrey;padding:5px 5px 5px 20px;margin-bottom:-2px"
                               >
                                 <span class="mr-1">#{{output.n}} -</span>
                                 <span
@@ -163,29 +163,21 @@
                                   style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
                                 >
                                   <td
-                                    style="width:40%;float:left;word-break:break-word;margin-bottom: 15px;"
+                                    style="width:39%;float:left;word-break:break-word;margin-bottom: 15px;color:pink;padding:5px;margin-left: 3px;margin-top: 3px;"
                                   >SCRIPTPUBKEY (ASM)</td>
                                   <td
-                                    style="width:60%;float:right;word-break:break-word;margin-bottom:15px;"
+                                    style="width:60%;float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
                                   >{{output.scriptPubKey.asm}}</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                                   <td
-                                    style="width:40%;float:left;word-break:break-word;margin-bottom:15px;"
+                                    style="width:39%;float:left;word-break:break-word;margin-bottom:15px;margin-left: 3px;margin-bottom: 7px;margin-top: 7px;"
                                   >SCRIPTPUBKEY (HEX)</td>
                                   <td
-                                    style="width:60%;float:right;word-break:break-word;margin-bottom:15px;"
+                                    style="width:60%;float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
                                   >{{output.scriptPubKey.hex}}</td>
                                 </tr>
                               </table>
-                              <!--   <p style="word-break:break-word">
-                                <span style="width:50%;float:left">SCRIPTPUBKEY (ASM)</span>
-                                <span style="width:50%;float:right">{{output.scriptPubKey.asm}}</span>
-                              </p>
-                              <p style="word-break:break-word">
-                                <span style="width:50%;float:left">SCRIPTPUBKEY (HEX)</span>
-                                <span style="width:50%;float:right">{{output.scriptPubKey.hex}}</span>
-                              </p>-->
                             </v-expansion-panel-content>
                           </v-expansion-panel>
                         </v-col>
@@ -315,7 +307,11 @@ export default {
   font-size: 1em !important;
 }
 .v-expansion-panel-content__wrap {
-  padding: 0 25px 16px 0 !important;
+  padding: 0 10px 10px 0 !important;
+}
+button.v-expansion-panel-header {
+  background-color: lightslategrey !important;
+  /*padding-left: 7px !important;*/
 }
 /* body {
   counter-reset: txcnt;
