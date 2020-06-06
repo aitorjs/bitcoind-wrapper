@@ -106,30 +106,87 @@
                             style="background-color:lightgoldenrodyellow;padding:5px 5px 5px 20px;margin-right:40px;"
                           >
                             <v-expansion-panel-header>COINBASE</v-expansion-panel-header>
-                            <v-expansion-panel-content>{{input}}</v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                              <table style="display:table;width:100%;border-collapse:collapse">
+                                <tr
+                                  style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
+                                >
+                                  <td
+                                    style="width:50%;float:left;word-break:break-word;margin-bottom: 15px;"
+                                  >COINBASE</td>
+                                  <td
+                                    style="width:50%;float:right;word-break:break-word;margin-bottom:15px;"
+                                  >{{input.coinbase}}</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                                  <td
+                                    style="width:50%;float:left;word-break:break-word;margin-bottom:15px;"
+                                  >SEQUENCE</td>
+                                  <td
+                                    style="width:50%;float:right;word-break:break-word;margin-bottom:15px;"
+                                  >{{input.sequence}}</td>
+                                </tr>
+                              </table>
+                            </v-expansion-panel-content>
                           </v-expansion-panel>
                         </v-col>
 
                         <!-- vout -->
                         <v-col style="float:right;width:50%">
-                          <v-expansion-panel v-for="output in tx.vout" :key="output.n">
+                          <v-expansion-panel
+                            v-for="output in tx.vout"
+                            :key="output.n"
+                            style="background-color:aliceblue;"
+                          >
                             <v-expansion-panel-header>
                               <p
-                                style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:10px"
+                                style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:-2px"
                               >
-                                <span>#{{output.n}} -</span>
-                                <span v-if="output.scriptPubKey.addresses === null">OP_RETURN -</span>
+                                <span class="mr-1">#{{output.n}} -</span>
+                                <span
+                                  class="mr-1"
+                                  v-if="output.scriptPubKey.addresses === null"
+                                >OP_RETURN -</span>
                                 <span v-else>
                                   <span
                                     v-for="address in output.scriptPubKey.addresses"
                                     :key="address"
-                                    style="word-break: break-word"
+                                    style="word-break:break-word"
                                   >{{address}} -</span>
                                 </span>
                                 <span>{{output.value}} BTC</span>
                               </p>
                             </v-expansion-panel-header>
-                            <v-expansion-panel-content>{{output}}</v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                              <table style="display:table;width:100%;border-collapse:collapse">
+                                <tr
+                                  style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
+                                >
+                                  <td
+                                    style="width:40%;float:left;word-break:break-word;margin-bottom: 15px;"
+                                  >SCRIPTPUBKEY (ASM)</td>
+                                  <td
+                                    style="width:60%;float:right;word-break:break-word;margin-bottom:15px;"
+                                  >{{output.scriptPubKey.asm}}</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                                  <td
+                                    style="width:40%;float:left;word-break:break-word;margin-bottom:15px;"
+                                  >SCRIPTPUBKEY (HEX)</td>
+                                  <td
+                                    style="width:60%;float:right;word-break:break-word;margin-bottom:15px;"
+                                  >{{output.scriptPubKey.hex}}</td>
+                                </tr>
+                              </table>
+                              <!--   <p style="word-break:break-word">
+                                <span style="width:50%;float:left">SCRIPTPUBKEY (ASM)</span>
+                                <span style="width:50%;float:right">{{output.scriptPubKey.asm}}</span>
+                              </p>
+                              <p style="word-break:break-word">
+                                <span style="width:50%;float:left">SCRIPTPUBKEY (HEX)</span>
+                                <span style="width:50%;float:right">{{output.scriptPubKey.hex}}</span>
+                              </p>-->
+                            </v-expansion-panel-content>
                           </v-expansion-panel>
                         </v-col>
                       </v-row>
@@ -250,9 +307,8 @@ export default {
   position: relative;
 }
 .v-expansion-panel::before {
-  border-radius: none;
   box-shadow: none !important;
-  -webkit-box-shadow: none;
+  -webkit-box-shadow: none !important;
 }
 .v-expansion-panel-header {
   padding: 0 !important;
@@ -261,4 +317,11 @@ export default {
 .v-expansion-panel-content__wrap {
   padding: 0 25px 16px 0 !important;
 }
+/* body {
+  counter-reset: txcnt;
+}
+.v-application .mr-1::before {
+  content: "#" counter(txcnt) "- ";
+  counter-increment: txcnt;
+} */
 </style>
