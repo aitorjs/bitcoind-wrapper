@@ -89,12 +89,14 @@
                 <v-row no-gutters v-for="tx in block.tx" :key="tx.txid">
                   <v-col style="background-color:lightgrey">
                     <div class="pa-3" style="background-color:darkgrey;word-break: break-word">
-                      {{tx.txid}} -
-                      <div class="text-center d-flex pb-4">
-                        <v-btn @click="all">all</v-btn>
-                        <v-btn @click="none">none</v-btn>
-                        <div>{{ panel }}</div>
-                      </div>
+                      {{tx.txid}}
+                      <i
+                        id="header-expansor"
+                        @click="evaluate"
+                        :class="eval === 'down' ? 'mdi-chevron-down':'mdi-chevron-up'"
+                        aria-hidden="true"
+                        class="v-icon notranslate mdi theme--light"
+                      ></i>
                     </div>
                     <v-container style="width:100%" class="pa-3">
                       <v-row no-gutters>
@@ -239,7 +241,8 @@ export default {
     return {
       block: {},
       panel: [],
-      items: 5
+      items: 5,
+      eval: "down"
     };
   },
   apollo: {
@@ -283,6 +286,15 @@ export default {
     // Reset the panel
     none() {
       this.panel = [];
+    },
+    evaluate() {
+      if (this.eval === "down") {
+        this.eval = "up";
+        this.all();
+      } else {
+        this.eval = "down";
+        this.none();
+      }
     }
   }
 };
@@ -311,6 +323,9 @@ button#tx-output.v-expansion-panel-header {
 }
 .v-expansion-panel-content__wrap {
   padding: 0 10px 10px 0 !important;
+}
+#header-expansor {
+  float: right;
 }
 /* body {
   counter-reset: txcnt;
