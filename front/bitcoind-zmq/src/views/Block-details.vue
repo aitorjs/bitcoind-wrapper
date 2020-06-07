@@ -11,6 +11,9 @@
     <v-container>
       <v-row no-gutters>
         <v-layout row>
+          <v-btn color="primary" dark :to="`/block/${block.previousblockhash}`">
+            <v-icon small dark left>mdi-arrow-left</v-icon>PREVIOUS
+          </v-btn>
           <v-flex xs12>
             <v-expansion-panels>
               <v-expansion-panel>
@@ -18,7 +21,12 @@
                   <table style="display:table;width:100%;border-collapse:collapse">
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
                       <td style="padding: 15px 5px 15px 15px">HEIGHT</td>
-                      <td style="padding:15px;float:right">{{block.height}}</td>
+                      <td style="padding:15px;float:right">
+                        <router-link
+                          @click.native.stop="''"
+                          :to="`/block/${block.hash}`"
+                        >{{block.height}}</router-link>
+                      </td>
                     </tr>
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                       <td style="padding: 15px 5px 15px 15px;">SIZE</td>
@@ -37,12 +45,6 @@
                       <td
                         style="padding:15px;float:right;word-break: break-word;"
                       >{{ block.merkleroot }}</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
-                      <td style="padding: 15px 5px 15px 15px;">PREVIOUS BLOCK HASH</td>
-                      <td
-                        style="padding:15px;float:right;word-break: break-word;"
-                      >{{ block.previousblockhash }}</td>
                     </tr>
                   </table>
                 </v-expansion-panel-header>
@@ -303,7 +305,7 @@ export default {
 #header
   div.v-expansion-panel-header__icon
   i.v-icon.notranslate.mdi.mdi-chevron-down.theme--light {
-  top: -187px;
+  top: -195px;
   position: relative;
 }
 .v-expansion-panel::before {
@@ -326,6 +328,7 @@ button#tx-output.v-expansion-panel-header {
 }
 #header-expansor {
   float: right;
+  cursor: pointer;
 }
 /* body {
   counter-reset: txcnt;
