@@ -51,22 +51,22 @@
                 <v-expansion-panel-content>
                   <table style="display:table;width:100%;border-collapse:collapse">
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 10px 40px 10px 10px;">DIFFICULTY</td>
+                      <td style="padding: 10px 40px 10px 15px;">DIFFICULTY</td>
                       <td
-                        style="padding:10px;float:right;word-break: break-word;"
+                        style="padding:10px 30px 10px 10px;float:right;word-break: break-word;"
                       >{{ block.difficulty }}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 10px 40px 10px 10px;">BITS</td>
-                      <td style="padding:10px;float:right">{{ block.bits }}</td>
+                      <td style="padding: 10px 40px 10px 15px;">BITS</td>
+                      <td style="padding:10px 30px 10px 10px;float:right">{{ block.bits }}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 10px 40px 10px 10px;">NONCE</td>
-                      <td style="padding:10px;float:right">{{ block.nonce }}</td>
+                      <td style="padding: 10px 40px 10px 15px;">NONCE</td>
+                      <td style="padding:10px 30px 10px 10px;float:right">{{ block.nonce }}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 10px 40px 10px 10px;">CONFIRMATIONS</td>
-                      <td style="padding:10px;float:right">{{block.confirmations}}</td>
+                      <td style="padding: 10px 40px 10px 15px;">CONFIRMATIONS</td>
+                      <td style="padding:10px 30px 10px 10px;float:right">{{block.confirmations}}</td>
                     </tr>
                   </table>
                 </v-expansion-panel-content>
@@ -163,18 +163,18 @@
                                   style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
                                 >
                                   <td
-                                    style="width:39%;float:left;word-break:break-word;margin-bottom: 15px;color:pink;padding:5px;margin-left: 3px;margin-top: 3px;"
+                                    style="width:39%;float:left;word-break:break-word;margin-bottom: 15px;padding:5px;margin-left:3px;margin-top:3px;"
                                   >SCRIPTPUBKEY (ASM)</td>
                                   <td
-                                    style="width:60%;float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
+                                    style="width:60%;float:right;word-break:break-word;margin-bottom:7px;margin-top:7px;"
                                   >{{output.scriptPubKey.asm}}</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                                   <td
-                                    style="width:39%;float:left;word-break:break-word;margin-bottom:15px;margin-left: 3px;margin-bottom: 7px;margin-top: 7px;"
+                                    style="width:39%;float:left;word-break:break-word;margin-bottom:15px;margin-left:3px;margin-bottom:7px;margin-top:7px;"
                                   >SCRIPTPUBKEY (HEX)</td>
                                   <td
-                                    style="width:60%;float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
+                                    style="width:60%;float:right;word-break:break-word;margin-bottom:7px;margin-top:7px;"
                                   >{{output.scriptPubKey.hex}}</td>
                                 </tr>
                               </table>
