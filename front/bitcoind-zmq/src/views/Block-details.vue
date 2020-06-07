@@ -64,10 +64,6 @@
                       <td style="padding: 10px 40px 10px 15px;">NONCE</td>
                       <td style="padding:10px 30px 10px 10px;float:right">{{ block.nonce }}</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 10px 40px 10px 15px;">CONFIRMATIONS</td>
-                      <td style="padding:10px 30px 10px 10px;float:right">{{block.confirmations}}</td>
-                    </tr>
                   </table>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -88,8 +84,13 @@
                     <span class="mb-5 title">{{block.tx.length}} OF {{block.tx.length}} TRANSACTIONS</span>
                   </v-col>
                 </v-row>
-                <v-row no-gutters v-for="tx in block.tx" :key="tx.txid">
-                  <v-col style="background-color:lightgrey">
+                <v-row
+                  no-gutters
+                  v-for="tx in block.tx"
+                  :key="tx.txid"
+                  style="background-color:lightgrey"
+                >
+                  <v-col>
                     <div class="pa-3" style="background-color:darkgrey;word-break: break-word">
                       {{tx.txid}}
                       <i
@@ -183,6 +184,15 @@
                         </v-col>
                       </v-row>
                     </v-container>
+                  </v-col>
+                </v-row>
+                <v-row no-gutters style="background-color:lightgrey;text-align:right">
+                  <v-col>
+                    <v-chip class="ma-2" color="pink" label text-color="white">
+                      <v-icon left>mdi-checkbox-marked-circle</v-icon>
+                      {{block.confirmations}} CONFIRMATIONS
+                    </v-chip>
+                    <v-chip class="ma-2" color="pink" label text-color="white">50 BTC</v-chip>
                   </v-col>
                 </v-row>
               </v-container>

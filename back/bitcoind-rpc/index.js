@@ -7,7 +7,7 @@ const typeDefs = gql`
     height: Int!
   }
   type Input {
-    coinbase: String!,
+    coinbase: String,
     sequence: String!
   }
   type ScriptPubKey {
