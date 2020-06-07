@@ -103,9 +103,9 @@
                           <v-expansion-panel
                             v-for="input in tx.vin"
                             :key="input.sequence"
-                            style="background-color:lightgoldenrodyellow;padding:0 0 0 0;margin-right:40px;"
+                            style="padding:0 0 0 0;margin-right:40px;"
                           >
-                            <v-expansion-panel-header>COINBASE</v-expansion-panel-header>
+                            <v-expansion-panel-header id="tx-input">COINBASE</v-expansion-panel-header>
                             <v-expansion-panel-content>
                               <table style="display:table;width:100%;border-collapse:collapse">
                                 <tr
@@ -133,14 +133,10 @@
 
                         <!-- vout -->
                         <v-col style="float:right;width:50%">
-                          <v-expansion-panel
-                            v-for="output in tx.vout"
-                            :key="output.n"
-                            style="background-color:aliceblue;"
-                          >
-                            <v-expansion-panel-header>
+                          <v-expansion-panel v-for="output in tx.vout" :key="output.n">
+                            <v-expansion-panel-header id="tx-output">
                               <p
-                                style="background-color:lightslategrey;padding:5px 5px 5px 20px;margin-bottom:-2px"
+                                style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:-2px"
                               >
                                 <span class="mr-1">#{{output.n}} -</span>
                                 <span
@@ -306,12 +302,15 @@ export default {
   padding: 0 !important;
   font-size: 1em !important;
 }
+button#tx-input.v-expansion-panel-header {
+  background-color: lightgoldenrodyellow !important;
+  /*padding-left: 7px !important;*/
+}
+button#tx-output.v-expansion-panel-header {
+  background-color: aliceblue !important;
+}
 .v-expansion-panel-content__wrap {
   padding: 0 10px 10px 0 !important;
-}
-button.v-expansion-panel-header {
-  background-color: lightslategrey !important;
-  /*padding-left: 7px !important;*/
 }
 /* body {
   counter-reset: txcnt;
