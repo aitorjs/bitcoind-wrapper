@@ -6,8 +6,16 @@ const typeDefs = gql`
   type Blockcount {
     height: Int!
   }
+  type ScriptSig {
+    asm: String!
+    hex: String!
+  }
   type Input {
-    coinbase: String,
+    coinbase: String
+    txid: String
+    vout: Int
+    scriptSig: ScriptSig
+    txinwitness: [String]
     sequence: String!
   }
   type ScriptPubKey {
@@ -18,7 +26,7 @@ const typeDefs = gql`
     addresses: [String]
   }
   type Output {
-    value: Int!
+    value: Float!
     n: Int!
     scriptPubKey: ScriptPubKey!
   }

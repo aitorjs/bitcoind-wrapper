@@ -188,11 +188,11 @@
                 </v-row>
                 <v-row no-gutters style="background-color:lightgrey;text-align:right">
                   <v-col>
-                    <v-chip class="ma-2" color="pink" label text-color="white">
+                    <v-chip class="ma-2" color="grey" label text-color="white">
                       <v-icon left>mdi-checkbox-marked-circle</v-icon>
                       {{block.confirmations}} CONFIRMATIONS
                     </v-chip>
-                    <v-chip class="ma-2" color="pink" label text-color="white">50 BTC</v-chip>
+                    <v-chip class="ma-2" color="grey" label text-color="white">50 BTC</v-chip>
                   </v-col>
                 </v-row>
               </v-container>
@@ -230,8 +230,15 @@ const MY_QUERY = gql`
         vsize
         weight
         vin {
-          coinbase
           sequence
+          txinwitness
+          coinbase
+          txid
+          vout
+          scriptSig {
+            asm
+            hex
+          }
         }
         vout {
           n
