@@ -78,123 +78,125 @@
         <v-row no-gutters>
           <v-layout row>
             <v-flex xs12>
-              <v-container class="grey lighten-5" style="margin-top:-15px">
+              <v-container>
                 <v-row no-gutters>
                   <v-col class="mb-5">
                     <span class="mb-5 title">{{block.tx.length}} OF {{block.tx.length}} TRANSACTIONS</span>
                   </v-col>
                 </v-row>
-                <v-row
-                  no-gutters
+                <v-container
+                  class="grey lighten-5"
+                  style="margin-top:-15px"
                   v-for="tx in block.tx"
                   :key="tx.txid"
-                  style="background-color:lightgrey"
                 >
-                  <v-col>
-                    <div class="pa-3" style="background-color:darkgrey;word-break: break-word">
-                      {{tx.txid}}
-                      <i
-                        id="header-expansor"
-                        @click="evaluate"
-                        :class="eval === 'down' ? 'mdi-chevron-down':'mdi-chevron-up'"
-                        aria-hidden="true"
-                        class="v-icon notranslate mdi theme--light"
-                      ></i>
-                    </div>
-                    <v-container style="width:100%" class="pa-3">
-                      <v-row no-gutters>
-                        <!-- vin -->
-                        <v-col style="float:left;width:50%">
-                          <v-expansion-panel
-                            v-for="input in tx.vin"
-                            :key="input.sequence"
-                            style="padding:0 0 0 0;margin-right:40px;"
-                          >
-                            <v-expansion-panel-header id="tx-input">COINBASE</v-expansion-panel-header>
-                            <v-expansion-panel-content>
-                              <table style="display:table;width:100%;border-collapse:collapse">
-                                <tr
-                                  style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
-                                >
-                                  <td
-                                    style="width:48%;float:left;word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;"
-                                  >COINBASE</td>
-                                  <td
-                                    style="float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
-                                  >{{input.coinbase}}</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                                  <td
-                                    style="width:48%;float:left;word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;"
-                                  >SEQUENCE</td>
-                                  <td
-                                    style="float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
-                                  >{{input.sequence}}</td>
-                                </tr>
-                              </table>
-                            </v-expansion-panel-content>
-                          </v-expansion-panel>
-                        </v-col>
+                  <v-row no-gutters style="background-color:lightgrey">
+                    <v-col>
+                      <div class="pa-3" style="background-color:darkgrey;word-break: break-word">
+                        {{tx.txid}}
+                        <i
+                          id="header-expansor"
+                          @click="evaluate"
+                          :class="eval === 'down' ? 'mdi-chevron-down':'mdi-chevron-up'"
+                          aria-hidden="true"
+                          class="v-icon notranslate mdi theme--light"
+                        ></i>
+                      </div>
+                      <v-container style="width:100%" class="pa-3">
+                        <v-row no-gutters>
+                          <!-- vin -->
+                          <v-col style="float:left;width:50%">
+                            <v-expansion-panel
+                              v-for="input in tx.vin"
+                              :key="input.sequence"
+                              style="padding:0 0 0 0;margin-right:40px;"
+                            >
+                              <v-expansion-panel-header id="tx-input">COINBASE</v-expansion-panel-header>
+                              <v-expansion-panel-content>
+                                <table style="display:table;width:100%;border-collapse:collapse">
+                                  <tr
+                                    style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
+                                  >
+                                    <td
+                                      style="width:48%;float:left;word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;"
+                                    >COINBASE</td>
+                                    <td
+                                      style="float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
+                                    >{{input.coinbase}}</td>
+                                  </tr>
+                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                                    <td
+                                      style="width:48%;float:left;word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;"
+                                    >SEQUENCE</td>
+                                    <td
+                                      style="float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
+                                    >{{input.sequence}}</td>
+                                  </tr>
+                                </table>
+                              </v-expansion-panel-content>
+                            </v-expansion-panel>
+                          </v-col>
 
-                        <!-- vout -->
-                        <v-col style="float:right;width:50%">
-                          <v-expansion-panel v-for="output in tx.vout" :key="output.n">
-                            <v-expansion-panel-header id="tx-output">
-                              <p
-                                style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:-2px"
-                              >
-                                <span class="mr-1">#{{output.n}} -</span>
-                                <span
-                                  class="mr-1"
-                                  v-if="output.scriptPubKey.addresses === null"
-                                >OP_RETURN -</span>
-                                <span v-else>
-                                  <span
-                                    v-for="address in output.scriptPubKey.addresses"
-                                    :key="address"
-                                    style="word-break:break-word"
-                                  >{{address}} -</span>
-                                </span>
-                                <span>{{output.value}} BTC</span>
-                              </p>
-                            </v-expansion-panel-header>
-                            <v-expansion-panel-content>
-                              <table style="display:table;width:100%;border-collapse:collapse">
-                                <tr
-                                  style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
+                          <!-- vout -->
+                          <v-col style="float:right;width:50%">
+                            <v-expansion-panel v-for="output in tx.vout" :key="output.n">
+                              <v-expansion-panel-header id="tx-output">
+                                <p
+                                  style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:-2px"
                                 >
-                                  <td
-                                    style="width:39%;float:left;word-break:break-word;margin-bottom: 15px;padding:5px;margin-left:3px;margin-top:3px;"
-                                  >SCRIPTPUBKEY (ASM)</td>
-                                  <td
-                                    style="width:60%;float:right;word-break:break-word;margin-bottom:7px;margin-top:7px;"
-                                  >{{output.scriptPubKey.asm}}</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                                  <td
-                                    style="width:39%;float:left;word-break:break-word;margin-bottom:15px;margin-left:3px;margin-bottom:7px;margin-top:7px;"
-                                  >SCRIPTPUBKEY (HEX)</td>
-                                  <td
-                                    style="width:60%;float:right;word-break:break-word;margin-bottom:7px;margin-top:7px;"
-                                  >{{output.scriptPubKey.hex}}</td>
-                                </tr>
-                              </table>
-                            </v-expansion-panel-content>
-                          </v-expansion-panel>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-col>
-                </v-row>
-                <v-row no-gutters style="background-color:lightgrey;text-align:right">
-                  <v-col>
-                    <v-chip class="ma-2" color="grey" label text-color="white">
-                      <v-icon left>mdi-checkbox-marked-circle</v-icon>
-                      {{block.confirmations}} CONFIRMATIONS
-                    </v-chip>
-                    <v-chip class="ma-2" color="grey" label text-color="white">50 BTC</v-chip>
-                  </v-col>
-                </v-row>
+                                  <span class="mr-1">#{{output.n}} -</span>
+                                  <span
+                                    class="mr-1"
+                                    v-if="output.scriptPubKey.addresses === null"
+                                  >OP_RETURN -</span>
+                                  <span v-else>
+                                    <span
+                                      v-for="address in output.scriptPubKey.addresses"
+                                      :key="address"
+                                      style="word-break:break-word"
+                                    >{{address}} -</span>
+                                  </span>
+                                  <span>{{output.value}} BTC</span>
+                                </p>
+                              </v-expansion-panel-header>
+                              <v-expansion-panel-content>
+                                <table style="display:table;width:100%;border-collapse:collapse">
+                                  <tr
+                                    style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
+                                  >
+                                    <td
+                                      style="width:39%;float:left;word-break:break-word;margin-bottom: 15px;padding:5px;margin-left:3px;margin-top:3px;"
+                                    >SCRIPTPUBKEY (ASM)</td>
+                                    <td
+                                      style="width:60%;float:right;word-break:break-word;margin-bottom:7px;margin-top:7px;"
+                                    >{{output.scriptPubKey.asm}}</td>
+                                  </tr>
+                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                                    <td
+                                      style="width:39%;float:left;word-break:break-word;margin-bottom:15px;margin-left:3px;margin-bottom:7px;margin-top:7px;"
+                                    >SCRIPTPUBKEY (HEX)</td>
+                                    <td
+                                      style="width:60%;float:right;word-break:break-word;margin-bottom:7px;margin-top:7px;"
+                                    >{{output.scriptPubKey.hex}}</td>
+                                  </tr>
+                                </table>
+                              </v-expansion-panel-content>
+                            </v-expansion-panel>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-col>
+                  </v-row>
+                  <v-row no-gutters style="background-color:lightgrey;text-align:right">
+                    <v-col>
+                      <v-chip class="ma-2" color="grey" label text-color="white">
+                        <v-icon left>mdi-checkbox-marked-circle</v-icon>
+                        {{block.confirmations}} CONFIRMATIONS
+                      </v-chip>
+                      <v-chip class="ma-2" color="grey" label text-color="white">50 BTC</v-chip>
+                    </v-col>
+                  </v-row>
+                </v-container>
               </v-container>
             </v-flex>
           </v-layout>
