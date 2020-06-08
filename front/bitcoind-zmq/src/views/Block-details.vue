@@ -284,7 +284,7 @@ export default {
     setTimeout(() => {
       this.panel = new Array(this.block.tx.length).fill(0);
       this.eval = new Array(this.block.tx.length).fill("down");
-    }, 1000);
+    }, 100);
   },
   methods: {
     localtime: time => {
