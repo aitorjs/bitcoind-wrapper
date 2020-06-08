@@ -11,7 +11,12 @@
     <v-container>
       <v-row no-gutters>
         <v-layout row>
-          <v-btn color="primary" dark :to="`/block/${block.previousblockhash}`">
+          <v-btn
+            color="primary"
+            dark
+            @click="_emptyPanel()"
+            :to="`/block/${block.previousblockhash}`"
+          >
             <v-icon small dark left>mdi-arrow-left</v-icon>PREVIOUS
           </v-btn>
           <v-flex xs12>
@@ -281,10 +286,12 @@ export default {
     }
   },
   created() {
-    setTimeout(() => {
-      this.panel = new Array(this.block.tx.length).fill(0);
-      this.eval = new Array(this.block.tx.length).fill("down");
-    }, 100);
+    setTimeout(() => this._emptyPanel(), 1000);
+  },
+  watch: {
+    $route() {
+      setTimeout(() => this._emptyPanel(), 1000);
+    }
   },
   methods: {
     localtime: time => {
@@ -328,6 +335,10 @@ export default {
         this.eval[x] = "down";
         this.none(x);
       }
+    },
+    _emptyPanel() {
+      this.panel = new Array(this.block.tx.length).fill(0);
+      this.eval = new Array(this.block.tx.length).fill("down");
     }
   }
 };
