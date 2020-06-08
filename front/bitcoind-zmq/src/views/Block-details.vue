@@ -73,30 +73,30 @@
       </v-row>
     </v-container>
 
-    <v-expansion-panels v-model="panel" multiple>
-      <v-container>
-        <v-row no-gutters>
-          <v-layout row>
-            <v-flex xs12>
-              <v-container>
-                <v-row no-gutters>
-                  <v-col class="mb-5">
-                    <span class="mb-5 title">{{block.tx.length}} OF {{block.tx.length}} TRANSACTIONS</span>
-                  </v-col>
-                </v-row>
-                <v-container
-                  class="grey lighten-5"
-                  style="margin-top:-15px"
-                  v-for="tx in block.tx"
-                  :key="tx.txid"
-                >
+    <v-container>
+      <v-row no-gutters>
+        <v-layout row>
+          <v-flex xs12>
+            <v-container>
+              <v-row no-gutters>
+                <v-col class="mb-5">
+                  <span class="mb-5 title">{{block.tx.length}} OF {{block.tx.length}} TRANSACTIONS</span>
+                </v-col>
+              </v-row>
+              <v-container
+                class="grey lighten-5"
+                style="margin-top:-15px"
+                v-for="(tx,x) in block.tx"
+                :key="tx.txid"
+              >
+                <v-expansion-panels v-model="panel[x]" multiple>
                   <v-row no-gutters style="background-color:lightgrey">
                     <v-col>
                       <div class="pa-3" style="background-color:darkgrey;word-break: break-word">
                         {{tx.txid}}
                         <i
                           id="header-expansor"
-                          @click="evaluate"
+                          @click="evaluate(x)"
                           :class="eval === 'down' ? 'mdi-chevron-down':'mdi-chevron-up'"
                           aria-hidden="true"
                           class="v-icon notranslate mdi theme--light"
@@ -196,13 +196,13 @@
                       <v-chip class="ma-2" color="grey" label text-color="white">50 BTC</v-chip>
                     </v-col>
                   </v-row>
-                </v-container>
+                </v-expansion-panels>
               </v-container>
-            </v-flex>
-          </v-layout>
-        </v-row>
-      </v-container>
-    </v-expansion-panels>
+            </v-container>
+          </v-flex>
+        </v-layout>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -263,7 +263,8 @@ export default {
       block: {},
       panel: [],
       items: 5,
-      eval: "down"
+      eval: "down",
+      eval2: ["down", "down"]
     };
   },
   apollo: {
@@ -301,20 +302,41 @@ export default {
     },
     // Create an array the length of our items
     // with all values as true
-    all() {
-      this.panel = [...Array(this.items).keys()].map((k, i) => i);
+    all(x) {
+      // this.panel[x] = [];
+      this.panel[x] = [...Array(this.items).keys()].map((k, i) => i);
+      console.log("all", this.panel, x);
     },
     // Reset the panel
-    none() {
-      this.panel = [];
+    none(x) {
+      this.panel[x] = [];
+      console.log("none", this.panel, x);
     },
-    evaluate() {
-      if (this.eval === "down") {
+    evaluate(x) {
+      // return this.all(x);
+      console.log("data", this.eval2[x]);
+      if (this.eval2[x] === "down") {
+        console.log("go to open", x);
         this.eval = "up";
-        this.all();
-      } else {
+        this.eval2[x] = "up";
+        this.all(x);
+        // this.none(x);
+        // this.all(x);
+        //debugger;
+        console.log("data2", this.eval2[x]);
+      } /*  else if (this.eval2[x] === undefined) {
+        console.log("go to open on undefined", x);
+        this.eval2[x] = "up";
+        this.eval = "up";
+        this.all(x);
+      } */ else {
+        console.log("go to close", x);
+        this.eval2[x] = "down";
         this.eval = "down";
-        this.none();
+        this.none(x);
+        // this.all(x);
+        // this.none(x);
+        console.log("data2", this.eval2[x]);
       }
     }
   }
