@@ -97,7 +97,7 @@
                         <i
                           id="header-expansor"
                           @click="evaluate(x)"
-                          :class="eval === 'down' ? 'mdi-chevron-down':'mdi-chevron-up'"
+                          :class="eval[x] === 'down' ? 'mdi-chevron-down':'mdi-chevron-up'"
                           aria-hidden="true"
                           class="v-icon notranslate mdi theme--light"
                         ></i>
@@ -263,8 +263,7 @@ export default {
       block: {},
       panel: [],
       items: 5,
-      eval: "down",
-      eval2: ["down", "down"]
+      eval: []
     };
   },
   apollo: {
@@ -280,6 +279,12 @@ export default {
         this.error = JSON.stringify(error.message);
       }
     }
+  },
+  created() {
+    setTimeout(() => {
+      this.panel = new Array(this.block.tx.length).fill(0);
+      this.eval = new Array(this.block.tx.length).fill("down");
+    }, 1000);
   },
   methods: {
     localtime: time => {
@@ -303,40 +308,25 @@ export default {
     // Create an array the length of our items
     // with all values as true
     all(x) {
-      // this.panel[x] = [];
-      this.panel[x] = [...Array(this.items).keys()].map((k, i) => i);
-      console.log("all", this.panel, x);
+      const newdata = [...Array(this.items).keys()].map((k, i) => i);
+
+      if (this.panel[x] !== undefined) {
+        this.panel.splice(x, 1, newdata);
+      } else {
+        this.panel.push(newdata);
+      }
     },
     // Reset the panel
     none(x) {
-      this.panel[x] = [];
-      console.log("none", this.panel, x);
+      this.panel.splice(x, 1, []);
     },
     evaluate(x) {
-      // return this.all(x);
-      console.log("data", this.eval2[x]);
-      if (this.eval2[x] === "down") {
-        console.log("go to open", x);
-        this.eval = "up";
-        this.eval2[x] = "up";
+      if (this.eval[x] === "down") {
+        this.eval[x] = "up";
         this.all(x);
-        // this.none(x);
-        // this.all(x);
-        //debugger;
-        console.log("data2", this.eval2[x]);
-      } /*  else if (this.eval2[x] === undefined) {
-        console.log("go to open on undefined", x);
-        this.eval2[x] = "up";
-        this.eval = "up";
-        this.all(x);
-      } */ else {
-        console.log("go to close", x);
-        this.eval2[x] = "down";
-        this.eval = "down";
+      } else {
+        this.eval[x] = "down";
         this.none(x);
-        // this.all(x);
-        // this.none(x);
-        console.log("data2", this.eval2[x]);
       }
     }
   }
