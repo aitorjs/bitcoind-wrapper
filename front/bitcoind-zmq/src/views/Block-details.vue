@@ -116,8 +116,19 @@
                               :key="input.sequence"
                               style="padding:0 0 0 0;margin-right:40px;"
                             >
-                              <v-expansion-panel-header id="tx-input">COINBASE</v-expansion-panel-header>
-                              <v-expansion-panel-content>
+                              <v-expansion-panel-header
+                                id="tx-input"
+                                v-if="input.coinbase !== null"
+                              >COINBASE</v-expansion-panel-header>
+                              <v-expansion-panel-header id="tx-input" v-else>
+                                <p
+                                  style="background-color:lightgoldenrodyellow;padding:5px 5px 5px 20px;margin-bottom:0px"
+                                >
+                                  <span class="mr-1">#{{input.vout}} -</span>
+                                  <span class="mr-1" style="word-break:break-word;">{{input.txid}}</span>
+                                </p>
+                              </v-expansion-panel-header>
+                              <v-expansion-panel-content v-if="input.coinbase !== null">
                                 <table style="display:table;width:100%;border-collapse:collapse">
                                   <tr
                                     style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
@@ -139,6 +150,38 @@
                                   </tr>
                                 </table>
                               </v-expansion-panel-content>
+                              <v-expansion-panel-content v-else>
+                                <table style="display:table;width:100%;border-collapse:collapse">
+                                  <tr
+                                    style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
+                                  >
+                                    <td
+                                      style="width:48%;float:left;padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;"
+                                    >SCRIPTSIG (ASM)</td>
+                                    <td
+                                      style="word-break:break-word;margin-bottom:7px;margin-top:7px;"
+                                    >{{input.scriptSig.asm}}</td>
+                                  </tr>
+                                  <tr
+                                    style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
+                                  >
+                                    <td
+                                      style="width:48%;float:left;padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;"
+                                    >SCRIPTSIG (HEX)</td>
+                                    <td
+                                      style="word-break:break-word;margin-bottom:7px;margin-top:7px;"
+                                    >{{input.scriptSig.hex}}</td>
+                                  </tr>
+                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                                    <td
+                                      style="width:48%;float:left;padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;"
+                                    >SEQUENCE</td>
+                                    <td
+                                      style="word-break:break-word;margin-bottom:7px;margin-top:7px;"
+                                    >{{input.sequence}}</td>
+                                  </tr>
+                                </table>
+                              </v-expansion-panel-content>
                             </v-expansion-panel>
                           </v-col>
 
@@ -147,7 +190,7 @@
                             <v-expansion-panel v-for="output in tx.vout" :key="output.n">
                               <v-expansion-panel-header id="tx-output">
                                 <p
-                                  style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:-2px"
+                                  style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:0"
                                 >
                                   <span class="mr-1">#{{output.n}} -</span>
                                   <span
@@ -161,7 +204,7 @@
                                       style="word-break:break-word"
                                     >{{address}} -</span>
                                   </span>
-                                  <span>{{output.value}} BTC</span>
+                                  <span>{{output.value}} tBTC</span>
                                 </p>
                               </v-expansion-panel-header>
                               <v-expansion-panel-content>
@@ -195,7 +238,7 @@
                               <v-icon left>mdi-checkbox-marked-circle</v-icon>
                               {{block.confirmations}} CONFIRMATIONS
                             </v-chip>
-                            <v-chip class="ma-2" color="grey" label text-color="white">50 BTC</v-chip>
+                            <v-chip class="ma-2" color="grey" label text-color="white">50 tBTC</v-chip>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -284,6 +327,7 @@ export default {
         if (data.getblock === undefined) {
           this.$router.push("/");
         }
+        console.log("block data", data.getblock);
       },
       error(error) {
         this.error = JSON.stringify(error.message);
