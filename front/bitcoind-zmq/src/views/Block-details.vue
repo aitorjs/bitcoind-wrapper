@@ -280,6 +280,11 @@ export default {
         };
       },
       update: data => data.getblock,
+      result({ data }) {
+        if (data.getblock === undefined) {
+          this.$router.push("/");
+        }
+      },
       error(error) {
         this.error = JSON.stringify(error.message);
       }
