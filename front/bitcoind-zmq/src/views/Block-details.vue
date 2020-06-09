@@ -20,7 +20,7 @@
             <v-icon small dark left>mdi-arrow-left</v-icon>PREVIOUS
           </v-btn>
           <v-flex xs12>
-            <v-expansion-panels>
+            <v-expansion-panels v-model="headerpanel">
               <v-expansion-panel>
                 <v-expansion-panel-header id="header">
                   <table style="display:table;width:100%;border-collapse:collapse">
@@ -311,7 +311,8 @@ export default {
       block: {},
       panel: [],
       items: 5,
-      eval: []
+      eval: [],
+      headerpanel: 1
     };
   },
   apollo: {
@@ -388,6 +389,7 @@ export default {
     _emptyPanel() {
       this.panel = new Array(this.block.tx.length).fill(0);
       this.eval = new Array(this.block.tx.length).fill("down");
+      this.headerpanel = 1;
     }
   }
 };
