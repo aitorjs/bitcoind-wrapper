@@ -238,7 +238,12 @@
                               <v-icon left>mdi-checkbox-marked-circle</v-icon>
                               {{block.confirmations}} CONFIRMATIONS
                             </v-chip>
-                            <v-chip class="ma-2" color="grey" label text-color="white">50 tBTC</v-chip>
+                            <v-chip
+                              class="ma-2"
+                              color="grey"
+                              label
+                              text-color="white"
+                            >{{total[x]}} tBTC</v-chip>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -312,7 +317,8 @@ export default {
       panel: [],
       items: 5,
       eval: [],
-      headerpanel: 1
+      headerpanel: 1,
+      total: []
     };
   },
   apollo: {
@@ -328,7 +334,6 @@ export default {
         if (data.getblock === undefined) {
           this.$router.push("/");
         }
-        console.log("block data", data.getblock);
       },
       error(error) {
         this.error = JSON.stringify(error.message);
@@ -336,11 +341,17 @@ export default {
     }
   },
   created() {
-    setTimeout(() => this._emptyPanel(), 1000);
+    setTimeout(() => {
+      this._emptyPanel();
+      this._txtotals();
+    }, 500);
   },
   watch: {
     $route() {
-      setTimeout(() => this._emptyPanel(), 1000);
+      setTimeout(() => {
+        this._emptyPanel();
+        this._txtotals();
+      }, 500);
     }
   },
   methods: {
@@ -389,7 +400,14 @@ export default {
     _emptyPanel() {
       this.panel = new Array(this.block.tx.length).fill(0);
       this.eval = new Array(this.block.tx.length).fill("down");
+      this.total = new Array(this.block.tx.length).fill(0);
       this.headerpanel = 1;
+    },
+    _txtotals() {
+      this.block.tx.map((tx, k) => {
+        // console.log("txa", tx);
+        tx.vout.map(v => (this.total[k] += v.value));
+      });
     }
   }
 };
