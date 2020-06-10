@@ -60,4 +60,12 @@ export default {
   z-index: 9;
   border-radius: 0;
 }
+/* table,
+thead,
+tbody,
+th,
+td,
+tr {
+  display: block;
+} */
 </style>
