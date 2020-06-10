@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5">
+  <div class="mt-5" v-if="!$apollo.queries.block.loading">
     <v-icon style="font-size:44px;color:red;margin-top:-23px;margin-right:10px">mdi-bitcoin</v-icon>
     <span class="mb-1 display-2" style="line-height:1">Block {{ block.height }}</span>
     <p style="border-bottom: 1px solid black;">
@@ -257,6 +257,7 @@
       </v-row>
     </v-container>
   </div>
+  <div v-else>Loading...</div>
 </template>
 
 <script>

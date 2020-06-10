@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="home" v-if="!$apollo.subscriptions.newBlocks.loading">
     <v-card>
       <v-card-title>
         Blocks in real time
@@ -31,6 +31,7 @@
       </v-data-table>
     </v-card>
   </div>
+  <div v-else>Loading...</div>
 </template>
 
 <script>
@@ -101,6 +102,9 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    console.log(this.$apollo);
   },
   methods: {
     timeago: time => {
