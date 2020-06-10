@@ -29,8 +29,8 @@
         </v-flex>
       </v-layout>
     </v-navigation-drawer>
-
     <v-content style="margin: 0 50px 0 50px;">
+      <FlashMessage></FlashMessage>
       <router-view />
     </v-content>
   </v-app>
@@ -46,3 +46,18 @@ export default {
   }
 };
 </script>
+<style>
+._vue-flash-msg-body__icon {
+  background-color: #f56969 !important;
+}
+._vue-flash-msg-body__icon img {
+  width: 40% !important;
+}
+._vue-flash-msg-body._vue-flash-msg-body_error ._vue-flash-msg-body__content {
+  border-left: none !important;
+}
+._vue-flash-msg-body {
+  z-index: 9;
+  border-radius: 0;
+}
+</style>
