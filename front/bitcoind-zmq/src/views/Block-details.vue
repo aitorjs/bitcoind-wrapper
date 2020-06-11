@@ -108,9 +108,9 @@
                         ></i>
                       </div>
                       <v-container style="width:100%" class="pa-3">
-                        <v-row no-gutters>
+                        <v-row>
                           <!-- vin -->
-                          <v-col style="float:left;width:50%">
+                          <v-col>
                             <v-expansion-panel
                               v-for="input in tx.vin"
                               :key="input.sequence"
@@ -129,56 +129,52 @@
                                 </p>
                               </v-expansion-panel-header>
                               <v-expansion-panel-content v-if="input.coinbase !== null">
-                                <table style="display:table;width:100%;border-collapse:collapse">
+                                <table
+                                  style="display:table;width:100%;border-collapse:collapse"
+                                  id="inputcollasecoinbase"
+                                >
                                   <tr
-                                    style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
+                                    style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235)"
                                   >
                                     <td
-                                      style="width:48%;float:left;word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;"
+                                      style="word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;font-weight: 300;"
                                     >COINBASE</td>
-                                    <td
-                                      style="float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
-                                    >{{input.coinbase}}</td>
+                                    <td style="word-break:break-word;margin:7px;">{{input.coinbase}}</td>
                                   </tr>
-                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235)">
                                     <td
-                                      style="width:48%;float:left;word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;"
+                                      style="word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;font-weight: 300;"
                                     >SEQUENCE</td>
-                                    <td
-                                      style="float:right;word-break:break-word;margin-bottom: 7px;margin-top: 7px;"
-                                    >{{input.sequence}}</td>
+                                    <td style="word-break:break-word;margin:7px;">{{input.sequence}}</td>
                                   </tr>
                                 </table>
                               </v-expansion-panel-content>
                               <v-expansion-panel-content v-else>
-                                <table style="display:table;width:100%;border-collapse:collapse">
-                                  <tr
-                                    style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
-                                  >
+                                <table
+                                  style="display:table;width:100%;border-collapse:collapse"
+                                  id="outputcollase"
+                                >
+                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                                     <td
-                                      style="width:48%;float:left;padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;"
+                                      style="padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;font-weight: 300;"
                                     >SCRIPTSIG (ASM)</td>
                                     <td
-                                      style="word-break:break-word;margin-bottom:7px;margin-top:7px;"
+                                      style="word-break:break-word;margin:7px;"
                                     >{{input.scriptSig.asm}}</td>
                                   </tr>
-                                  <tr
-                                    style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
-                                  >
+                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                                     <td
-                                      style="width:48%;float:left;padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;"
+                                      style="padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;font-weight: 300;"
                                     >SCRIPTSIG (HEX)</td>
                                     <td
-                                      style="word-break:break-word;margin-bottom:7px;margin-top:7px;"
+                                      style="word-break:break-word;margin:7px;"
                                     >{{input.scriptSig.hex}}</td>
                                   </tr>
                                   <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
                                     <td
-                                      style="width:48%;float:left;padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;"
+                                      style="padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;font-weight: 300;"
                                     >SEQUENCE</td>
-                                    <td
-                                      style="word-break:break-word;margin-bottom:7px;margin-top:7px;"
-                                    >{{input.sequence}}</td>
+                                    <td style="word-break:break-word;margin:7px;">{{input.sequence}}</td>
                                   </tr>
                                 </table>
                               </v-expansion-panel-content>
@@ -186,7 +182,7 @@
                           </v-col>
 
                           <!-- vout -->
-                          <v-col style="float:right;width:50%">
+                          <v-col>
                             <v-expansion-panel v-for="output in tx.vout" :key="output.n">
                               <v-expansion-panel-header id="tx-output">
                                 <p
@@ -208,23 +204,24 @@
                                 </p>
                               </v-expansion-panel-header>
                               <v-expansion-panel-content>
-                                <table style="display:table;width:100%;border-collapse:collapse">
-                                  <tr
-                                    style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235);"
-                                  >
+                                <table
+                                  style="display:table;width:100%;border-collapse:collapse"
+                                  id="outputcollase"
+                                >
+                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235)">
                                     <td
-                                      style="width:39%;float:left;word-break:break-word;margin-bottom: 15px;padding:5px;margin-left:3px;margin-top:3px;"
+                                      style="word-break:break-word;margin-bottom:15px;padding:5px;margin:3px;font-weight: 300;min-width: 69px;"
                                     >SCRIPTPUBKEY (ASM)</td>
                                     <td
-                                      style="width:60%;float:right;word-break:break-word;margin-bottom:7px;margin-top:7px;"
+                                      style="word-break:break-word;margin:7px;"
                                     >{{output.scriptPubKey.asm}}</td>
                                   </tr>
-                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
+                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235)">
                                     <td
-                                      style="width:39%;float:left;word-break:break-word;margin-bottom:15px;margin-left:3px;margin-bottom:7px;margin-top:7px;"
+                                      style="word-break:break-word;margin-bottom:15px;padding:5px;margin:3px;font-weight: 300;min-width: 69px;"
                                     >SCRIPTPUBKEY (HEX)</td>
                                     <td
-                                      style="width:60%;float:right;word-break:break-word;margin-bottom:7px;margin-top:7px;"
+                                      style="word-break:break-word;margin:7px;"
                                     >{{output.scriptPubKey.hex}}</td>
                                   </tr>
                                 </table>
@@ -459,4 +456,50 @@ button#tx-output.v-expansion-panel-header {
   content: "#" counter(txcnt) "- ";
   counter-increment: txcnt;
 } */
+
+@media only screen and (max-width: 600px) {
+  /*   body {
+    background-color: red !important;
+  } */
+  .v-content {
+    margin: 0 2px 0 2px !important;
+  }
+  #inputcollasecoinbase tr {
+    display: grid;
+  }
+  #inputcollasecoinbase tr td:nth-child(1) {
+    /* font-weight: 300; */
+    border-bottom: 1px solid rgb(223, 227, 235);
+  }
+  #inputcollasecoinbase tr td {
+    text-align: center;
+  }
+  #outputcollase tr {
+    display: grid;
+  }
+  #outputcollase tr td {
+    text-align: center;
+  }
+  #outputcollase tr td:nth-child(1) {
+    /* font-weight: 300; */
+    border-bottom: 1px solid rgb(223, 227, 235);
+  }
+  .v-expansion-panel {
+    margin-right: 5px !important;
+  }
+  div.container.pa-3 {
+    width: 84% !important;
+    /* padding: 0 40px 0 40px !important; */
+  }
+  #header.v-expansion-panel-header table tr td:nth-child(2) {
+    padding-right: 0px !important;
+  }
+  #header .v-container {
+    padding: 5px !important;
+  }
+  .v-col {
+    display: none;
+    width: 100%;
+  }
+}
 </style>
