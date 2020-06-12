@@ -32,23 +32,19 @@
     <v-content style="margin: 0 50px 0 50px;">
       <!-- <FlashMessage></FlashMessage> -->
       {{ snackbar}}
-      <!--     <prueba :active="snackbar"></prueba> -->
+      <bd-snackbar :active="snackbar" @close="snackbar = $event"></bd-snackbar>
 
-      <v-snackbar v-model="snackbar">
-        {{ text }}
-        <v-btn dark text @click.native="snackbar = false">Close</v-btn>
-      </v-snackbar>
-      <router-view @error="data = $event" />
+      <router-view @error="snackbar = $event" />
     </v-content>
   </v-app>
 </template>
 
 <script>
-// import prueba from "./components/Prueba";
+import bdSnackbar from "./components/BdSnackbar";
 
 export default {
   name: "App",
-  // components: { prueba },
+  components: { bdSnackbar },
   data() {
     return {
       drawer: false,
@@ -56,12 +52,6 @@ export default {
       text: "ERROR",
       data: ""
     };
-  },
-  watch: {
-    data($event) {
-      console.log("dataaaa", $event);
-      this.snackbar = true;
-    }
   }
 };
 </script>
@@ -79,12 +69,4 @@ export default {
   z-index: 9;
   border-radius: 0;
 }
-/* table,
-thead,
-tbody,
-th,
-td,
-tr {
-  display: block;
-} */
 </style>

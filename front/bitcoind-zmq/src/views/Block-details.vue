@@ -344,7 +344,7 @@ export default {
           position: "bottom right",
           icon: "/error.svg"
         }); */
-        this.$emit("error", new Date());
+        this.$emit("error", true);
         this.$router.push("/");
       }
     }
