@@ -30,19 +30,38 @@
       </v-layout>
     </v-navigation-drawer>
     <v-content style="margin: 0 50px 0 50px;">
-      <FlashMessage></FlashMessage>
-      <router-view />
+      <!-- <FlashMessage></FlashMessage> -->
+      {{ snackbar}}
+      <!--     <prueba :active="snackbar"></prueba> -->
+
+      <v-snackbar v-model="snackbar">
+        {{ text }}
+        <v-btn dark text @click.native="snackbar = false">Close</v-btn>
+      </v-snackbar>
+      <router-view @error="data = $event" />
     </v-content>
   </v-app>
 </template>
 
 <script>
+// import prueba from "./components/Prueba";
+
 export default {
   name: "App",
+  // components: { prueba },
   data() {
     return {
-      drawer: true
+      drawer: false,
+      snackbar: false,
+      text: "ERROR",
+      data: ""
     };
+  },
+  watch: {
+    data($event) {
+      console.log("dataaaa", $event);
+      this.snackbar = true;
+    }
   }
 };
 </script>

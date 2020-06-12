@@ -13,11 +13,13 @@ const routes = [
   {
     path: '/block/:hash',
     name: 'Block-details',
+    props: true,
     component: () => import(/*webpackChunkName: "block-details" */ '../views/Block-details.vue')
   },
   {
     path: '/block2/:hash',
     name: 'Block-details',
+    props: true,
     component: () => import(/*webpackChunkName: "block-details2" */ '../views/Block-details2.vue')
   },
   {

@@ -337,13 +337,14 @@ export default {
       error() {
         /*       console.log("ERROR making query", error.message);
         this.errors = JSON.stringify(error.message); */
-        this.flashMessage.error({
+        /*  this.flashMessage.error({
           // status: "error",
           title: "Block not found",
           message: "Not yet in this bitcoin node",
           position: "bottom right",
           icon: "/error.svg"
-        });
+        }); */
+        this.$emit("error", new Date());
         this.$router.push("/");
       }
     }
@@ -363,6 +364,9 @@ export default {
     }
   },
   methods: {
+    emit() {
+      this.$emit("errorOnRouter", true);
+    },
     localtime: time => {
       if (!time) return null;
 
