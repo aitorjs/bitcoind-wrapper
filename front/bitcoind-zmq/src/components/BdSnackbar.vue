@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-snackbar v-model="snackbar" :timeout="timeout">
+    <v-snackbar v-model="snackbar" :timeout="timeout" :color="color">
       {{ text }}
       <v-btn dark text @click.native="deactive()">Close</v-btn>
     </v-snackbar>
@@ -15,32 +15,28 @@ export default {
     return {
       snackbar: false,
       text: "ERROR",
-      timeout: 3000
+      timeout: 3000,
+      color: null
     };
   },
   methods: {
     deactive() {
-      console.log("deactive");
-
-      // this.snackbar = false;
       this.$emit("close", false);
     }
   },
   watch: {
     active(newV, oldV) {
       console.log("snackbar cambiaa de", oldV, newV);
-      this.snackbar = newV;
+      this.snackbar = newV.status;
+      this.text = newV.message;
+      this.color = newV.color;
     },
-    snackbar(newV, oldV) {
-      // when is not closed, autoclose
-      console.log("snackbar", newV, oldV);
-      if (newV === false && oldV === true) {
+    snackbar(newV) {
+      // when is not closed by user, autoclose
+      if (!newV) {
         this.$emit("close", false);
       }
     }
-  },
-  destroy() {
-    console.log("agur");
   }
 };
 </script>

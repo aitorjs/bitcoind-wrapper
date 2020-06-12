@@ -329,22 +329,14 @@ export default {
       },
       update: data => data.getblock,
       result({ data }) {
-        /*         if (data.getblock === undefined) {
-          // this.flashMessage.setStrategy("single");
-        } */
         console.log("data from graphql", data);
       },
       error() {
-        /*       console.log("ERROR making query", error.message);
-        this.errors = JSON.stringify(error.message); */
-        /*  this.flashMessage.error({
-          // status: "error",
-          title: "Block not found",
-          message: "Not yet in this bitcoin node",
-          position: "bottom right",
-          icon: "/error.svg"
-        }); */
-        this.$emit("error", true);
+        this.$emit("error", {
+          status: true,
+          message: "Block not found",
+          color: "red"
+        });
         this.$router.push("/");
       }
     }
