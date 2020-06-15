@@ -1,11 +1,11 @@
 <template>
   <div class="mt-5" v-if="!$apollo.queries.block.loading">
-    <v-icon style="font-size:44px;color:red;margin-top:-23px;margin-right:10px">mdi-bitcoin</v-icon>
+    <v-icon class="bd-icon-btc">mdi-bitcoin</v-icon>
     <span class="mb-1 display-2" style="line-height:1">Block {{ block.height }}</span>
     <p style="border-bottom: 1px solid black;">
       <span class="body-2" style="word-break: break-word">{{block.hash}}</span>
       <span>
-        <v-icon style="font-size:14px;color:red;margin-left:10px;margin-top:-2px">mdi-content-copy</v-icon>
+        <v-icon class="bd-icon-copy">mdi-content-copy</v-icon>
       </span>
     </p>
     <v-container>
@@ -23,51 +23,47 @@
             <v-expansion-panels v-model="headerpanel">
               <v-expansion-panel>
                 <v-expansion-panel-header id="header">
-                  <table style="display:table;width:100%;border-collapse:collapse">
-                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);padding:50px">
-                      <td style="padding: 15px 5px 15px 15px">HEIGHT</td>
-                      <td style="padding:15px;float:right">
+                  <table id="table1">
+                    <tr style="padding:50px">
+                      <td>HEIGHT</td>
+                      <td style>
                         <router-link
                           @click.native.stop="''"
                           :to="`/block/${block.hash}`"
                         >{{block.height}}</router-link>
                       </td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 15px 5px 15px 15px;">SIZE</td>
-                      <td style="padding:15px;float:right">{{block.size}} bytes</td>
+                    <tr>
+                      <td>SIZE</td>
+                      <td>{{block.size}} bytes</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 15px 5px 15px 15px;">TIME</td>
-                      <td style="padding:15px;float:right">{{ localtime(block.time) }}</td>
+                    <tr>
+                      <td>TIME</td>
+                      <td>{{ localtime(block.time) }}</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 15px 5px 15px 15px;">MEDIAN TIME</td>
-                      <td style="padding:15px;float:right">{{ localtime(block.mediantime) }}</td>
+                    <tr>
+                      <td>MEDIAN TIME</td>
+                      <td>{{ localtime(block.mediantime) }}</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 15px 5px 15px 15px;">MERKLE ROOT</td>
-                      <td
-                        style="padding:15px;float:right;word-break: break-word;"
-                      >{{ block.merkleroot }}</td>
+                    <tr>
+                      <td>MERKLE ROOT</td>
+                      <td style="word-break: break-word;">{{ block.merkleroot }}</td>
                     </tr>
                   </table>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <table style="display:table;width:100%;border-collapse:collapse">
-                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 10px 40px 10px 15px;">DIFFICULTY</td>
-                      <td
-                        style="padding:10px 30px 10px 10px;float:right;word-break: break-word;"
-                      >{{ block.difficulty }}</td>
+                  <table id="table2">
+                    <tr>
+                      <td>DIFFICULTY</td>
+                      <td style="word-break: break-word">{{ block.difficulty }}</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 10px 40px 10px 15px;">BITS</td>
-                      <td style="padding:10px 30px 10px 10px;float:right">{{ block.bits }}</td>
+                    <tr>
+                      <td>BITS</td>
+                      <td>{{ block.bits }}</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                      <td style="padding: 10px 40px 10px 15px;">NONCE</td>
-                      <td style="padding:10px 30px 10px 10px;float:right">{{ block.nonce }}</td>
+                    <tr>
+                      <td>NONCE</td>
+                      <td>{{ block.nonce }}</td>
                     </tr>
                   </table>
                 </v-expansion-panel-content>
@@ -97,7 +93,7 @@
                 <v-expansion-panels v-model="panel[x]" multiple>
                   <v-row no-gutters style="background-color:lightgrey">
                     <v-col>
-                      <div class="pa-3" style="background-color:darkgrey;word-break: break-word">
+                      <div class="pa-3" id="nocoinbase-header">
                         {{tx.txid}}
                         <i
                           id="header-expansor"
@@ -114,67 +110,43 @@
                             <v-expansion-panel
                               v-for="input in tx.vin"
                               :key="input.sequence"
-                              style="padding:0 0 0 0;margin-right:40px;"
+                              class="every-tx"
                             >
                               <v-expansion-panel-header
                                 id="tx-input"
                                 v-if="input.coinbase !== null"
                               >COINBASE</v-expansion-panel-header>
                               <v-expansion-panel-header id="tx-input" v-else>
-                                <p
-                                  style="background-color:lightgoldenrodyellow;padding:5px 5px 5px 20px;margin-bottom:0px"
-                                >
+                                <p id="coinbase-header">
                                   <span class="mr-1">#{{input.vout}} -</span>
                                   <span class="mr-1" style="word-break:break-word;">{{input.txid}}</span>
                                 </p>
                               </v-expansion-panel-header>
                               <v-expansion-panel-content v-if="input.coinbase !== null">
-                                <table
-                                  style="display:table;width:100%;border-collapse:collapse"
-                                  id="inputcollasecoinbase"
-                                >
-                                  <tr
-                                    style="margin-top:10px;border-bottom: 1px solid rgb(223, 227, 235)"
-                                  >
-                                    <td
-                                      style="word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;font-weight: 300;"
-                                    >COINBASE</td>
-                                    <td style="word-break:break-word;margin:7px;">{{input.coinbase}}</td>
+                                <table id="inputcollasecoinbase">
+                                  <tr style="margin-top:10px;">
+                                    <td style="word-break:break-word;">COINBASE</td>
+                                    <td>{{input.coinbase}}</td>
                                   </tr>
-                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235)">
-                                    <td
-                                      style="word-break:break-word;padding:5px;margin-left: 3px;margin-top: 3px;font-weight: 300;"
-                                    >SEQUENCE</td>
-                                    <td style="word-break:break-word;margin:7px;">{{input.sequence}}</td>
+                                  <tr>
+                                    <td style="word-break:break-word;">SEQUENCE</td>
+                                    <td>{{input.sequence}}</td>
                                   </tr>
                                 </table>
                               </v-expansion-panel-content>
                               <v-expansion-panel-content v-else>
-                                <table
-                                  style="display:table;width:100%;border-collapse:collapse"
-                                  id="outputcollase"
-                                >
-                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                                    <td
-                                      style="padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;font-weight: 300;"
-                                    >SCRIPTSIG (ASM)</td>
-                                    <td
-                                      style="word-break:break-word;margin:7px;"
-                                    >{{input.scriptSig.asm}}</td>
+                                <table id="outputcollase1">
+                                  <tr>
+                                    <td class="bd-pr-20">SCRIPTSIG (ASM)</td>
+                                    <td>{{input.scriptSig.asm}}</td>
                                   </tr>
-                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                                    <td
-                                      style="padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;font-weight: 300;"
-                                    >SCRIPTSIG (HEX)</td>
-                                    <td
-                                      style="word-break:break-word;margin:7px;"
-                                    >{{input.scriptSig.hex}}</td>
+                                  <tr>
+                                    <td class="bd-pr-20">SCRIPTSIG (HEX)</td>
+                                    <td>{{input.scriptSig.hex}}</td>
                                   </tr>
-                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235);">
-                                    <td
-                                      style="padding:5px;margin-left:3px;margin-top:3px;padding-right:20px;font-weight: 300;"
-                                    >SEQUENCE</td>
-                                    <td style="word-break:break-word;margin:7px;">{{input.sequence}}</td>
+                                  <tr>
+                                    <td class="bd-pr-20">SEQUENCE</td>
+                                    <td>{{input.sequence}}</td>
                                   </tr>
                                 </table>
                               </v-expansion-panel-content>
@@ -185,9 +157,7 @@
                           <v-col>
                             <v-expansion-panel v-for="output in tx.vout" :key="output.n">
                               <v-expansion-panel-header id="tx-output">
-                                <p
-                                  style="background-color:aliceblue;padding:5px 5px 5px 20px;margin-bottom:0"
-                                >
+                                <p id="tx-output-header">
                                   <span class="mr-1">#{{output.n}} -</span>
                                   <span
                                     class="mr-1"
@@ -204,32 +174,21 @@
                                 </p>
                               </v-expansion-panel-header>
                               <v-expansion-panel-content>
-                                <table
-                                  style="display:table;width:100%;border-collapse:collapse"
-                                  id="outputcollase"
-                                >
-                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235)">
-                                    <td
-                                      style="word-break:break-word;margin-bottom:15px;padding:5px;margin:3px;font-weight: 300;min-width: 69px;"
-                                    >SCRIPTPUBKEY (ASM)</td>
-                                    <td
-                                      style="word-break:break-word;margin:7px;"
-                                    >{{output.scriptPubKey.asm}}</td>
+                                <table id="outputcollase2">
+                                  <tr>
+                                    <td>SCRIPTPUBKEY (ASM)</td>
+                                    <td>{{output.scriptPubKey.asm}}</td>
                                   </tr>
-                                  <tr style="border-bottom: 1px solid rgb(223, 227, 235)">
-                                    <td
-                                      style="word-break:break-word;margin-bottom:15px;padding:5px;margin:3px;font-weight: 300;min-width: 69px;"
-                                    >SCRIPTPUBKEY (HEX)</td>
-                                    <td
-                                      style="word-break:break-word;margin:7px;"
-                                    >{{output.scriptPubKey.hex}}</td>
+                                  <tr>
+                                    <td>SCRIPTPUBKEY (HEX)</td>
+                                    <td>{{output.scriptPubKey.hex}}</td>
                                   </tr>
                                 </table>
                               </v-expansion-panel-content>
                             </v-expansion-panel>
                           </v-col>
                         </v-row>
-                        <v-row no-gutters style="background-color:lightgrey;text-align:right">
+                        <v-row no-gutters id="extradata-header">
                           <v-col>
                             <v-chip class="ma-2" color="grey" label text-color="white">
                               <v-icon left>mdi-checkbox-marked-circle</v-icon>
@@ -452,8 +411,102 @@ button#tx-output.v-expansion-panel-header {
   content: "#" counter(txcnt) "- ";
   counter-increment: txcnt;
 } */
+#table1,
+#table2,
+#inputcollasecoinbase,
+#outputcollase1,
+#outputcollase2 {
+  display: table !important;
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+#table1 tr,
+#table2 tr,
+#inputcollasecoinbase tr,
+#outputcollase1 tr,
+#outputcollase2 tr {
+  border-bottom: 1px solid rgb(223, 227, 235) !important;
+}
+#table1 tr td:nth-child(1) {
+  padding: 15px 5px 15px 15px !important;
+}
+#table2 tr td:nth-child(1) {
+  padding: 10px 40px 10px 15px !important;
+}
+#table1 tr td:nth-child(2) {
+  padding: 15px !important;
+  float: right !important;
+}
+#table2 tr td:nth-child(2) {
+  padding: 10px 30px 10px 10px !important;
+  float: right !important;
+}
+#inputcollasecoinbase tr td:nth-child(2),
+#outputcollase1 tr td:nth-child(2),
+#outputcollase2 tr td:nth-child(2) {
+  word-break: break-word !important;
+  margin: 7px !important;
+}
+#outputcollase2 tr td:nth-child(1) {
+  word-break: break-word !important;
+  margin-bottom: 15px !important;
+  margin-left: 10px !important;
+  padding: 5px !important;
+  margin: 3px !important;
+  font-weight: 300 !important;
+  min-width: 69px !important;
+}
+#outputcollase1 tr td:nth-child(1),
+#inputcollasecoinbase tr td:nth-child(1) {
+  padding: 5px !important;
+  margin-left: 3px !important;
+  margin-top: 3px !important;
+  font-weight: 300 !important;
+}
+.bd-pr-20 {
+  padding-right: 20px;
+}
+#coinbase-header {
+  background-color: lightgoldenrodyellow !important;
+  padding: 5px 5px 5px 20px !important;
+  margin-bottom: 0px !important;
+}
+#tx-output-header {
+  background-color: aliceblue !important;
+  padding: 5px 5px 5px 20px !important;
+  margin-bottom: 0 !important;
+}
+#extradata-header {
+  background-color: lightgrey !important;
+  text-align: right !important;
+}
+
+#nocoinbase-header {
+  background-color: darkgrey !important;
+  word-break: break-word !important;
+}
+.every-tx {
+  padding: 0 0 0 0 !important;
+  margin-right: 40px !important;
+}
+.bd-icon-copy {
+  font-size: 14px !important;
+  color: red !important;
+  margin-left: 10px !important;
+  margin-top: -2px !important;
+}
+.bd-icon-btc {
+  font-size: 44px !important;
+  color: red !important;
+  margin-top: -23px !important;
+  margin-right: 10px !important;
+}
 
 @media only screen and (max-width: 1020px) {
+  #table2 tr td:nth-child(2) {
+    padding: 10px 20px 10px 10px !important;
+    float: right !important;
+  }
   .v-content {
     margin: 0 2px 0 2px !important;
   }
@@ -466,13 +519,16 @@ button#tx-output.v-expansion-panel-header {
   #inputcollasecoinbase tr td {
     text-align: center;
   }
-  #outputcollase tr {
+  #outputcollase1 tr,
+  #outputcollase2 tr {
     display: grid;
   }
-  #outputcollase tr td {
+  #outputcollase1 tr td,
+  #outputcollase2 tr td {
     text-align: center;
   }
-  #outputcollase tr td:nth-child(1) {
+  #outputcollase1 tr td:nth-child(1),
+  #outputcollase2 tr td:nth-child(1) {
     border-bottom: 1px solid rgb(223, 227, 235);
   }
   .v-expansion-panel {

@@ -2,11 +2,11 @@
   <v-app>
     <v-app-bar app class="warning">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Vuetify</v-toolbar-title>
+      <v-toolbar-title>Explorer</v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-btn class="success">ingreso</v-btn>
-      <v-btn class="error">salir</v-btn>
+      <!-- <v-btn class="success">ingreso</v-btn>
+      <v-btn class="error">salir</v-btn>-->
     </v-app-bar>
 
     <v-navigation-drawer app v-model="drawer" temporary dark>
