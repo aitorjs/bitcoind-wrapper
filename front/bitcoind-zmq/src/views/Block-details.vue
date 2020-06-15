@@ -390,9 +390,6 @@ export default {
   padding: 0 !important;
   font-size: 1em !important;
 }
-#header {
-  width: 98.5% !important;
-}
 button#tx-input.v-expansion-panel-header {
   background-color: lightgoldenrodyellow !important;
   /*padding-left: 7px !important;*/
@@ -441,7 +438,7 @@ button#tx-output.v-expansion-panel-header {
   float: right !important;
 }
 #table2 tr td:nth-child(2) {
-  padding: 10px 35px 10px 100px !important;
+  padding: 10px 30px 10px 50px !important;
   float: right !important;
 }
 #inputcollasecoinbase tr td:nth-child(2),
@@ -506,6 +503,10 @@ button#tx-output.v-expansion-panel-header {
 }
 
 @media only screen and (max-width: 1020px) {
+  #header,
+  #table2 {
+    width: 98.5% !important;
+  }
   #table2 tr td:nth-child(2) {
     padding: 10px 20px 10px 10px !important;
     float: right !important;
