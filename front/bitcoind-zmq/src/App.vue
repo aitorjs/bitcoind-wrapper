@@ -5,8 +5,8 @@
       <v-toolbar-title>Explorer</v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <!-- <v-btn class="success">ingreso</v-btn>
-      <v-btn class="error">salir</v-btn>-->
+      <v-btn class="success">ingreso</v-btn>
+      <v-btn class="error">salir</v-btn>
     </v-app-bar>
 
     <v-navigation-drawer app v-model="drawer" temporary dark>
