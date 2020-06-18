@@ -108,8 +108,8 @@
                           <!-- vin -->
                           <v-col>
                             <v-expansion-panel
-                              v-for="input in tx.vin"
-                              :key="input.sequence"
+                              v-for="(input,k) in tx.vin"
+                              :key="k"
                               class="every-tx"
                             >
                               <v-expansion-panel-header
@@ -118,7 +118,7 @@
                               >COINBASE</v-expansion-panel-header>
                               <v-expansion-panel-header id="tx-input" v-else>
                                 <p id="coinbase-header">
-                                  <span class="mr-1">#{{input.vout}} -</span>
+                                  <span class="mr-1">#{{k}} -</span>
                                   <span class="mr-1" style="word-break:break-word;">{{input.txid}}</span>
                                 </p>
                               </v-expansion-panel-header>

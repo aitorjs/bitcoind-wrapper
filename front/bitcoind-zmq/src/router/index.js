@@ -18,7 +18,7 @@ const routes = [
   },
   {
     path: '/block2/:hash',
-    name: 'Block-details',
+    name: 'Block-details2',
     props: true,
     component: () => import(/*webpackChunkName: "block-details2" */ '../views/Block-details2.vue')
   },
