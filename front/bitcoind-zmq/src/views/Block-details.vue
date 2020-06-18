@@ -290,10 +290,23 @@ export default {
       result({ data }) {
         console.log("data from graphql", data);
       },
-      error() {
+      error(err) {
+        let message = err;
+
+        console.log("ERROR", err);
+
+        if (
+          err
+            .toString()
+            .includes(
+              "Cannot return null for non-nullable field Query.getblock."
+            )
+        ) {
+          message = "Block not found";
+        }
         this.$emit("error", {
           status: true,
-          message: "Block not found",
+          message,
           color: "red"
         });
         this.$router.push("/");

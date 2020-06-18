@@ -53,7 +53,7 @@ const typeDefs = gql`
     tx: [Transaction!]!
     time: String!
     mediantime: String!
-    nonce: Int!
+    nonce: String!
     bits: String!
     difficulty: String!
     previousblockhash: String!
