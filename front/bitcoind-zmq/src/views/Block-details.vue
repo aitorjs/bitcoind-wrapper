@@ -220,7 +220,7 @@
 <script>
 import gql from "graphql-tag";
 const MY_QUERY = gql`
-  query MyQuery($hash: String, $first: Int!, $skip: Int!) {
+  query MyQuery($hash: String, $first: Int, $skip: Int) {
     getblock(hash: $hash, first: $first, skip: $skip) {
       hash
       height

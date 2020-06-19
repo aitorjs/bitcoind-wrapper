@@ -63,7 +63,7 @@ const typeDefs = gql`
     getblockcount: Blockcount!
   }
   extend type Query {
-    getblock(hash: String, first: Int!, skip: Int!): Block!
+    getblock(hash: String, first: Int, skip: Int): Block!
   }
 `;
 
