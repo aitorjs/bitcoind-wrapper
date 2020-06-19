@@ -81,7 +81,7 @@
             <v-container>
               <v-row no-gutters>
                 <v-col class="mb-5">
-                  <span class="mb-5 title">{{block.tx.length}} OF {{block.tx.length}} TRANSACTIONS</span>
+                  <span class="mb-5 title">{{ dinamictotaltx }} OF {{block.totaltx}} TRANSACTIONS</span>
                 </v-col>
               </v-row>
               <v-container
@@ -210,6 +210,7 @@
             </v-container>
           </v-flex>
         </v-layout>
+        <v-pagination :length="length" v-model="pagination" @input="next" :total-visible="7"></v-pagination>
       </v-row>
     </v-container>
   </div>
@@ -219,8 +220,8 @@
 <script>
 import gql from "graphql-tag";
 const MY_QUERY = gql`
-  query MyQuery($hash: String) {
-    getblock(hash: $hash) {
+  query MyQuery($hash: String, $first: Int!, $skip: Int!) {
+    getblock(hash: $hash, first: $first, skip: $skip) {
       hash
       height
       confirmations
@@ -232,6 +233,7 @@ const MY_QUERY = gql`
       nonce
       previousblockhash
       bits
+      totaltx
       tx {
         hash
         hex
@@ -275,7 +277,9 @@ export default {
       items: 5,
       eval: [],
       headerpanel: 1,
-      total: []
+      total: [],
+      pagination: 1,
+      length: 0
     };
   },
   apollo: {
@@ -283,12 +287,15 @@ export default {
       query: MY_QUERY,
       variables() {
         return {
-          hash: this.$route.params.hash
+          hash: this.$route.params.hash,
+          first: 0,
+          skip: 10
         };
       },
       update: data => data.getblock,
       result({ data }) {
         console.log("data from graphql", data);
+        this.length = Math.ceil(data.getblock.totaltx / 10);
       },
       error(err) {
         let message = err;
@@ -324,10 +331,46 @@ export default {
       setTimeout(() => {
         this._emptyPanel();
         this._txtotals();
+        this.pagination = 1;
       }, 500);
     }
   },
+  computed: {
+    dinamictotaltx() {
+      const total = this.pagination * 10;
+
+      if (total >= this.block.totaltx) {
+        return this.block.totaltx;
+      }
+      return total;
+    }
+  },
   methods: {
+    next(page) {
+      console.log("next", 10 * (page - 1), 10 * page);
+
+      const vm = this;
+      vm.isLoading = true;
+      vm.$apolloProvider.defaultClient
+        .query({
+          query: MY_QUERY,
+          variables: {
+            hash: this.$route.params.hash,
+            first: 10 * (page - 1),
+            skip: 10 * page
+          }
+        })
+        .then(res => {
+          console.log("RESPUESTA", res);
+          setTimeout(() => {
+            this._emptyPanel();
+            this._txtotals();
+          }, 100);
+
+          vm.block = res.data.getblock;
+          vm.isLoading = res.data.loading;
+        });
+    },
     emit() {
       this.$emit("errorOnRouter", true);
     },

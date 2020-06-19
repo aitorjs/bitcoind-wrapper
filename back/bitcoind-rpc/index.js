@@ -51,6 +51,7 @@ const typeDefs = gql`
     version: Int!
     merkleroot: String!
     tx: [Transaction!]!
+    totaltx: Int!
     time: String!
     mediantime: String!
     nonce: String!
@@ -62,7 +63,7 @@ const typeDefs = gql`
     getblockcount: Blockcount!
   }
   extend type Query {
-    getblock(hash: String): Block!
+    getblock(hash: String, first: Int!, skip: Int!): Block!
   }
 `;
 
@@ -85,16 +86,19 @@ const resolvers = {
     getblock: async (parent, args, context) => {
       // 0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
      /*  console.log('parent GET BLOCK', parent)
-      console.log('args', args)
-      console.log('context', context) */
+     console.log('args', args)
+     console.log('context', context) */
 
       try {
-        const block = await new Rpc().getblock(args.hash);
-        // block.tx = JSON.stringify(block.tx)
+        let block = await new Rpc().getblock(args.hash);
+
+        block.totaltx = block.tx.length;
+        block.tx = block.tx.slice(args.first, args.skip);
+
         console.log('new block', block)
         const a = {
           hash, confirmations, size, height, version,
-          tx, time, mediantime, nonce, bits, difficulty
+          tx, totaltx, time, mediantime, nonce, bits, difficulty
         } = block
         // console.log('a', a.tx)
         return a
