@@ -42,7 +42,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
@@ -663,7 +663,7 @@ CREATE TABLE public.block (
     merkleroot text,
     "time" timestamp with time zone,
     mediantime timestamp with time zone,
-    nonce integer,
+    nonce text,
     bits text,
     difficulty text,
     previousblockhash text,

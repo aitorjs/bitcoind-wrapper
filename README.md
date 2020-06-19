@@ -63,7 +63,6 @@ testnet=1
 
 # RPC is required for bitcoin-cli.
 server=1
-
 rpcuser=paco
 rpcpassword=paco
 
@@ -89,8 +88,9 @@ rpcallowip=0.0.0.0/0
 ### Bitcoin ports under different networks
 
         | Mainnet | Testnet | Regtest
-Network |  8333   |  18333  |  ----
+Network |  8333   |  18333  |  18444
 RPC     |  8332   |  18332  |  18443
+
 ## Pre-requisites
 ```
 - sudo apt-get install git docker.io docker-compose

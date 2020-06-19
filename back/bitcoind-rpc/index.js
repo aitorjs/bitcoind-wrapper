@@ -84,22 +84,22 @@ const resolvers = {
     },
     getblock: async (parent, args, context) => {
       // 0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
-      console.log('parent GET BLOCK', parent)
+     /*  console.log('parent GET BLOCK', parent)
       console.log('args', args)
-      console.log('context', context)
+      console.log('context', context) */
 
       try {
         const block = await new Rpc().getblock(args.hash);
         // block.tx = JSON.stringify(block.tx)
-        console.log('block for rpc', block)
+        console.log('new block', block)
         const a = {
           hash, confirmations, size, height, version,
           tx, time, mediantime, nonce, bits, difficulty
         } = block
-        console.log('a', a.tx)
+        // console.log('a', a.tx)
         return a
       } catch(e) {
-        console.log(e);
+        console.log("err", e);
         return null;
       }
     }
