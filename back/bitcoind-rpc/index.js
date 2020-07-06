@@ -90,7 +90,6 @@ const resolvers = {
       console.log('args', args)
       console.log('context', context)
 
-      let block = await new Rpc().getblock(args.hash);
       try {
         let block = await new Rpc().getblock(args.hash);
 

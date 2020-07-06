@@ -210,7 +210,13 @@
             </v-container>
           </v-flex>
         </v-layout>
-        <v-pagination :length="length" v-model="pagination" @input="next" :total-visible="7"></v-pagination>
+        <v-pagination
+          :length="length"
+          v-model="pagination"
+          @input="next"
+          :total-visible="7"
+          v-if="length > 1"
+        ></v-pagination>
       </v-row>
     </v-container>
   </div>
