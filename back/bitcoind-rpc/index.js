@@ -41,6 +41,7 @@ const typeDefs = gql`
     vin: [Input!]
     vout: [Output!]
     hex: String!
+    totalamount: Float!
   }
 
   type Block {
@@ -78,22 +79,30 @@ const resolvers = {
       try {
         const blockcount = await new Rpc().getblockcount()
         return { height: blockcount };
-      } catch(e) {
+      } catch (e) {
         console.log(e);
         return null;
       }
     },
     getblock: async (parent, args, context) => {
       // 0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
-     /*  console.log('parent GET BLOCK', parent)
-     console.log('args', args)
-     console.log('context', context) */
+      console.log('parent GET BLOCK', parent)
+      console.log('args', args)
+      console.log('context', context)
 
+      let block = await new Rpc().getblock(args.hash);
       try {
         let block = await new Rpc().getblock(args.hash);
 
         block.totaltx = block.tx.length;
         block.tx = block.tx.slice(args.first, args.skip);
+
+        block.tx.map((tx, x) => {
+          block.tx[x].totalamount = 0
+          tx.vout.map(output => {
+            block.tx[x].totalamount += output.value
+          })
+        })
 
         console.log('new block', block)
         const a = {
@@ -102,7 +111,7 @@ const resolvers = {
         } = block
         // console.log('a', a.tx)
         return a
-      } catch(e) {
+      } catch (e) {
         console.log("err", e);
         return null;
       }
@@ -110,12 +119,12 @@ const resolvers = {
   }
 };
 
-const context = ({req}) => {
+const context = ({ req }) => {
   return { headers: req.headers };
 };
 
 const schema = new ApolloServer({ typeDefs, resolvers, context, playground: true });
 // process.env.PORT
-schema.listen({ port: 9000}).then(({ url }) => {
-    console.log(`schema ready at ${url}`);
+schema.listen({ port: 9000 }).then(({ url }) => {
+  console.log(`schema ready at ${url}`);
 });

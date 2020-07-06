@@ -199,7 +199,7 @@
                               color="grey"
                               label
                               text-color="white"
-                            >{{total[x]}} tBTC</v-chip>
+                            >{{tx.totalamount}} tBTC</v-chip>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -236,6 +236,7 @@ const MY_QUERY = gql`
       totaltx
       tx {
         hash
+        totalamount
         hex
         locktime
         size
@@ -277,7 +278,6 @@ export default {
       items: 5,
       eval: [],
       headerpanel: 1,
-      total: [],
       pagination: 1,
       length: 0
     };
@@ -323,14 +323,12 @@ export default {
   created() {
     setTimeout(() => {
       this._emptyPanel();
-      this._txtotals();
     }, 500);
   },
   watch: {
     $route() {
       setTimeout(() => {
         this._emptyPanel();
-        this._txtotals();
         this.pagination = 1;
       }, 500);
     }
@@ -364,7 +362,6 @@ export default {
           console.log("RESPUESTA", res);
           setTimeout(() => {
             this._emptyPanel();
-            this._txtotals();
           }, 100);
 
           vm.block = res.data.getblock;
@@ -421,12 +418,6 @@ export default {
       this.eval = new Array(this.block.tx.length).fill("down");
       this.total = new Array(this.block.tx.length).fill(0);
       this.headerpanel = 1;
-    },
-    _txtotals() {
-      this.block.tx.map((tx, k) => {
-        // console.log("txa", tx);
-        tx.vout.map(v => (this.total[k] += v.value));
-      });
     }
   }
 };
