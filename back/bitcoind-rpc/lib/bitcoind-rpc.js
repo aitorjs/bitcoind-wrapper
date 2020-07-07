@@ -25,10 +25,18 @@ module.exports = class Bitcoin {
 
   async getblock(block_hash) {
     try {
-     return await this.client.getBlock(block_hash)
+     return await this.client.getBlock(block_hash, 2)
     } catch (e) {
       console.log('\n    Error Bitcoin getblock', e)
     }
+  }
+
+  async getTransaction(txid) {
+    try {
+      return await this.client.getTransaction(txid)
+     } catch (e) {
+       console.log('\n    Error Bitcoin getTransaction', e)
+     }
   }
 
   /* async listUnspent() {
@@ -60,14 +68,6 @@ module.exports = class Bitcoin {
       return await this.client.sendRawTransaction(hex)
      } catch (e) {
        console.log('\n    Error Bitcoin sendRawTransaction', e)
-     }
-  }
-
-  async getTransaction(txid) {
-    try {
-      return await this.client.getTransaction(txid)
-     } catch (e) {
-       console.log('\n    Error Bitcoin getTransaction', e)
      }
   }
 

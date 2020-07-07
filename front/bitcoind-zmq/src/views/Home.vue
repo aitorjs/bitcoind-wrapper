@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="home" v-if="!$apollo.subscriptions.newBlocks.loading">
     <v-card>
       <v-card-title>
         Blocks in real time
@@ -13,9 +13,9 @@
         ></v-text-field>-->
       </v-card-title>
 
-      <v-data-table :headers="headers" :items="rtblocks" sortBy="height" :sortDesc="true">
+      <v-data-table :headers="headers" :items="rtblocks" sortBy="time" :sortDesc="true">
         <template v-slot:item.height="{ item }">
-          <a :href="'#/hash/' + item.hash">{{item.height}}</a>
+          <router-link :to="`/block/${item.hash}`">{{item.height}}</router-link>
         </template>
         <template v-slot:item.tx="{ item }">
           <p>{{ JSON.parse(item.tx).length }}</p>
@@ -31,6 +31,7 @@
       </v-data-table>
     </v-card>
   </div>
+  <div v-else>Loading...</div>
 </template>
 
 <script>
@@ -101,6 +102,9 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    console.log(this.$apollo);
   },
   methods: {
     timeago: time => {

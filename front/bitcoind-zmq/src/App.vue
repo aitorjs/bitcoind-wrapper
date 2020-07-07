@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app class="warning">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Vuetify</v-toolbar-title>
+      <v-toolbar-title>Explorer</v-toolbar-title>
 
       <v-spacer></v-spacer>
       <v-btn class="success">ingreso</v-btn>
@@ -29,20 +29,27 @@
         </v-flex>
       </v-layout>
     </v-navigation-drawer>
+    <v-content style="margin: 0 50px 0 50px;">
+      <bd-snackbar :active="snackbar" @close="snackbar = $event"></bd-snackbar>
 
-    <v-content>
-      <router-view />
+      <router-view @error="snackbar = $event" />
     </v-content>
   </v-app>
 </template>
 
 <script>
+import bdSnackbar from "./components/BdSnackbar";
+
 export default {
   name: "App",
+  components: { bdSnackbar },
   data() {
     return {
-      drawer: true
+      drawer: false,
+      snackbar: false
     };
   }
 };
 </script>
+<style>
+</style>

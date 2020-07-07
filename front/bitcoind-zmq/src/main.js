@@ -9,8 +9,10 @@ import ApolloClient from 'apollo-client'
 import { WebSocketLink } from 'apollo-link-ws'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import vuetify from './plugins/vuetify';
+import FlashMessage from '@smartweb/vue-flash-message';
 
 Vue.use(VueApollo)
+Vue.use(FlashMessage, {time: 3000});
 
 Vue.config.productionTip = false
 
@@ -38,6 +40,8 @@ const client = new ApolloClient({
     addTypename: true
   })
 })
+
+// Vue.prototype.$errors = [];
 
 const apolloProvider = new VueApollo({
   defaultClient: client

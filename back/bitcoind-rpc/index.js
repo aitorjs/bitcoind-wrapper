@@ -6,6 +6,44 @@ const typeDefs = gql`
   type Blockcount {
     height: Int!
   }
+  type ScriptSig {
+    asm: String!
+    hex: String!
+  }
+  type Input {
+    coinbase: String
+    txid: String
+    vout: Int
+    scriptSig: ScriptSig
+    txinwitness: [String]
+    sequence: String!
+  }
+  type ScriptPubKey {
+    asm: String!
+    hex: String!
+    reqSigs: Int
+    type: String!
+    addresses: [String]
+  }
+  type Output {
+    value: Float!
+    n: Int!
+    scriptPubKey: ScriptPubKey!
+  }
+  type Transaction {
+    txid: String!
+    hash: String!
+    version: Int!
+    size: Int!
+    vsize: Int!
+    weight: Int!
+    locktime: Int!
+    vin: [Input!]
+    vout: [Output!]
+    hex: String!
+    totalamount: Float!
+  }
+
   type Block {
     hash: String!
     confirmations: Int!
@@ -13,10 +51,11 @@ const typeDefs = gql`
     height: Int!
     version: Int!
     merkleroot: String!
-    tx: [String!]!
+    tx: [Transaction!]!
+    totaltx: Int!
     time: String!
     mediantime: String!
-    nonce: Int!
+    nonce: String!
     bits: String!
     difficulty: String!
     previousblockhash: String!
@@ -25,7 +64,7 @@ const typeDefs = gql`
     getblockcount: Blockcount!
   }
   extend type Query {
-    getblock(hash: String): Block!
+    getblock(hash: String, first: Int, skip: Int): Block!
   }
 `;
 
@@ -40,7 +79,7 @@ const resolvers = {
       try {
         const blockcount = await new Rpc().getblockcount()
         return { height: blockcount };
-      } catch(e) {
+      } catch (e) {
         console.log(e);
         return null;
       }
@@ -52,29 +91,39 @@ const resolvers = {
       console.log('context', context)
 
       try {
-        const block = await new Rpc().getblock(args.hash);
-        // block.tx = JSON.stringify(block.tx)
-        console.log('block for rpc', block)
+        let block = await new Rpc().getblock(args.hash);
+
+        block.totaltx = block.tx.length;
+        block.tx = block.tx.slice(args.first, args.skip);
+
+        block.tx.map((tx, x) => {
+          block.tx[x].totalamount = 0
+          tx.vout.map(output => {
+            block.tx[x].totalamount += output.value
+          })
+        })
+
+        console.log('new block', block)
         const a = {
           hash, confirmations, size, height, version,
-          tx, time, mediantime, nonce, bits, difficulty
+          tx, totaltx, time, mediantime, nonce, bits, difficulty
         } = block
-        console.log('a', a.tx)
+        // console.log('a', a.tx)
         return a
-      } catch(e) {
-        console.log(e);
+      } catch (e) {
+        console.log("err", e);
         return null;
       }
     }
   }
 };
 
-const context = ({req}) => {
+const context = ({ req }) => {
   return { headers: req.headers };
 };
 
 const schema = new ApolloServer({ typeDefs, resolvers, context, playground: true });
 // process.env.PORT
-schema.listen({ port: 9000}).then(({ url }) => {
-    console.log(`schema ready at ${url}`);
+schema.listen({ port: 9000 }).then(({ url }) => {
+  console.log(`schema ready at ${url}`);
 });

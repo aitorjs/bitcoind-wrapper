@@ -39,17 +39,15 @@ VUE_APP_HASURA_SCHEMA=ws://localhost:8080/v1/graphql
 # Use the regtest network, because we can generate blocks as needed.
 regtest=1
 
-# RPC is required for bitcoin-cli.
 server=1
 rpcuser=paco
 rpcpassword=paco
 
-# In this example we are only interested in receiving raw transactions.
-# The address here is the URL where bitcoind will listen for new ZeroMQ connection requests.
 zmqpubhashblock=tcp://0.0.0.0:3000
 zmqpubrawblock=tcp://0.0.0.0:3001
 # zmqpubrawtx=tcp://0.0.0.0:3002
 # zmqpubhashtx=tcp://0.0.0.0:3003
+# blocknotify=/usr/bin/curl -X GET bitcoindwrapper:3000/bitcoin/newblock/%s -H "accept: application/json" -H "Authorization: Bearer YOUR-TOKEN"
 
 [regtest]
 # ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
@@ -58,17 +56,13 @@ rpcallowip=0.0.0.0/0
 ```
 ## <span id="testnet">bitcoin.conf example for testnet</span>
 ```
-# testnet
 testnet=1
 
-# RPC is required for bitcoin-cli.
 server=1
 rpcuser=paco
 rpcpassword=paco
 
 txindex=1
-
-# blocknotify=/usr/bin/curl -X GET bitcoindwrapper:3000/bitcoin/newblock/%s -H "accept: application/json" -H "Authorization: Bearer YOUR-TOKEN"
 
 # In this example we are only interested in receiving raw transactions.
 # The address here is the URL where bitcoind will listen for new ZeroMQ connection requests.
@@ -76,12 +70,21 @@ zmqpubhashblock=tcp://0.0.0.0:3000
 zmqpubrawblock=tcp://0.0.0.0:3001
 # zmqpubrawtx=tcp://0.0.0.0:3002
 # zmqpubhashtx=tcp://0.0.0.0:3003
+# blocknotify=/usr/bin/curl -X GET bitcoindwrapper:3000/bitcoin/newblock/%s -H "accept: application/json" -H "Authorization: Bearer YOUR-TOKEN"
 
 [test]
 # ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
 rpcbind=0.0.0.0:18332
 rpcallowip=0.0.0.0/0
 ```
+
+- If the blockchain dont download blocks you need to open port 18443 (regtest) or 18332 (testnet) on the firewall
+
+### Bitcoin ports under different networks
+
+        | Mainnet | Testnet | Regtest
+Network |  8333   |  18333  |  18444
+RPC     |  8332   |  18332  |  18443
 
 ## Pre-requisites
 ```
@@ -119,10 +122,60 @@ curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "g
 - As "GraphQL server URL" add "http://bitcoind-rpc:9000/"
 
 ### Screenshot front/bitcoind-zmq
-![Image of Yaktocat](screenshot.png)
+![Homepage](screenshot.png)
+![Blockdetails](screenshot-block-details.png)
 
 ### Rebuild bitcoind-zmq-front
 - ```cd front/bitcoind-zmq```
 - ```npm run build```
-- ```docker build -t bitcoind-wrapper_bitcoind-zmq-front .```
+- ```docker build -t bitcoind-wrapper_bitcoind-zmq-front .``` ¿can delete this tep?
+- ```cd .. && cd .. && docker-compose up --build -d```
+
+### For other containers
+- ```docker stop```
 - ```docker-compose up --build -d```
+
+### Getblock in graphql
+
+query MyQuery {
+  getblock(hash: "5dee5822368296e72c64bd1ba57bc6d038aecff38b0905416dfb544c3c2d2105") {
+    bits
+    tx {
+      hash
+      hex
+      locktime
+      size
+      txid
+      version
+      vsize
+      weight
+      vin {
+        coinbase
+        sequence
+      }
+      vout {
+        n
+        scriptPubKey {
+          addresses
+          asm
+          hex
+          type
+          reqSigs
+        }
+        value
+      }
+    }
+    height
+  }
+}
+
+### About posgreql
+
+
+pg_dump -U postgres postgres > dbexport.pgsql
+
+postgrespassword
+
+docker exec -t bitcoindwrapper_postgres_1 psql -U postgres postgres < /var/lib/postgresql/data/dbexport.pgsql
+
+posgreql volume data is stored inside docker in /var/lib/docker/volumes/bitcoindwrapper_db_data/_data
