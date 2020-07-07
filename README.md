@@ -39,17 +39,15 @@ VUE_APP_HASURA_SCHEMA=ws://localhost:8080/v1/graphql
 # Use the regtest network, because we can generate blocks as needed.
 regtest=1
 
-# RPC is required for bitcoin-cli.
 server=1
 rpcuser=paco
 rpcpassword=paco
 
-# In this example we are only interested in receiving raw transactions.
-# The address here is the URL where bitcoind will listen for new ZeroMQ connection requests.
 zmqpubhashblock=tcp://0.0.0.0:3000
 zmqpubrawblock=tcp://0.0.0.0:3001
 # zmqpubrawtx=tcp://0.0.0.0:3002
 # zmqpubhashtx=tcp://0.0.0.0:3003
+# blocknotify=/usr/bin/curl -X GET bitcoindwrapper:3000/bitcoin/newblock/%s -H "accept: application/json" -H "Authorization: Bearer YOUR-TOKEN"
 
 [regtest]
 # ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
@@ -58,17 +56,13 @@ rpcallowip=0.0.0.0/0
 ```
 ## <span id="testnet">bitcoin.conf example for testnet</span>
 ```
-# testnet
 testnet=1
 
-# RPC is required for bitcoin-cli.
 server=1
 rpcuser=paco
 rpcpassword=paco
 
 txindex=1
-
-# blocknotify=/usr/bin/curl -X GET bitcoindwrapper:3000/bitcoin/newblock/%s -H "accept: application/json" -H "Authorization: Bearer YOUR-TOKEN"
 
 # In this example we are only interested in receiving raw transactions.
 # The address here is the URL where bitcoind will listen for new ZeroMQ connection requests.
@@ -76,6 +70,7 @@ zmqpubhashblock=tcp://0.0.0.0:3000
 zmqpubrawblock=tcp://0.0.0.0:3001
 # zmqpubrawtx=tcp://0.0.0.0:3002
 # zmqpubhashtx=tcp://0.0.0.0:3003
+# blocknotify=/usr/bin/curl -X GET bitcoindwrapper:3000/bitcoin/newblock/%s -H "accept: application/json" -H "Authorization: Bearer YOUR-TOKEN"
 
 [test]
 # ATTENTION: VERY DANGEROUS OUTSIDE THE DOCKER NETWORK
@@ -140,7 +135,7 @@ curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "g
 - ```docker stop```
 - ```docker-compose up --build -d```
 
-### getblock in graphql
+### Getblock in graphql
 
 query MyQuery {
   getblock(hash: "5dee5822368296e72c64bd1ba57bc6d038aecff38b0905416dfb544c3c2d2105") {
@@ -173,3 +168,14 @@ query MyQuery {
     height
   }
 }
+
+### About posgreql
+
+
+pg_dump -U postgres postgres > dbexport.pgsql
+
+postgrespassword
+
+docker exec -t bitcoindwrapper_postgres_1 psql -U postgres postgres < /var/lib/postgresql/data/dbexport.pgsql
+
+posgreql volume data is stored inside docker in /var/lib/docker/volumes/bitcoindwrapper_db_data/_data
