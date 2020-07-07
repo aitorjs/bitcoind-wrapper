@@ -281,7 +281,6 @@ export default {
     return {
       block: {},
       panel: [],
-      items: 5,
       eval: [],
       headerpanel: 1,
       pagination: 1,
@@ -395,10 +394,9 @@ export default {
 
       return new Intl.DateTimeFormat(undefined, options).format(date);
     },
-    // Create an array the length of our items
-    // with all values as true
     all(x) {
-      const newdata = [...Array(this.items).keys()].map((k, i) => i);
+      const total = this.block.tx[x].vin.length + this.block.tx[x].vout.length;
+      const newdata = [...Array(total).keys()].map((k, i) => i);
 
       if (this.panel[x] !== undefined) {
         this.panel.splice(x, 1, newdata);
@@ -406,7 +404,6 @@ export default {
         this.panel.push(newdata);
       }
     },
-    // Reset the panel
     none(x) {
       this.panel.splice(x, 1, []);
     },
