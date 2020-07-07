@@ -1,6 +1,6 @@
 {
-  "name": "bitcoin2",
-  "version": "1.0.0",
+  "name": "bitcoind-zmq",
+  "version": "0.2.2",
   "description": "",
   "main": "index.js",
   "scripts": {
