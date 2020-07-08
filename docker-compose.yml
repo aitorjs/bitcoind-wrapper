@@ -41,8 +41,8 @@ services:
   bitcoind-rpc:
     build: ./back/bitcoind-rpc
     environment:
-      BITCOIND_RPC_PORT: 18443 #regtest
-      # BITCOIND_RPC_PORT: 18332 #testnet
+      # BITCOIND_RPC_PORT: 18443 #regtest
+      BITCOIND_RPC_PORT: 18332 #testnet
       BITCOIND_RPC_HOST: 'bitcoind'
       BITCOIND_RPC_USERNAME: 'paco'
       BITCOIND_RPC_PASSWORD: 'paco'

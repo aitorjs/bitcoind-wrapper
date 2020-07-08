@@ -1,13 +1,11 @@
 # bitcoind-wrapper
-
-
-## Install v0.2: hasura + cron + subscriptions for websockets + front
+## Install v0.2: hasura + subscriptions for websockets + front
 - ```git clone https://github.com/aitorjs/bitcoind-wrapper```
 - ```cd bitcoind-wrapper```
 - make .env for front/bitcoind-zmq in front/bitcoind-zmq/.env with
 ```
 VUE_APP_HASURA_PASS=secretkey
-VUE_APP_HASURA_SCHEMA=ws://localhost:8080/v1/graphql
+VUE_APP_HASURA_SCHEMA=ws://GRAPHQL_IP:8080/v1/graphql
 ```
 
 - To change the configuration or want you need inside .bitcoin, use
@@ -21,11 +19,11 @@ VUE_APP_HASURA_SCHEMA=ws://localhost:8080/v1/graphql
 - wget https://raw.githubusercontent.com/aitorjs/bitcoind-wrapper/master/docker/dbexport.pgsql
 - psql -U postgres postgres < dbexport.pgsql
 ```
-- Open on browser for hasura console: ```http://localhost:8080/```. ```secretkey``` is the password.
+- Open on browser for hasura console: ```http://VUE_IP:8080/```. ```secretkey``` is the password.
 - Inside "Data" => "Untracked tables or views", click on the "Track" button for block.
 - Click "Remote Schemas" -> "Add"
 - As "GraphQL server URL" add "http://bitcoind-rpc:9000/"
-- Open on a browser frontend: ```http://localhost:3001```
+- Open on a browser frontend: ```http://VUE_IP:3001```
 - <a href="#newblock">Generate new block</a>
 
 ## <span id="newblock">Generate new block inside bitcoin container on regtest</span>
@@ -109,15 +107,15 @@ paco:paco
 ### TODO zmq
 
 ### hasura call to getblockcount
-curl 'http://localhost:9000/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://localhost:9000' --data-binary '{"query":"query {\n  getblockcount {\n    height\n  }\n}"}' --compressed
+curl 'http://VUE_IP:9000/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://localhost:9000' --data-binary '{"query":"query {\n  getblockcount {\n    height\n  }\n}"}' --compressed
 
-curl -X POST http://localhost:8080/v1/graphql -H 'x-hasura-admin-secret: secretkey' -H 'Content-Type: application/json' -d '{"query":"query{\n  getblockcount {\n    height\n  }\n}"}'
+curl -X POST http://VUE_IP:8080/v1/graphql -H 'x-hasura-admin-secret: secretkey' -H 'Content-Type: application/json' -d '{"query":"query{\n  getblockcount {\n    height\n  }\n}"}'
 
 ### bitcoin-rpc call to getblockcount
 curl --user paco --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockcount", "params": [] }' -H 'content-type: text/plain;' http://bitcoind:18443
 
 ###  Add "Remote Schema" in hasura
-- Go to hasura explorer: http://localhost:8080/
+- Go to hasura explorer: http://VUE_IP:8080/
 - Click "Remote Schemas" -> "Add"
 - As "GraphQL server URL" add "http://bitcoind-rpc:9000/"
 
