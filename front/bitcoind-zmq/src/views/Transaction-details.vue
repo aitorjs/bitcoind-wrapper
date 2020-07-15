@@ -20,7 +20,10 @@
                     <tr style="padding:50px">
                       <td>HEIGHT</td>
                       <td style>
-                        <router-link @click.native.stop="''" :to="`/block/${tx.blockhash}`">HEIGHT</router-link>
+                        <router-link
+                          @click.native.stop="''"
+                          :to="`/block/${tx.blockhash}`"
+                        >{{block.height}}</router-link>
                       </td>
                     </tr>
                     <tr>
@@ -168,7 +171,7 @@
 
 <script>
 import gql from "graphql-tag";
-const MY_QUERY = gql`
+const GET_TRANSACTION = gql`
   query MyQuery($txid: String!) {
     gettransaction(txid: $txid) {
       hash
@@ -208,17 +211,26 @@ const MY_QUERY = gql`
     }
   }
 `;
+
+const GET_BLOCK_HEIGHT = gql`
+  query getblock($hash: String!) {
+    getblock(hash: $hash) {
+      height
+    }
+  }
+`;
 export default {
   data() {
     return {
       tx: {},
       panel: [],
-      eval: "down"
+      eval: "down",
+      block: null
     };
   },
   apollo: {
     tx: {
-      query: MY_QUERY,
+      query: GET_TRANSACTION,
       variables() {
         return {
           txid: this.$route.params.txid
@@ -248,6 +260,18 @@ export default {
           color: "red"
         });
         this.$router.push("/");
+      }
+    },
+    block: {
+      query: GET_BLOCK_HEIGHT,
+      variables() {
+        return {
+          hash: this.tx.blockhash
+        };
+      },
+      update: data => data.getblock,
+      result({ data }) {
+        console.log("data from graphql!!!!!!!!!", data);
       }
     }
   },
