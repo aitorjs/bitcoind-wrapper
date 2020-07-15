@@ -1,7 +1,7 @@
 <template>
   <div class="mt-5" v-if="!$apollo.queries.tx.loading">
     <v-icon class="bd-icon-btc">mdi-bitcoin</v-icon>
-    <span class="mb-1 display-2" style="line-height:1">Transaction</span>
+    <span class="mb-1 display-2" style="line-height:1">Transaction in #{{block.height}}</span>
     <p style="border-bottom: 1px solid black;">
       <span class="body-2" style="word-break: break-word">{{tx.hash}}</span>
       <span>
