@@ -31,35 +31,20 @@ module.exports = class Bitcoin {
     }
   }
 
-  async getanytransaction(txid) {
+  async gettransaction(txid) {
     try {
-      // getRawTransaction
-      // decodeRawTransaction
-      const rawTransaction = await this.client.getRawTransaction(txid)
-      const tx = await this.client.decodeRawTransaction(rawTransaction)
-      console.log('tx', tx)
-
-      tx.hex = rawTransaction
+      const tx = await this.client.getRawTransaction(txid, true)
       return tx
-
     } catch (e) {
-      console.log('\n    Error Bitcoin getTransaction', e)
+      console.log('\n    Error Bitcoin gettransaction', e)
     }
   }
 
-  /* async gettransaction(txid) {
-      try {
-        return await this.client.getTransaction(txid)
-       } catch (e) {
-         console.log('\n    Error Bitcoin getTransaction', e)
-       }
-    }
-
-  async listunspent() {
+  /* async listunspent() {
     try {
      return await this.client.listUnspent()
     } catch (e) {
-      console.log('\n    Error Bitcoin listUnspent', e)
+      console.log('\n    Error Bitcoin listunspent', e)
     }
   }
 
@@ -67,15 +52,15 @@ module.exports = class Bitcoin {
     try {
       return await this.client.createRawTransaction(inputs, outputs)
      } catch (e) {
-       console.log('\n    Error Bitcoin createRawTransaction', e)
+       console.log('\n    Error Bitcoin createrawtransaction', e)
      }
   }
 
-  async signrawtransactionWithWallet(txHex) {
+  async signrawtransactionwithwallet(txHex) {
     try {
       return await this.client.signRawTransactionWithWallet(txHex)
      } catch (e) {
-       console.log('\n    Error Bitcoin signRawTransactionWithWallet', e)
+       console.log('\n    Error Bitcoin signrawtransactionwithwallet', e)
      }
   }
 
@@ -83,7 +68,7 @@ module.exports = class Bitcoin {
     try {
       return await this.client.sendRawTransaction(hex)
      } catch (e) {
-       console.log('\n    Error Bitcoin sendRawTransaction', e)
+       console.log('\n    Error Bitcoin sendrawtransaction', e)
      }
   }
 
@@ -91,7 +76,7 @@ module.exports = class Bitcoin {
     try {
       return await this.client.estimateSmartFee(blockWait)
      } catch (e) {
-       console.log('\n    Error Bitcoin estimateSmartFee', e)
+       console.log('\n    Error Bitcoin estimatesmartfee', e)
      }
   }
 

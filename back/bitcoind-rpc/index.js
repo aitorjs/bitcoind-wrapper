@@ -42,6 +42,10 @@ const typeDefs = gql`
     vout: [Output!]
     hex: String!
     totalamount: Float!
+    confirmations: Int
+    blockhash: String
+    time: String
+
   }
 
   type Block {
@@ -123,7 +127,7 @@ const resolvers = {
             console.log('context', context)
        */
       try {
-        let tx = await new Rpc().getanytransaction(args.txid);
+        let tx = await new Rpc().gettransaction(args.txid);
 
         tx.totalamount = 0
         tx.vout.map(output => {

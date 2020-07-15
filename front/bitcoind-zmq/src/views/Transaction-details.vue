@@ -8,6 +8,41 @@
         <v-icon class="bd-icon-copy">mdi-content-copy</v-icon>
       </span>
     </p>
+
+    <v-container>
+      <v-row no-gutters>
+        <v-layout row>
+          <v-flex xs12>
+            <v-expansion-panels>
+              <v-expansion-panel>
+                <v-expansion-panel-header id="header">
+                  <table id="table1">
+                    <tr style="padding:50px">
+                      <td>HEIGHT</td>
+                      <td style>
+                        <router-link @click.native.stop="''" :to="`/block/${tx.blockhash}`">HEIGHT</router-link>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>SIZE</td>
+                      <td>{{tx.size}} bytes</td>
+                    </tr>
+                    <tr>
+                      <td>TIME</td>
+                      <td>{{ localtime(tx.time) }}</td>
+                    </tr>
+                    <tr>
+                      <td>VERSION</td>
+                      <td style="word-break: break-word;">{{ tx.version }}</td>
+                    </tr>
+                  </table>
+                </v-expansion-panel-header>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-flex>
+        </v-layout>
+      </v-row>
+    </v-container>
     <v-container>
       <v-row no-gutters>
         <v-layout row>
@@ -109,7 +144,8 @@
                     <v-row no-gutters id="extradata-header">
                       <v-col>
                         <v-chip class="ma-2" color="grey" label text-color="white">
-                          <v-icon left>mdi-checkbox-marked-circle</v-icon>##### CONFIRMATIONS
+                          <v-icon left>mdi-checkbox-marked-circle</v-icon>
+                          {{tx.confirmations}} CONFIRMATIONS
                         </v-chip>
                         <v-chip
                           class="ma-2"
@@ -142,6 +178,9 @@ const MY_QUERY = gql`
       totalamount
       txid
       version
+      confirmations
+      blockhash
+      time
       vin {
         coinbase
         scriptSig {
@@ -213,6 +252,24 @@ export default {
     }
   },
   methods: {
+    localtime: time => {
+      if (!time) return null;
+
+      console.log("date", time);
+      const date = new Date(time * 1000);
+      const options = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: false,
+        timeZone: "Europe/Madrid"
+      };
+
+      return new Intl.DateTimeFormat(undefined, options).format(date);
+    },
     all() {
       const total = this.tx.vin.length + this.tx.vout.length;
       const newdata = [...Array(total).keys()].map((k, i) => i);
