@@ -177,3 +177,41 @@ postgrespassword
 docker exec -t bitcoindwrapper_postgres_1 psql -U postgres postgres < /var/lib/postgresql/data/dbexport.pgsql
 
 posgreql volume data is stored inside docker in /var/lib/docker/volumes/bitcoindwrapper_db_data/_data
+
+
+
+query MyQuery {
+  gettransaction(txid: "39d410c05381b725fbd59ffa38dd84e0b19d979ae31c81281a3e9ea219bccc18") {
+    hash
+    hex
+    locktime
+    size
+    totalamount
+    txid
+    version
+    vin {
+      coinbase
+      scriptSig {
+        asm
+        hex
+      }
+      sequence
+      txid
+      txinwitness
+      vout
+    }
+    vout {
+      n
+      scriptPubKey {
+        addresses
+        asm
+        hex
+        reqSigs
+        type
+      }
+      value
+    }
+    vsize
+    weight
+  }
+}

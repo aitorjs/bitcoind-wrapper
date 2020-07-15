@@ -17,7 +17,7 @@ module.exports = class Bitcoin {
 
   async getblockcount() {
     try {
-     return await this.client.getBlockCount()
+      return await this.client.getBlockCount()
     } catch (e) {
       console.log('\n    Error Bitcoin getblockcount', e)
     }
@@ -25,21 +25,37 @@ module.exports = class Bitcoin {
 
   async getblock(block_hash) {
     try {
-     return await this.client.getBlock(block_hash, 2)
+      return await this.client.getBlock(block_hash, 2)
     } catch (e) {
       console.log('\n    Error Bitcoin getblock', e)
     }
   }
 
-  async getTransaction(txid) {
+  async getanytransaction(txid) {
     try {
-      return await this.client.getTransaction(txid)
-     } catch (e) {
-       console.log('\n    Error Bitcoin getTransaction', e)
-     }
+      // getRawTransaction
+      // decodeRawTransaction
+      const rawTransaction = await this.client.getRawTransaction(txid)
+      const tx = await this.client.decodeRawTransaction(rawTransaction)
+      console.log('tx', tx)
+
+      tx.hex = rawTransaction
+      return tx
+
+    } catch (e) {
+      console.log('\n    Error Bitcoin getTransaction', e)
+    }
   }
 
-  /* async listUnspent() {
+  /* async gettransaction(txid) {
+      try {
+        return await this.client.getTransaction(txid)
+       } catch (e) {
+         console.log('\n    Error Bitcoin getTransaction', e)
+       }
+    }
+
+  async listunspent() {
     try {
      return await this.client.listUnspent()
     } catch (e) {
@@ -47,7 +63,7 @@ module.exports = class Bitcoin {
     }
   }
 
-  async createRawTransaction(inputs, outputs) {
+  async createrawtransaction(inputs, outputs) {
     try {
       return await this.client.createRawTransaction(inputs, outputs)
      } catch (e) {
@@ -55,7 +71,7 @@ module.exports = class Bitcoin {
      }
   }
 
-  async signRawTransactionWithWallet(txHex) {
+  async signrawtransactionWithWallet(txHex) {
     try {
       return await this.client.signRawTransactionWithWallet(txHex)
      } catch (e) {
@@ -63,7 +79,7 @@ module.exports = class Bitcoin {
      }
   }
 
-  async sendRawTransaction(hex) {
+  async sendrawtransaction(hex) {
     try {
       return await this.client.sendRawTransaction(hex)
      } catch (e) {
@@ -71,7 +87,7 @@ module.exports = class Bitcoin {
      }
   }
 
-  async estimateSmartFee(blockWait) {
+  async estimatesmartfee(blockWait) {
     try {
       return await this.client.estimateSmartFee(blockWait)
      } catch (e) {
@@ -79,7 +95,7 @@ module.exports = class Bitcoin {
      }
   }
 
-  async getFee(smartFee, txBytes) {
+  async getfee(smartFee, txBytes) {
     let fee = (smartFee / 1024) * txBytes
     fee = parseFloat((fee).toFixed(8))
 
