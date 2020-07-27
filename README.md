@@ -9,7 +9,7 @@ VUE_APP_HASURA_SCHEMA=ws://GRAPHQL_IP:8080/v1/graphql
 ```
 
 - To change the configuration or want you need inside .bitcoin, use
-```$HOME/cyphernode/bitcoin/``` folder. Make bitcoin.conf here: <a href="#regtest">regtest</a> and <a href="#testnet">testnet</a>
+```$HOME/cyphernode/bitcoin/``` folder and permissions to local 1000 UID user. Make bitcoin.conf here: <a href="#regtest">regtest</a> and <a href="#testnet">testnet</a>
 - ```docker network create back```
 - ```docker network create front```
 - ```docker-compose up --build -d```
@@ -174,6 +174,16 @@ pg_dump -U postgres postgres > dbexport.pgsql
 
 postgrespassword
 
+
 docker exec -t bitcoindwrapper_postgres_1 psql -U postgres postgres < /var/lib/postgresql/data/dbexport.pgsql
 
 posgreql volume data is stored inside docker in /var/lib/docker/volumes/bitcoindwrapper_db_data/_data
+
+
+### electrs inside docker container
+
+docker build -t bitcoind-wrapper_bitcoind-electrs .
+
+docker run --network back --volume $HOME/cyphernode/bitcoin:/home/user/.bitcoin --user user -it bitcoind-wrapper_bitcoind-electrs
+
+electrs -vvvv --daemon-dir ~/.bitcoin --daemon-rpc-addr bitcoind:18332 --network testnet --db-dir .electrs/db --electrum-rpc-addr 0.0.0.0:50001 --txid-limit 1000
