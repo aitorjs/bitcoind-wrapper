@@ -17,7 +17,7 @@ module.exports = class Bitcoin {
 
   async getblockcount() {
     try {
-     return await this.client.getBlockCount()
+      return await this.client.getBlockCount()
     } catch (e) {
       console.log('\n    Error Bitcoin getblockcount', e)
     }
@@ -25,61 +25,62 @@ module.exports = class Bitcoin {
 
   async getblock(block_hash) {
     try {
-     return await this.client.getBlock(block_hash, 2)
+      return await this.client.getBlock(block_hash, 2)
     } catch (e) {
       console.log('\n    Error Bitcoin getblock', e)
     }
   }
 
-  async getTransaction(txid) {
+  async gettransaction(txid) {
     try {
-      return await this.client.getTransaction(txid)
-     } catch (e) {
-       console.log('\n    Error Bitcoin getTransaction', e)
-     }
-  }
-
-  /* async listUnspent() {
-    try {
-     return await this.client.listUnspent()
+      const tx = await this.client.getRawTransaction(txid, true)
+      return tx
     } catch (e) {
-      console.log('\n    Error Bitcoin listUnspent', e)
+      console.log('\n    Error Bitcoin gettransaction', e)
     }
   }
 
-  async createRawTransaction(inputs, outputs) {
+  /* async listunspent() {
+    try {
+     return await this.client.listUnspent()
+    } catch (e) {
+      console.log('\n    Error Bitcoin listunspent', e)
+    }
+  }
+
+  async createrawtransaction(inputs, outputs) {
     try {
       return await this.client.createRawTransaction(inputs, outputs)
      } catch (e) {
-       console.log('\n    Error Bitcoin createRawTransaction', e)
+       console.log('\n    Error Bitcoin createrawtransaction', e)
      }
   }
 
-  async signRawTransactionWithWallet(txHex) {
+  async signrawtransactionwithwallet(txHex) {
     try {
       return await this.client.signRawTransactionWithWallet(txHex)
      } catch (e) {
-       console.log('\n    Error Bitcoin signRawTransactionWithWallet', e)
+       console.log('\n    Error Bitcoin signrawtransactionwithwallet', e)
      }
   }
 
-  async sendRawTransaction(hex) {
+  async sendrawtransaction(hex) {
     try {
       return await this.client.sendRawTransaction(hex)
      } catch (e) {
-       console.log('\n    Error Bitcoin sendRawTransaction', e)
+       console.log('\n    Error Bitcoin sendrawtransaction', e)
      }
   }
 
-  async estimateSmartFee(blockWait) {
+  async estimatesmartfee(blockWait) {
     try {
       return await this.client.estimateSmartFee(blockWait)
      } catch (e) {
-       console.log('\n    Error Bitcoin estimateSmartFee', e)
+       console.log('\n    Error Bitcoin estimatesmartfee', e)
      }
   }
 
-  async getFee(smartFee, txBytes) {
+  async getfee(smartFee, txBytes) {
     let fee = (smartFee / 1024) * txBytes
     fee = parseFloat((fee).toFixed(8))
 

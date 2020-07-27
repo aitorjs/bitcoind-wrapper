@@ -94,7 +94,7 @@
                   <v-row no-gutters style="background-color:lightgrey">
                     <v-col>
                       <div class="pa-3" id="nocoinbase-header">
-                        {{tx.txid}}
+                        <router-link @click.native.stop="''" :to="`/tx/${tx.txid}`">{{tx.txid}}</router-link>
                         <i
                           id="header-expansor"
                           @click="evaluate(x)"

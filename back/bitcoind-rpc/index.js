@@ -42,6 +42,10 @@ const typeDefs = gql`
     vout: [Output!]
     hex: String!
     totalamount: Float!
+    confirmations: Int
+    blockhash: String
+    time: String
+
   }
 
   type Block {
@@ -66,6 +70,9 @@ const typeDefs = gql`
   extend type Query {
     getblock(hash: String, first: Int, skip: Int): Block!
   }
+  extend type Query {
+    gettransaction(txid: String): Transaction!
+  }
 `;
 
 const resolvers = {
@@ -85,7 +92,6 @@ const resolvers = {
       }
     },
     getblock: async (parent, args, context) => {
-      // 0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
       console.log('parent GET BLOCK', parent)
       console.log('args', args)
       console.log('context', context)
@@ -114,6 +120,26 @@ const resolvers = {
         console.log("err", e);
         return null;
       }
+    },
+    gettransaction: async (parent, args, context) => {
+      /*       console.log('parent GET TX', parent)
+            console.log('args', args)
+            console.log('context', context)
+       */
+      try {
+        let tx = await new Rpc().gettransaction(args.txid);
+
+        tx.totalamount = 0
+        tx.vout.map(output => {
+          tx.totalamount += output.value
+        })
+
+        return tx
+      } catch (e) {
+        console.log("err", e);
+        return null;
+      }
+
     }
   }
 };
