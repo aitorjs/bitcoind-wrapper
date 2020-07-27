@@ -1,6 +1,9 @@
 # CHANGELOG
+## v0.2.3 (27/07/2020):
+  - Explorer for transactions added using bitcoin RPC directly
+
 ## v0.2.2 (08/07/2020):
-  - Explorer for block added using bitcoin RPC directly
+  - Explorer for blocks added using bitcoin RPC directly
 
 ## v0.2.1 (26/05/2020):
   - Time ago and local time added
