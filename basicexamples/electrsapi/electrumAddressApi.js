@@ -1,19 +1,15 @@
-var debug = require("debug");
-// var debugLog = debug("btcexp:electrumx");
-
 var config = require("./config.js");
 var coins = require("./coins.js");
 var utils = require("./utils.js");
 var sha256 = require("crypto-js/sha256");
 var hexEnc = require("crypto-js/enc-hex");
- 
+
 var coinConfig = coins[config.coin];
 
 global.net = require('net');
 global.tls = require('tls');
 
 const ElectrumClient = require('electrum-client');
-
 
 var electrumClients = [];
 
@@ -30,10 +26,8 @@ var noConnectionsErrorText = "No ElectrumX connection available. This could mean
 
 
 function connectToServers() {
-	console.log('hiola')
-	return new Promise(function(resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		var promises = [];
-console.log('antes config', config.electrumXServers);
 		for (var i = 0; i < config.electrumXServers.length; i++) {
 			console.log('config', config.electrumXServers[i])
 			var { host, port, protocol } = config.electrumXServers[i];
@@ -41,10 +35,10 @@ console.log('antes config', config.electrumXServers);
 			promises.push(connectToServer(host, port, protocol));
 		}
 
-		Promise.all(promises).then(function() {
+		Promise.all(promises).then(function () {
 			resolve();
 
-		}).catch(function(err) {
+		}).catch(function (err) {
 			utils.logError("120387rygxx231gwe40", err);
 
 			reject(err);
@@ -53,14 +47,14 @@ console.log('antes config', config.electrumXServers);
 }
 
 function connectToServer(host, port, protocol) {
-	return new Promise(function(resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		// default protocol is 'tcp' if port is 50001, which is the default unencrypted port for electrumx
 		var defaultProtocol = port === 50001 ? 'tcp' : 'tls';
 
-		var electrumConfig = { client:"btc-rpc-explorer-v2", version:"1.4" };
+		var electrumConfig = { client: "btc-rpc-explorer-v2", version: "1.4" };
 		var electrumPersistencePolicy = { retryPeriod: 10000, maxRetry: 1000, callback: null };
-console.log('aupa!1');
-		var onConnect = function(client, versionInfo) {
+
+		var onConnect = function (client, versionInfo) {
 			console.log(`Connected to ElectrumX @ ${host}:${port} (${JSON.stringify(versionInfo)})`);
 
 			global.electrumStats.base.connect.count++;
@@ -75,8 +69,8 @@ console.log('aupa!1');
 			resolve();
 		};
 
-		var onClose = function(client) {
-			debugLog(`Disconnected from ElectrumX @ ${host}:${port}`);
+		var onClose = function (client) {
+			console.log(`Disconnected from ElectrumX @ ${host}:${port}`);
 
 			global.electrumStats.base.disconnect.count++;
 			global.electrumStats.base.disconnect.lastSeenAt = new Date();
@@ -92,8 +86,8 @@ console.log('aupa!1');
 			}
 		};
 
-		var onError = function(err) {
-			debugLog(`Electrum error: ${JSON.stringify(err)}`);
+		var onError = function (err) {
+			console.log(`Electrum error: ${JSON.stringify(err)}`);
 
 			global.electrumStats.base.error.count++;
 			global.electrumStats.base.error.lastSeenAt = new Date();
@@ -102,11 +96,11 @@ console.log('aupa!1');
 				global.electrumStats.base.error.firstSeenAt = new Date();
 			}
 
-			utils.logError("937gf47dsyde", err, {host:host, port:port, protocol:protocol});
+			utils.logError("937gf47dsyde", err, { host: host, port: port, protocol: protocol });
 		};
 
-		var onLog = function(str) {
-			debugLog(str);
+		var onLog = function (str) {
+			console.log(str);
 		};
 
 		var electrumCallbacks = {
@@ -117,54 +111,50 @@ console.log('aupa!1');
 		};
 
 		var electrumClient = new ElectrumClient(port, host, protocol || defaultProtocol, null, electrumCallbacks);
-		console.log('electrumCLient', electrumConfig);
-		electrumClient.initElectrum(electrumConfig, electrumPersistencePolicy).then(function() {
+		electrumClient.initElectrum(electrumConfig, electrumPersistencePolicy).then(function () {
 			// success handled by onConnect callback
-console.log('DENTRO');
-resolve(true)
-		}).catch(function(err) {
+		}).catch(function (err) {
 			console.log(`Error connecting to ElectrumX @ ${host}:${port}`);
-
-			reject(err);
-		});
-	});
-}
-
-function runOnServer(electrumClient, f) {
-	return new Promise(function(resolve, reject) {
-		f(electrumClient).then(function(result) {
-			resolve({result:result, server:electrumClient.host});
-			
-		}).catch(function(err) {
-			utils.logError("dif0e21qdh", err, {host:electrumClient.host, port:electrumClient.port});
-
 			reject(err);
 		});
 	});
 }
 
 function runOnAllServers(f) {
-	return new Promise(function(resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		var promises = [];
 
 		for (var i = 0; i < electrumClients.length; i++) {
 			promises.push(runOnServer(electrumClients[i], f));
 		}
 
-		Promise.all(promises).then(function(results) {
+		Promise.all(promises).then(function (results) {
 			resolve(results);
 
-		}).catch(function(err) {
+		}).catch(function (err) {
 			reject(err);
 		});
 	});
 }
 
+function runOnServer(electrumClient, f) {
+	return new Promise(function (resolve, reject) {
+		f(electrumClient).then(function (result) {
+			resolve({ result: result, server: electrumClient.host });
+
+		}).catch(function (err) {
+			utils.logError("dif0e21qdh", err, { host: electrumClient.host, port: electrumClient.port });
+
+			reject(err);
+		});
+	});
+}
+
+
 function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
-	return new Promise(function(resolve, reject) {
-		console.log('clients', electrumClients)
+	return new Promise(function (resolve, reject) {
 		if (electrumClients.length == 0) {
-			reject({error: "No ElectrumX Connection", userText: noConnectionsErrorText});
+			reject({ error: "No ElectrumX Connection", userText: noConnectionsErrorText });
 
 			return;
 		}
@@ -177,14 +167,14 @@ function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
 		var txidData = null;
 		var balanceData = null;
 
-		promises.push(new Promise(function(resolve2, reject2) {
-			getAddressTxids(addrScripthash).then(function(result) {
+		promises.push(new Promise(function (resolve2, reject2) {
+			getAddressTxids(addrScripthash).then(function (result) {
 				txidData = result.result;
 
 				resolve2();
 
-			}).catch(function(err) {
-				err.userData = {address:address, sort:sort, limit:limit, offset:offset};
+			}).catch(function (err) {
+				err.userData = { address: address, sort: sort, limit: limit, offset: offset };
 
 				utils.logError("2397wgs0sgse", err);
 
@@ -192,14 +182,14 @@ function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
 			});
 		}));
 
-		promises.push(new Promise(function(resolve2, reject2) {
-			getAddressBalance(addrScripthash).then(function(result) {
+		promises.push(new Promise(function (resolve2, reject2) {
+			getAddressBalance(addrScripthash).then(function (result) {
 				balanceData = result.result;
 
 				resolve2();
-				
-			}).catch(function(err) {
-				err.userData = {address:address, sort:sort, limit:limit, offset:offset};
+
+			}).catch(function (err) {
+				err.userData = { address: address, sort: sort, limit: limit, offset: offset };
 
 				utils.logError("21307ws70sg", err);
 
@@ -207,7 +197,7 @@ function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
 			});
 		}));
 
-		Promise.all(promises.map(utils.reflectPromise)).then(function(results) {
+		Promise.all(promises.map(utils.reflectPromise)).then(function (results) {
 			var addressDetails = {};
 
 			if (txidData) {
@@ -235,32 +225,32 @@ function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
 			}
 
 			var errors = [];
-			results.forEach(function(x) {
+			results.forEach(function (x) {
 				if (x.status == "rejected") {
 					errors.push(x);
 				}
- 			});
+			});
 
-			resolve({addressDetails:addressDetails, errors:errors});
+			resolve({ addressDetails: addressDetails, errors: errors });
 		});
 	});
 }
 
 function getAddressTxids(addrScripthash) {
-	return new Promise(function(resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		var startTime = new Date().getTime();
 
-		runOnAllServers(function(electrumClient) {
+		runOnAllServers(function (electrumClient) {
 			return electrumClient.blockchainScripthash_getHistory(addrScripthash);
 
-		}).then(function(results) {
+		}).then(function (results) {
 			console.log(`getAddressTxids=${utils.ellipsize(JSON.stringify(results), 200)}`);
 
 			logStats("blockchainScripthash_getHistory", new Date().getTime() - startTime, true);
 
 			if (addrScripthash == coinConfig.genesisCoinbaseOutputAddressScripthash) {
 				for (var i = 0; i < results.length; i++) {
-					results[i].result.unshift({tx_hash:coinConfig.genesisCoinbaseTransactionIdsByNetwork[global.activeBlockchain], height:0});
+					results[i].result.unshift({ tx_hash: coinConfig.genesisCoinbaseTransactionIdsByNetwork[global.activeBlockchain], height: 0 });
 				}
 			}
 
@@ -269,7 +259,7 @@ function getAddressTxids(addrScripthash) {
 
 			for (var i = 1; i < results.length; i++) {
 				if (results[i].length != first.length) {
-					resolve({conflictedResults:results});
+					resolve({ conflictedResults: results });
 
 					done = true;
 				}
@@ -278,7 +268,7 @@ function getAddressTxids(addrScripthash) {
 			if (!done) {
 				resolve(results[0]);
 			}
-		}).catch(function(err) {
+		}).catch(function (err) {
 			logStats("blockchainScripthash_getHistory", new Date().getTime() - startTime, false);
 
 			reject(err);
@@ -287,13 +277,13 @@ function getAddressTxids(addrScripthash) {
 }
 
 function getAddressBalance(addrScripthash) {
-	return new Promise(function(resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		var startTime = new Date().getTime();
 
-		runOnAllServers(function(electrumClient) {
+		runOnAllServers(function (electrumClient) {
 			return electrumClient.blockchainScripthash_getBalance(addrScripthash);
 
-		}).then(function(results) {
+		}).then(function (results) {
 			console.log(`getAddressBalance=${JSON.stringify(results)}`);
 
 			logStats("blockchainScripthash_getBalance", new Date().getTime() - startTime, true);
@@ -301,7 +291,7 @@ function getAddressBalance(addrScripthash) {
 			if (addrScripthash == coinConfig.genesisCoinbaseOutputAddressScripthash) {
 				for (var i = 0; i < results.length; i++) {
 					var coinbaseBlockReward = coinConfig.blockRewardFunction(0, global.activeBlockchain);
-					
+
 					results[i].result.confirmed += (coinbaseBlockReward * coinConfig.baseCurrencyUnit.multiplier);
 				}
 			}
@@ -311,7 +301,7 @@ function getAddressBalance(addrScripthash) {
 
 			for (var i = 1; i < results.length; i++) {
 				if (results[i].confirmed != first.confirmed) {
-					resolve({conflictedResults:results});
+					resolve({ conflictedResults: results });
 
 					done = true;
 				}
@@ -320,7 +310,7 @@ function getAddressBalance(addrScripthash) {
 			if (!done) {
 				resolve(results[0]);
 			}
-		}).catch(function(err) {
+		}).catch(function (err) {
 			logStats("blockchainScripthash_getBalance", new Date().getTime() - startTime, false);
 
 			reject(err);
@@ -330,7 +320,7 @@ function getAddressBalance(addrScripthash) {
 
 function logStats(cmd, dt, success) {
 	if (!global.electrumStats.rpc[cmd]) {
-		global.electrumStats.rpc[cmd] = {count:0, time:0, successes:0, failures:0};
+		global.electrumStats.rpc[cmd] = { count: 0, time: 0, successes: 0, failures: 0 };
 	}
 
 	global.electrumStats.rpc[cmd].count++;
