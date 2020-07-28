@@ -1,19 +1,15 @@
-FROM rust:1.44.1-slim-buster
+FROM rust:latest
 
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends clang=1:7.* cmake=3.* \
-  libsnappy-dev=1.* curl nano\
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update
+RUN apt-get install -y clang cmake
+
+RUN cargo install electrs
 
 RUN adduser --disabled-login --system --shell /bin/false --uid 1000 user
+COPY ./run.sh /home/user
 
 USER user
 WORKDIR /home/user
-COPY ./ /home/user
-
-RUN cargo build --release
-RUN cargo install --path .
 
 # Electrum RPC
 EXPOSE 50001
@@ -22,3 +18,5 @@ EXPOSE 50001
 EXPOSE 4224
 
 STOPSIGNAL SIGINT
+
+# CMD ["electrs", "-vvvv", "--timestamp", "--daemon-dir", "~/.bitcoin", "--daemon-rpc-addr", "bitcoind:18332", "--network", "testnet", "--db-dir", ".electrs/db", "--electrum-rpc-addr", "0.0.0.0:50001", "--txid-limit", "1000"]

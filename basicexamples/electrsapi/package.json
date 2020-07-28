@@ -9,6 +9,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.7.2",
+    "crypto-js": "^4.0.0",
+    "debug": "^4.1.1",
+    "decimal.js": "^10.2.0",
+    "dotenv": "^8.2.0",
+    "electrum-client": "github:janoside/electrum-client",
+    "path": "^0.12.7",
+    "qrcode": "^1.4.4",
+    "redis": "^3.0.2",
     "request": "^2.88.2"
   }
 }
