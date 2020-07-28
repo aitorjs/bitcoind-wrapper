@@ -20,8 +20,12 @@ var electrumAddressApi = require("./electrumAddressApi.js");
 
 const main = async () => {
   electrumAddressApi.connectToServers().then(async function () {
-    const address = "N9bzWUV8aLzaQsBh7ss7Yk1FEsyrNgAubY"
-    const scriptPubkey = "a914b36f7ee2787ab46bc1633f3c6e340476a1ebee8187"
+
+    const address = "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
+
+    // TODO: Sacar este dato desde el RPC asi:
+    // bitcoin-cli getaddressinfo "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
+    const scriptPubkey = "a9145e785f3cb8254f81d3fdfa14e69d3b9bbe95ea6787"
 
     const a = await getAddressDetails(address, scriptPubkey)
     console.log('RESULT', a);
