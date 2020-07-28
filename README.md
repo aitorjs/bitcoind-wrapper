@@ -38,8 +38,6 @@ VUE_APP_HASURA_SCHEMA=ws://GRAPHQL_IP:8080/v1/graphql
 regtest=1
 
 server=1
-rpcuser=paco
-rpcpassword=paco
 
 zmqpubhashblock=tcp://0.0.0.0:3000
 zmqpubrawblock=tcp://0.0.0.0:3001
@@ -57,8 +55,6 @@ rpcallowip=0.0.0.0/0
 testnet=1
 
 server=1
-rpcuser=paco
-rpcpassword=paco
 
 txindex=1
 
@@ -89,11 +85,6 @@ RPC     |  8332   |  18332  |  18443
 - sudo apt-get install git docker.io docker-compose
 - sudo usermod -aG docker $USER
 - reload pc
-```
-
-## .cookie
-```
-paco:paco
 ```
 
 ## Ports

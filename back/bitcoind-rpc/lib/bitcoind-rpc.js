@@ -1,14 +1,18 @@
 const Client = require('bitcoin-core')
+const fs = require('fs')
 
 module.exports = class Bitcoin {
   constructor() {
     console.log('env', process.env)
+    const auth = fs.readFileSync(process.env.BITCOIND_RPC_COOKIE,
+      { encoding: 'utf8' }).split(":");
+
     this.client = new Client({
       // network: 'regtest',
       port: process.env.BITCOIND_RPC_PORT,
       host: process.env.BITCOIND_RPC_HOST,
-      username: process.env.BITCOIND_RPC_USERNAME,
-      password: process.env.BITCOIND_RPC_PASSWORD
+      username: auth[0],
+      password: auth[1]
     })
 
     // this.fee = new Big(0.00001000)
