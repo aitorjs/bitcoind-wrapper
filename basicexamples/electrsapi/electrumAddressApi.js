@@ -170,7 +170,6 @@ function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
 		promises.push(new Promise(function (resolve2, reject2) {
 			getAddressTxids(addrScripthash).then(function (result) {
 				txidData = result.result;
-
 				resolve2();
 
 			}).catch(function (err) {
@@ -185,7 +184,7 @@ function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
 		promises.push(new Promise(function (resolve2, reject2) {
 			getAddressBalance(addrScripthash).then(function (result) {
 				balanceData = result.result;
-
+				console.log('balance', balanceData);
 				resolve2();
 
 			}).catch(function (err) {

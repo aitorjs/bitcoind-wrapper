@@ -30,7 +30,7 @@ const main = async () => {
   });
 }
 
-function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
+function getAddressDetails(address, scriptPubkey, sort, limit = 10, offset = 0) {
   return new Promise(function (resolve, reject) {
     var promises = [];
 
@@ -42,7 +42,6 @@ function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
 
     Promise.all(promises).then(function (results) {
       if (results && results.length > 0) {
-        console.log('res', results[0]);
         resolve(results[0]);
 
       } else {
