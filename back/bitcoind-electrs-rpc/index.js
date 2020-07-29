@@ -61,14 +61,17 @@ const { InMemoryCache } = require('apollo-cache-inmemory');
 const { HttpLink } = require('apollo-link-http');
 const fetch = require('node-fetch');
 
+// blockHeightsByTxid
 const typeDefs = gql`
   type Address {
-    height: Int!
+    txCount: Int!
+    txids: [String!]
+    balanceSat: Int!
+    unconfirmedBalanceSat: Int
   }
   type Query {
     getaddress(address: String!): Address!
-  }
-`;
+  }`;
 
 // Create an http link:
 const link = new HttpLink({
@@ -111,12 +114,10 @@ const resolvers = {
         // bitcoin-cli getaddressinfo "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
         const scriptPubkey = "a9145e785f3cb8254f81d3fdfa14e69d3b9bbe95ea6787"
 
-        const a = await getAddressDetails(address, scriptPubkey)
-        console.log('RESULT', a);
+        const getaddress = await getAddressDetails(address, scriptPubkey)
+        console.log('RESULT', getaddress);
 
-        return {
-          height: 10
-        }
+        return getaddress.addressDetails
       } catch (err) {
         console.error('err on query', err)
       }

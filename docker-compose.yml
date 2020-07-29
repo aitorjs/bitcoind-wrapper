@@ -105,7 +105,7 @@ services:
     environment:
       HASURA_SCHEMA_URL: http://graphql-engine:8080/v1/graphql
       HASURA_PASS: secretkey
-      ELECTRS_RPC_ENDPOINT: http://bitcoin-electrs:9001/
+      ELECTRS_RPC_ENDPOINT: http://bitcoind-electrs-rpc:9001/
     networks:
       - back
     restart: always

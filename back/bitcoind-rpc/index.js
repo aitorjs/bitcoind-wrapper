@@ -64,6 +64,19 @@ const typeDefs = gql`
     difficulty: String!
     previousblockhash: String!
   }
+
+  type BTCAddress {
+    address: String!
+    scriptPubKey: String!
+    ismine: Boolean
+    solvable: Boolean
+    iswatchonly: Boolean
+    isscript: Boolean
+    iswitness: Boolean
+    ischange: Boolean
+    labels: [String]
+  }
+
   type Query {
     getblockcount: Blockcount!
   }
@@ -72,6 +85,9 @@ const typeDefs = gql`
   }
   extend type Query {
     gettransaction(txid: String): Transaction!
+  }
+  extend type Query {
+    getaddressinfo(address: String): BTCAddress!
   }
 `;
 
@@ -135,6 +151,22 @@ const resolvers = {
         })
 
         return tx
+      } catch (e) {
+        console.log("err", e);
+        return null;
+      }
+
+    },
+    getaddressinfo: async (parent, args, context) => {
+      /*       console.log('parent GET TX', parent)
+            console.log('args', args)
+            console.log('context', context)
+       */
+      try {
+        console.log('address', args.address)
+        const address = await new Rpc().getaddressinfo(args.address);
+        console.log('res', address)
+        return address
       } catch (e) {
         console.log("err", e);
         return null;

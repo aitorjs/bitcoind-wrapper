@@ -44,6 +44,15 @@ module.exports = class Bitcoin {
     }
   }
 
+  async getaddressinfo(address) {
+    try {
+      const addr = await this.client.getAddressInfo(address)
+      return addr
+    } catch (e) {
+      console.log('\n    Error Bitcoin getaddressinfo', e)
+    }
+  }
+
   /* async listunspent() {
     try {
      return await this.client.listUnspent()
