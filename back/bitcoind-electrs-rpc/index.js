@@ -50,12 +50,16 @@ function getAddressDetails(address, scriptPubkey, sort, limit = 10, offset = 0) 
   });
 }
 
+// connect()
 main()
 
 
 const { ApolloServer } = require('apollo-server');
+const { ApolloClient } = require('apollo-boost');
 const gql = require('graphql-tag');
-// const Rpc = require('./lib/bitcoind-rpc')
+const { InMemoryCache } = require('apollo-cache-inmemory');
+const { HttpLink } = require('apollo-link-http');
+const fetch = require('node-fetch');
 
 const typeDefs = gql`
   type Address {
@@ -66,26 +70,58 @@ const typeDefs = gql`
   }
 `;
 
+// Create an http link:
+const link = new HttpLink({
+  uri: process.env.HASURA_SCHEMA_URL,
+  fetch,
+  headers: { 'x-hasura-admin-secret': process.env.HASURA_PASS }
+})
+
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache({
+    addTypename: true
+  })
+})
+
+const GETSCRIPTPUBKEY = gql`
+query MyQuery {
+  getblockcount {
+    height
+  }
+}`
+
+
 const resolvers = {
   Query: {
     getaddress: async (parent, args, context) => {
-      // const authHeaders = context.headers.authorization || '';
-      console.log('parent', parent)
-      console.log('args', args)
-      console.log('context', context)
+      try {
+        queryResp = await client.query({
+          query: GETSCRIPTPUBKEY
+        })
+        console.log('resp query', queryResp.data.getblockcount)
 
-      const address = "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
+        console.log('parent', parent)
+        console.log('args', args)
+        console.log('context', context)
 
-      // TODO: Sacar este dato desde el RPC asi:
-      // bitcoin-cli getaddressinfo "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
-      const scriptPubkey = "a9145e785f3cb8254f81d3fdfa14e69d3b9bbe95ea6787"
+        const address = "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
 
-      const a = await getAddressDetails(address, scriptPubkey)
-      console.log('RESULT', a);
+        // TODO: Sacar este dato desde el RPC asi:
+        // bitcoin-cli getaddressinfo "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
+        const scriptPubkey = "a9145e785f3cb8254f81d3fdfa14e69d3b9bbe95ea6787"
 
-      return {
-        height: 10
+        const a = await getAddressDetails(address, scriptPubkey)
+        console.log('RESULT', a);
+
+        return {
+          height: 10
+        }
+      } catch (err) {
+        console.error('err on query', err)
       }
+
+
     }
   }
 };

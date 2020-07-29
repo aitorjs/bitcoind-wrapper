@@ -20,6 +20,8 @@
     "redis": "^3.0.2",
     "request": "^2.88.2",
     "apollo-server": "^2.11.0",
-    "graphql": "^14.6.0"
+    "graphql": "^14.6.0",
+    "apollo-boost": "^0.4.7",
+    "node-fetch": "^2.6.0"
   }
 }
