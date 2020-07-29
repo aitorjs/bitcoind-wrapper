@@ -6,7 +6,6 @@ RUN apt-get install -y clang cmake
 RUN cargo install electrs
 
 RUN adduser --disabled-login --system --shell /bin/false --uid 1000 user
-COPY ./run.sh /home/user
 
 USER user
 WORKDIR /home/user
@@ -19,4 +18,4 @@ EXPOSE 4224
 
 STOPSIGNAL SIGINT
 
-# CMD ["electrs", "-vvvv", "--timestamp", "--daemon-dir", "~/.bitcoin", "--daemon-rpc-addr", "bitcoind:18332", "--network", "testnet", "--db-dir", ".electrs/db", "--electrum-rpc-addr", "0.0.0.0:50001", "--txid-limit", "1000"]
+CMD ["electrs", "-vvvv", "--timestamp"]

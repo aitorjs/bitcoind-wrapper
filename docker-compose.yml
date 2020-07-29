@@ -71,6 +71,33 @@ services:
       - back
     restart: always
 
+  bitcoin-electrs:
+    build: ./docker/bitcoind-electrs
+    entrypoint:
+      - electrs
+    command:
+      - -vvvv
+      - --daemon-dir
+      - /home/user/.bitcoin
+      - --daemon-rpc-addr
+      - bitcoind:18332
+      - --network
+      - testnet
+      - --db-dir
+      - .bitcoin/.electrs/db
+      - --electrum-rpc-addr
+      - 0.0.0.0:50001
+      - --txid-limit
+      - "1000"
+    volumes:
+      - $HOME/cyphernode/bitcoin/:/home/user/.bitcoin
+    depends_on:
+      - "bitcoind"
+    networks:
+      - back
+    restart: always
+
+
   # bitcoind-zmq-front:
   #  build: ./front/bitcoind-zmq
   #  ports:
