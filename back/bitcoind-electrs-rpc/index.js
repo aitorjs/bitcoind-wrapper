@@ -66,8 +66,8 @@ const typeDefs = gql`
   type Address {
     txCount: Int!
     txids: [String!]
-    balanceSat: Int!
-    unconfirmedBalanceSat: Int
+    balanceSat: String!
+    unconfirmedBalanceSat: String
   }
   type Query {
     getaddress(address: String!): Address!
@@ -88,19 +88,22 @@ const client = new ApolloClient({
 })
 
 const GETSCRIPTPUBKEY = gql`
-query MyQuery {
-  getblockcount {
-    height
+query MyQuery($address: String!) {
+  getaddressinfo(address: $address) {
+    scriptPubKey
   }
 }`
-
 
 const resolvers = {
   Query: {
     getaddress: async (parent, args, context) => {
+      const address = args.address
       try {
         queryResp = await client.query({
-          query: GETSCRIPTPUBKEY
+          query: GETSCRIPTPUBKEY,
+          variables: {
+            address
+          }
         })
         console.log('resp query', queryResp.data.getblockcount)
 
@@ -108,11 +111,8 @@ const resolvers = {
         console.log('args', args)
         console.log('context', context)
 
-        const address = "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
-
-        // TODO: Sacar este dato desde el RPC asi:
-        // bitcoin-cli getaddressinfo "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
-        const scriptPubkey = "a9145e785f3cb8254f81d3fdfa14e69d3b9bbe95ea6787"
+        // const address = "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
+        const scriptPubkey = queryResp.data.getaddressinfo.scriptPubKey
 
         const getaddress = await getAddressDetails(address, scriptPubkey)
         console.log('RESULT', getaddress);
