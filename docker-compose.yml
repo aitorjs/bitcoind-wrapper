@@ -97,6 +97,14 @@ services:
       - back
     restart: always
 
+  bitcoind-electrs-rpc:
+    build: ./back/bitcoind-electrs-rpc
+    depends_on:
+      - "bitcoind"
+      - "bitcoin-electrs"
+    networks:
+      - back
+    restart: always
 
   # bitcoind-zmq-front:
   #  build: ./front/bitcoind-zmq

@@ -31,7 +31,7 @@ function connectToServers() {
 		for (var i = 0; i < config.electrumXServers.length; i++) {
 			console.log('config', config.electrumXServers[i])
 			var { host, port, protocol } = config.electrumXServers[i];
-			console.log('DATA', host, port, protocol)
+
 			promises.push(connectToServer(host, port, protocol));
 		}
 
