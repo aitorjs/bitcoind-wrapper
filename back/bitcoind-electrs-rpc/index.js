@@ -21,14 +21,7 @@ var electrumAddressApi = require("./electrumAddressApi.js");
 const main = async () => {
   electrumAddressApi.connectToServers().then(async function () {
 
-    const address = "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
 
-    // TODO: Sacar este dato desde el RPC asi:
-    // bitcoin-cli getaddressinfo "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
-    const scriptPubkey = "a9145e785f3cb8254f81d3fdfa14e69d3b9bbe95ea6787"
-
-    const a = await getAddressDetails(address, scriptPubkey)
-    console.log('RESULT', a);
   }).catch(function (err) {
     console.log("31207ugf4e0fed", err);
   });
@@ -58,3 +51,51 @@ function getAddressDetails(address, scriptPubkey, sort, limit = 10, offset = 0) 
 }
 
 main()
+
+
+const { ApolloServer } = require('apollo-server');
+const gql = require('graphql-tag');
+// const Rpc = require('./lib/bitcoind-rpc')
+
+const typeDefs = gql`
+  type Address {
+    height: Int!
+  }
+  type Query {
+    getaddress(address: String!): Address!
+  }
+`;
+
+const resolvers = {
+  Query: {
+    getaddress: async (parent, args, context) => {
+      // const authHeaders = context.headers.authorization || '';
+      console.log('parent', parent)
+      console.log('args', args)
+      console.log('context', context)
+
+      const address = "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
+
+      // TODO: Sacar este dato desde el RPC asi:
+      // bitcoin-cli getaddressinfo "2N1rjhumXA3ephUQTDMfGhufxGQPZuZUTMk"
+      const scriptPubkey = "a9145e785f3cb8254f81d3fdfa14e69d3b9bbe95ea6787"
+
+      const a = await getAddressDetails(address, scriptPubkey)
+      console.log('RESULT', a);
+
+      return {
+        height: 10
+      }
+    }
+  }
+};
+
+const context = ({ req }) => {
+  return { headers: req.headers };
+};
+
+const schema = new ApolloServer({ typeDefs, resolvers, context, playground: true });
+// process.env.PORT
+schema.listen({ port: 9001 }).then(({ url }) => {
+  console.log(`schema ready at ${url}`);
+});
