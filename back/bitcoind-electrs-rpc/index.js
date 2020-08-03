@@ -62,10 +62,54 @@ const { HttpLink } = require('apollo-link-http');
 const fetch = require('node-fetch');
 
 // blockHeightsByTxid
+// TODO importarlo desde un fichero como los demas gpl
+// porque este ADEMAS esta repetido en bitcoind-rpc
+// desde ScriptSig a Transaction
 const typeDefs = gql`
+
+type ScriptSig {
+  asm: String!
+  hex: String!
+}
+type Input {
+  coinbase: String
+  txid: String
+  vout: Int
+  scriptSig: ScriptSig
+  txinwitness: [String]
+  sequence: String!
+}
+type ScriptPubKey {
+  asm: String!
+  hex: String!
+  reqSigs: Int
+  type: String!
+  addresses: [String]
+}
+type Output {
+  value: Float!
+  n: Int!
+  scriptPubKey: ScriptPubKey!
+}
+type Transaction {
+  txid: String!
+  hash: String!
+  version: Int!
+  size: Int!
+  vsize: Int!
+  weight: Int!
+  locktime: Int!
+  vin: [Input!]
+  vout: [Output!]
+  hex: String!
+  totalamount: Float!
+  confirmations: Int
+  blockhash: String
+  time: String
+}
   type Address {
     txCount: Int!
-    txids: [String!]
+    txids: [Transaction!]
     balanceSat: String!
     unconfirmedBalanceSat: String
   }
@@ -93,6 +137,8 @@ query MyQuery($address: String!) {
     scriptPubKey
   }
 }`
+
+
 
 const resolvers = {
   Query: {

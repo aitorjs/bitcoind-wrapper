@@ -45,7 +45,6 @@ const typeDefs = gql`
     confirmations: Int
     blockhash: String
     time: String
-
   }
 
   type Block {

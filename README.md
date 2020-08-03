@@ -158,6 +158,21 @@ query MyQuery {
   }
 }
 
+
+### get address data (using electrs)
+query MyQuery {
+  getaddress(address: "mqqy8ixtz1Dxxie1c5reASq9EHiFENGSuJ") {
+    balanceSat
+    txCount
+    unconfirmedBalanceSat
+    txids {
+      confirmations
+      blockhash
+      txid
+    }
+  }
+}
+
 ### About posgreql
 
 

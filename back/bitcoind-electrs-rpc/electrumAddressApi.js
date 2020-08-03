@@ -1,17 +1,17 @@
-var config = require("./config.js");
-var coins = require("./coins.js");
-var utils = require("./utils.js");
-var sha256 = require("crypto-js/sha256");
-var hexEnc = require("crypto-js/enc-hex");
+const config = require("./config.js");
+const coins = require("./coins.js");
+const utils = require("./utils.js");
+const sha256 = require("crypto-js/sha256");
+const hexEnc = require("crypto-js/enc-hex");
 
-var coinConfig = coins[config.coin];
+const coinConfig = coins[config.coin];
 
 global.net = require('net');
 global.tls = require('tls');
 
 const ElectrumClient = require('electrum-client');
 
-var electrumClients = [];
+let electrumClients = [];
 
 global.electrumStats = {
 	base: {
@@ -22,8 +22,78 @@ global.electrumStats = {
 	rpc: {}
 };
 
-var noConnectionsErrorText = "No ElectrumX connection available. This could mean that the connection was lost or that ElectrumX is processing transactions and therefore not accepting requests. This tool will try to reconnect. If you manage your own ElectrumX server you may want to check your ElectrumX logs.";
+const noConnectionsErrorText = "No ElectrumX connection available. This could mean that the connection was lost or that ElectrumX is processing transactions and therefore not accepting requests. This tool will try to reconnect. If you manage your own ElectrumX server you may want to check your ElectrumX logs.";
+const { ApolloClient } = require('apollo-boost');
+const gql = require('graphql-tag');
+const { InMemoryCache } = require('apollo-cache-inmemory');
+const { HttpLink } = require('apollo-link-http');
+const fetch = require('node-fetch');
 
+// blockHeightsByTxid
+const typeDefs = gql`
+  type Address {
+    txCount: Int!
+    txids: [String!]
+    balanceSat: String!
+    unconfirmedBalanceSat: String
+  }
+  type Query {
+    getaddress(address: String!): Address!
+  }`;
+
+// Create an http link:
+const link = new HttpLink({
+	uri: process.env.HASURA_SCHEMA_URL,
+	fetch,
+	headers: { 'x-hasura-admin-secret': process.env.HASURA_PASS }
+})
+
+const client = new ApolloClient({
+	link,
+	cache: new InMemoryCache({
+		addTypename: true
+	})
+})
+
+const GETTRANSACTION = gql`
+query MyQuery($txid: String!) {
+  gettransaction(txid: $txid) {
+    blockhash
+    confirmations
+    hash
+    hex
+    locktime
+    size
+    time
+    totalamount
+    txid
+    version
+    vsize
+    weight
+    vin {
+      coinbase
+      scriptSig {
+        asm
+        hex
+      }
+      sequence
+      txid
+      txinwitness
+      vout
+    }
+    vout {
+      n
+      scriptPubKey {
+        addresses
+        asm
+        hex
+        type
+        reqSigs
+      }
+      value
+    }
+  }
+}`
 
 function connectToServers() {
 	return new Promise(function (resolve, reject) {
@@ -196,7 +266,7 @@ function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
 			});
 		}));
 
-		Promise.all(promises.map(utils.reflectPromise)).then(function (results) {
+		Promise.all(promises.map(utils.reflectPromise)).then(async function (results) {
 			var addressDetails = {};
 
 			if (txidData) {
@@ -210,8 +280,22 @@ function getAddressDetails(address, scriptPubkey, sort, limit, offset) {
 				}
 
 				for (var i = offset; i < Math.min(txidData.length, limit + offset); i++) {
-					addressDetails.txids.push(txidData[i].tx_hash);
-					addressDetails.blockHeightsByTxid[txidData[i].tx_hash] = txidData[i].height;
+					try {
+						queryResp = await client.query({
+							query: GETTRANSACTION,
+							variables: {
+								txid: txidData[i].tx_hash
+							}
+						})
+						console.log('resp query', queryResp.data);
+						addressDetails.txids.push(queryResp.data.gettransaction);
+						// addressDetails.txids.push(txidData[i].tx_hash);
+
+						//	return getaddress.addressDetails
+					} catch (err) {
+						console.error('err on query', err)
+						addressDetails.txids.push('VACIO');
+					}
 				}
 			}
 
