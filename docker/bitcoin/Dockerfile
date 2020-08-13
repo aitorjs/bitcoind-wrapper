@@ -26,6 +26,9 @@ RUN cd /tmp && \
     apt-get purge -y wget gpg && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN adduser --disabled-login --system --shell /bin/false --uid 1000 user
+
+USER user
 ENV HOME /data
 VOLUME /data/.bitcoin
 

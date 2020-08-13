@@ -1,6 +1,6 @@
 {
   "name": "bitcoind-wrapper",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Wrapper for bitcoind with hasura, graphql, postgreql, vuejs, docker and docker-compose ",
   "keywords": [
     "loopback4",

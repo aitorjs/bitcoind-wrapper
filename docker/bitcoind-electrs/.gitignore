@@ -1,0 +1,10 @@
+target
+*db/
+_*/
+*.log
+*.sublime*
+*~
+*.pyc
+.env
+*.dat
+electrs.toml

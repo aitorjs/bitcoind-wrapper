@@ -11,6 +11,7 @@ WORKDIR /home/node/app
 
 COPY --chown=node index.js .
 COPY --chown=node package.json .
+COPY --chown=node lib/ lib/
 
 RUN npm install
 

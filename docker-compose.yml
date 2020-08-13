@@ -40,12 +40,13 @@ services:
 
   bitcoind-rpc:
     build: ./back/bitcoind-rpc
+    volumes:
+      - $HOME/cyphernode/bitcoin/testnet3/.cookie:/data/.bitcoin/testnet3/.cookie
     environment:
       # BITCOIND_RPC_PORT: 18443 #regtest
       BITCOIND_RPC_PORT: 18332 #testnet
       BITCOIND_RPC_HOST: 'bitcoind'
-      BITCOIND_RPC_USERNAME: 'paco'
-      BITCOIND_RPC_PASSWORD: 'paco'
+      BITCOIND_RPC_COOKIE: '/data/.bitcoin/testnet3/.cookie'
     depends_on:
       - "bitcoind"
       - "postgres"
@@ -66,6 +67,45 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: secretkey
       BITCOIND_RPC_ENDPOINT: http://bitcoind-rpc:9000/
+    networks:
+      - back
+    restart: always
+
+  bitcoin-electrs:
+    build: ./docker/bitcoind-electrs
+    entrypoint:
+      - electrs
+    command:
+      - -vvvv
+      - --daemon-dir
+      - /home/user/.bitcoin
+      - --daemon-rpc-addr
+      - bitcoind:18332
+      - --network
+      - testnet
+      - --db-dir
+      - .bitcoin/.electrs/db
+      - --electrum-rpc-addr
+      - 0.0.0.0:50001
+      - --txid-limit
+      - "1000"
+    volumes:
+      - $HOME/cyphernode/bitcoin/:/home/user/.bitcoin
+    depends_on:
+      - "bitcoind"
+    networks:
+      - back
+    restart: always
+
+  bitcoind-electrs-rpc:
+    build: ./back/bitcoind-electrs-rpc
+    depends_on:
+      - "bitcoind"
+      - "bitcoin-electrs"
+    environment:
+      HASURA_SCHEMA_URL: http://graphql-engine:8080/v1/graphql
+      HASURA_PASS: secretkey
+      ELECTRS_RPC_ENDPOINT: http://bitcoind-electrs-rpc:9001/
     networks:
       - back
     restart: always

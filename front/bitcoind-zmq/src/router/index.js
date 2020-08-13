@@ -23,6 +23,12 @@ const routes = [
     component: () => import(/*webpackChunkName: "block-details2" */ '../views/Block-details2.vue')
   },
   {
+    path: '/tx/:txid',
+    name: 'Transaction-details',
+    props: true,
+    component: () => import(/*webpackChunkName: "block-details2" */ '../views/Transaction-details.vue')
+  },
+  {
     path: '/home2',
     name: 'Home2',
     component: () => import(/*webpackChunkName: "home2" */ '../views/HomeVuetify.vue')

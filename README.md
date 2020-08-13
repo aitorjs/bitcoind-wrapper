@@ -9,7 +9,7 @@ VUE_APP_HASURA_SCHEMA=ws://GRAPHQL_IP:8080/v1/graphql
 ```
 
 - To change the configuration or want you need inside .bitcoin, use
-```$HOME/cyphernode/bitcoin/``` folder. Make bitcoin.conf here: <a href="#regtest">regtest</a> and <a href="#testnet">testnet</a>
+```$HOME/cyphernode/bitcoin/``` folder and permissions to local 1000 UID user. Make bitcoin.conf here: <a href="#regtest">regtest</a> and <a href="#testnet">testnet</a>
 - ```docker network create back```
 - ```docker network create front```
 - ```docker-compose up --build -d```
@@ -38,8 +38,6 @@ VUE_APP_HASURA_SCHEMA=ws://GRAPHQL_IP:8080/v1/graphql
 regtest=1
 
 server=1
-rpcuser=paco
-rpcpassword=paco
 
 zmqpubhashblock=tcp://0.0.0.0:3000
 zmqpubrawblock=tcp://0.0.0.0:3001
@@ -57,8 +55,6 @@ rpcallowip=0.0.0.0/0
 testnet=1
 
 server=1
-rpcuser=paco
-rpcpassword=paco
 
 txindex=1
 
@@ -89,11 +85,6 @@ RPC     |  8332   |  18332  |  18443
 - sudo apt-get install git docker.io docker-compose
 - sudo usermod -aG docker $USER
 - reload pc
-```
-
-## .cookie
-```
-paco:paco
 ```
 
 ## Ports
@@ -167,6 +158,21 @@ query MyQuery {
   }
 }
 
+
+### get address data (using electrs)
+query MyQuery {
+  getaddress(address: "mqqy8ixtz1Dxxie1c5reASq9EHiFENGSuJ") {
+    balanceSat
+    txCount
+    unconfirmedBalanceSat
+    txids {
+      confirmations
+      blockhash
+      txid
+    }
+  }
+}
+
 ### About posgreql
 
 
@@ -174,6 +180,16 @@ pg_dump -U postgres postgres > dbexport.pgsql
 
 postgrespassword
 
+
 docker exec -t bitcoindwrapper_postgres_1 psql -U postgres postgres < /var/lib/postgresql/data/dbexport.pgsql
 
 posgreql volume data is stored inside docker in /var/lib/docker/volumes/bitcoindwrapper_db_data/_data
+
+
+### electrs inside docker container
+
+docker build -t bitcoind-wrapper_bitcoind-electrs .
+
+docker run --network back --volume $HOME/cyphernode/bitcoin:/home/user/.bitcoin --user user -it bitcoind-wrapper_bitcoind-electrs
+
+electrs -vvvv --daemon-dir ~/.bitcoin --daemon-rpc-addr bitcoind:18332 --network testnet --db-dir .electrs/db --electrum-rpc-addr 0.0.0.0:50001 --txid-limit 1000
